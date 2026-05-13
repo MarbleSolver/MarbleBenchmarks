@@ -1,3 +1,29 @@
+name = "MarbleBenchmarks"
+uuid = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+version = "0.1.0"
+
 [deps]
+ADNLPModels = "54578032-b7ea-4c30-94aa-7cbd1cce6c9a"
+AmplNLReader = "77dd3d4c-cb1d-5e09-9340-85030ff7ba66"
 CCOpt = "6689419a-93c1-455a-8ac6-77991ec4f86b"
+Clarabel = "61c947e1-3e6d-4ee4-985a-eec8c727bd6e"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+Gurobi = "2e9cd046-0924-5485-92f1-d5272153d98b"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+JSOSolvers = "10dff2fc-5484-5881-a0e0-c90441020f8a"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+MPCCModels = "e4303244-a46d-4397-8e5b-8586438c174c"
+Marble = "b3638fc0-1f6f-44b7-b12a-1e2f3108bdcf"
+NLPModels = "a4795742-8479-5a88-8948-cc11e1c8c1a6"
+NLPModelsJuMP = "792afdf1-32c1-5681-94e0-d7bf7a5df49e"
+OSQP = "ab2f91bb-94b4-55e3-9ba0-7f65df51de79"
+
+[compat]
+JSON = "1.5.2"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

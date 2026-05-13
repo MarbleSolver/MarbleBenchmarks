@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>MPEC class - Svenleyffer</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":!1,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"b7d79b87a965cce91c586371","wgCSPNonce":!1,"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":!1,"wgNamespaceNumber":0,"wgPageName":"MPEC_class","wgTitle":"MPEC class","wgCurRevisionId":178,"wgRevisionId":178,"wgArticleId":30,"wgIsArticle":!0,"wgIsRedirect":!1,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"MPEC_class","wgRelevantArticleId":30,"wgIsProbablyEditable":!1,"wgRelevantPageIsProbablyEditable":!1,"wgRestrictionEdit":[],"wgRestrictionMove":[]};RLSTATE={"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready",
+"user.options":"loading","skins.vector.styles.legacy":"ready"};RLPAGEMODULES=["site","mediawiki.page.startup","mediawiki.page.ready","skins.vector.legacy.js"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@1hzgi",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<link rel="stylesheet" href="/leyffer/load.php?lang=en&amp;modules=skins.vector.styles.legacy&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/leyffer/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector"></script>
+<meta name="generator" content="MediaWiki 1.35.6"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/leyffer/opensearch_desc.php" title="Svenleyffer (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href=" /leyffer/api.php?action=rsd"/>
+<link rel="alternate" type="application/atom+xml" title="Svenleyffer Atom feed" href="/leyffer/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+<!--[if lt IE 9]><script src="/leyffer/resources/lib/html5shiv/html5shiv.js"></script><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-MPEC_class rootpage-MPEC_class skin-vector action-view skin-vector-legacy">
+<div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	<div id="siteNotice" class="mw-body-content"></div>
+	<div class="mw-indicators mw-body-content">
+	</div>
+	<h1 id="firstHeading" class="firstHeading" lang="en">MPEC class</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From Svenleyffer</div>
+		<div id="contentSub"></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><h1><span class="mw-headline" id="Classification_of_MPECs">Classification of MPECs</span></h1>
+<p>This page briefly describes a classification scheme for Mathematical Programs with Equilibrium Constraints (MPECs) which is used to classify the problems in the MacMPEC test problem library. The scheme is an extension of the <a rel="nofollow" class="external text" href="http://cuter.rl.ac.uk/cuter-www/Problems/classification.shtml">CUTE classification</a> scheme due to Bongartz, Conn, Gould and Toint.
+</p><p>Each problem is identified by a string
+</p><p><b> XXX-XX-CCC-n-m-p </b>
+</p><p>consisting of 3 groups of characters and 3 integers. The first two groups of characters describe the general aspect of the MPEC, the third group describes the aspect of the complementarity constraint and the integers represent the problem dimensions. Each group of characters and integers is now described in turn.
+</p><p>The first group of three characters describes the aspect of the objective and general constraint functions of the MPEC. The first character gives the type of objective function and can take the following values.
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>objective type
+</td></tr>
+<tr>
+<th>N
+</th>
+<td>no objective defined
+</td></tr>
+<tr>
+<th>C
+</th>
+<td>constant
+</td></tr>
+<tr>
+<th>L
+</th>
+<td>linear
+</td></tr>
+<tr>
+<th>Q
+</th>
+<td>quadratic
+</td></tr>
+<tr>
+<th>S
+</th>
+<td>sum of squares
+</td></tr>
+<tr>
+<th>O
+</th>
+<td>none of the above
+</td></tr></tbody></table>
+<p>The second character gives type of general constraint functions (other than the complementarity constraint which is handled below).
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>constraint type
+</td></tr>
+<tr>
+<th>U
+</th>
+<td>unconstrained
+</td></tr>
+<tr>
+<th>X
+</th>
+<td>only constraints are fixed variables
+</td></tr>
+<tr>
+<th>B
+</th>
+<td>only constraints are variables bounds
+</td></tr>
+<tr>
+<th>N
+</th>
+<td>network constraints
+</td></tr>
+<tr>
+<th>L
+</th>
+<td>linear
+</td></tr>
+<tr>
+<th>Q
+</th>
+<td>quadratic
+</td></tr>
+<tr>
+<th>O
+</th>
+<td>none of the above, more general
+</td></tr></tbody></table>
+<p>The third character in the first group indicates the smoothness of the problem and it can take the following values:
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>regularity
+</td></tr>
+<tr>
+<th>R
+</th>
+<td>regular, all functions are twice continuously differentiable
+</td></tr>
+<tr>
+<th>I
+</th>
+<td>irregular
+</td></tr></tbody></table>
+<p>The second group of characters describes the origin of the model and states how the upper level and lower level problem are linked. The first character of the second group gives the origin of the problem and can take the following values
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>origin of problem
+</td></tr>
+<tr>
+<th>A
+</th>
+<td>the problem is academic
+</td></tr>
+<tr>
+<th>M
+</th>
+<td>the problem is part of a modelling exercise
+</td></tr>
+<tr>
+<th>R
+</th>
+<td>the problem is a real application for purposes other than testing algorithms
+</td></tr></tbody></table>
+<p>The second character of the second group describes how the upper level (or control) variables are linked to the lower level (or state) variables in the general constraints. It can take the following values
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>linking constraints
+</td></tr>
+<tr>
+<th>Y
+</th>
+<td>the state and controls both appear in the same general constraints
+</td></tr>
+<tr>
+<th>N
+</th>
+<td>there are no side constraints (other than the complementarity constraints) in which both the state and control variables appear simultaneously
+</td></tr></tbody></table>
+<p>The third group of characters describes the type of the complementarity constraint. Here we follow Billups, Dirkse and Ferris, 1997.
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char-group
+</td>
+<td>type of complementarity constraint
+</td></tr>
+<tr>
+<th>MCP
+</th>
+<td>(general) Mixed Complementarity Problem
+</td></tr>
+<tr>
+<th>LMCP
+</th>
+<td>Linear Mixed Complementarity Problem
+</td></tr>
+<tr>
+<th>NCP
+</th>
+<td>Nonlinear Complementarity Problem
+</td></tr>
+<tr>
+<th>LCP
+</th>
+<td>Linear Complementarity Problem
+</td></tr>
+<tr>
+<th>NLP
+</th>
+<td>optimality conditions of a nonlinear program
+</td></tr></tbody></table>
+<p>The final group of integers <b>n-m-p</b> represent the size of problem with the following convention.
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<td>char
+</td>
+<td>meaning of integer
+</td></tr>
+<tr>
+<th>n
+</th>
+<td>number of variables (control and state)
+</td></tr>
+<tr>
+<th>m
+</th>
+<td>number of constraints (excl. complementarity constraints)
+</td></tr>
+<tr>
+<th>p
+</th>
+<td>number of complementarity constraints
+</td></tr></tbody></table>
+<!-- 
+NewPP limit report
+Cached time: 20260512045700
+Cache expiry: 86400
+Dynamic content: false
+Complications: []
+CPU time usage: 0.010 seconds
+Real time usage: 0.012 seconds
+Preprocessor visited node count: 2/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 0/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key svenleyffer:pcache:idhash:30-0!canonical and timestamp 20260512045700 and revision id 178
+ -->
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="http:/// /leyffer/index.php?title=MPEC_class&amp;oldid=178">http:/// /leyffer/index.php?title=MPEC_class&amp;oldid=178</a>"</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-personal" class="vector-menu" aria-labelledby="p-personal-label" role="navigation" 
+	 >
+	<h3 id="p-personal-label">
+		<span>Personal tools</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="pt-login"><a href="/leyffer/index.php?title=Special:UserLogin&amp;returnto=MPEC+class" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li></ul>
+		
+	</div>
+</nav>
+
+
+		<div id="left-navigation">
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-namespaces" class="vector-menu vector-menu-tabs vectorTabs" aria-labelledby="p-namespaces-label" role="navigation" 
+	 >
+	<h3 id="p-namespaces-label">
+		<span>Namespaces</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="ca-nstab-main" class="selected"><a href="/leyffer/index.php/MPEC_class" title="View the content page [c]" accesskey="c">Page</a></li><li id="ca-talk" class="new"><a href="/leyffer/index.php?title=Talk:MPEC_class&amp;action=edit&amp;redlink=1" rel="discussion" title="Discussion about the content page (page does not exist) [t]" accesskey="t">Discussion</a></li></ul>
+		
+	</div>
+</nav>
+
+
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-variants" class="vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu" aria-labelledby="p-variants-label" role="navigation" 
+	 >
+	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="p-variants-label" />
+	<h3 id="p-variants-label">
+		<span>Variants</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="menu vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+
+		</div>
+		<div id="right-navigation">
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-views" class="vector-menu vector-menu-tabs vectorTabs" aria-labelledby="p-views-label" role="navigation" 
+	 >
+	<h3 id="p-views-label">
+		<span>Views</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="ca-view" class="collapsible selected"><a href="/leyffer/index.php/MPEC_class">Read</a></li><li id="ca-viewsource" class="collapsible"><a href="/leyffer/index.php?title=MPEC_class&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></li><li id="ca-history" class="collapsible"><a href="/leyffer/index.php?title=MPEC_class&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></li></ul>
+		
+	</div>
+</nav>
+
+
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-cactions" class="vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu" aria-labelledby="p-cactions-label" role="navigation" 
+	 >
+	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="p-cactions-label" />
+	<h3 id="p-cactions-label">
+		<span>More</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="menu vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+
+			<div id="p-search" role="search">
+	<h3 >
+		<label for="searchInput">Search</label>
+	</h3>
+	<form action="/leyffer/index.php" id="searchform">
+		<div id="simpleSearch">
+			<input type="search" name="search" placeholder="Search Svenleyffer" title="Search Svenleyffer [f]" accesskey="f" id="searchInput"/>
+			<input type="hidden" name="title" value="Special:Search">
+			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/>
+			<input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>
+		</div>
+	</form>
+</div>
+
+		</div>
+	</div>
+	
+<div id="mw-panel">
+	<div id="p-logo" role="banner">
+		<a  title="Visit the main page" class="mw-wiki-logo" href="/leyffer/index.php/Sven_Leyffer"></a>
+	</div>
+	<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-navigation" class="vector-menu vector-menu-portal portal portal-first" aria-labelledby="p-navigation-label" role="navigation" 
+	 >
+	<h3 id="p-navigation-label">
+		<span>Navigation</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="n-Main-Page"><a href="/leyffer/index.php/Sven_Leyffer">Main Page</a></li><li id="n-Appointments"><a href="/leyffer/index.php/Sven_Leyffer%27s_Appointments">Appointments</a></li><li id="n-Bio"><a href="/leyffer/index.php/Sven_Leyffer%27s_Bio">Bio</a></li><li id="n-Contact"><a href="/leyffer/index.php/Contact_Sven_Leyffer">Contact</a></li><li id="n-Courses-.26-Lectures"><a href="/leyffer/index.php/Sven_Leyffer%27s_Lectures">Courses &amp; Lectures</a></li><li id="n-Publications"><a href="/leyffer/index.php/Sven_Leyffer%27s_Publications">Publications</a></li><li id="n-Research"><a href="/leyffer/index.php/Sven_Leyffer%27s_Research">Research</a></li><li id="n-Software"><a href="/leyffer/index.php/Sven_Leyffer%27s_Software">Software</a></li><li id="n-Some-Talks"><a href="/leyffer/index.php/Sven_Leyffer%27s_Talks">Some Talks</a></li><li id="n-Test-Problems"><a href="/leyffer/index.php/Sven_Leyffer%27s_Test_Problems">Test Problems</a></li></ul>
+		
+	</div>
+</nav>
+
+
+	<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-tb" class="vector-menu vector-menu-portal portal" aria-labelledby="p-tb-label" role="navigation" 
+	 >
+	<h3 id="p-tb-label">
+		<span>Tools</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="t-whatlinkshere"><a href="/leyffer/index.php/Special:WhatLinksHere/MPEC_class" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/leyffer/index.php/Special:RecentChangesLinked/MPEC_class" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/leyffer/index.php/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="javascript:print();" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/leyffer/index.php?title=MPEC_class&amp;oldid=178" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/leyffer/index.php?title=MPEC_class&amp;action=info" title="More information about this page">Page information</a></li></ul>
+		
+	</div>
+</nav>
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer" role="contentinfo" >
+	<ul id="footer-info" >
+		<li id="footer-info-lastmod"> This page was last edited on 5 March 2009, at 12:32.</li>
+	</ul>
+	<ul id="footer-places" >
+		<li id="footer-places-privacy"><a href="/leyffer/index.php/Svenleyffer:Privacy_policy" title="Svenleyffer:Privacy policy">Privacy policy</a></li>
+		<li id="footer-places-about"><a href="/leyffer/index.php/Svenleyffer:About" title="Svenleyffer:About">About Svenleyffer</a></li>
+		<li id="footer-places-disclaimer"><a href="/leyffer/index.php/Svenleyffer:General_disclaimer" title="Svenleyffer:General disclaimer">Disclaimers</a></li>
+	</ul>
+	<ul id="footer-icons" class="noprint">
+		<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/"><img src="/leyffer/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/leyffer/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /leyffer/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" loading="lazy"/></a></li>
+	</ul>
+	<div style="clear: both;"></div>
+</footer>
+
+
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.010","walltime":"0.012","ppvisitednodes":{"value":2,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":0,"limit":5000000},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20260512045700","ttl":86400,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":83});});</script></body></html>

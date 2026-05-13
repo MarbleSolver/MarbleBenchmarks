@@ -1,0 +1,3044 @@
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>MacMPEC - Svenleyffer</title>
+<script>document.documentElement.className="client-js";RLCONF={"wgBreakFrames":!1,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"f0264cc1afc8c0d850a23994","wgCSPNonce":!1,"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":!1,"wgNamespaceNumber":0,"wgPageName":"MacMPEC","wgTitle":"MacMPEC","wgCurRevisionId":1131,"wgRevisionId":1131,"wgArticleId":29,"wgIsArticle":!0,"wgIsRedirect":!1,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"MacMPEC","wgRelevantArticleId":29,"wgIsProbablyEditable":!1,"wgRelevantPageIsProbablyEditable":!1,"wgRestrictionEdit":[],"wgRestrictionMove":[]};RLSTATE={"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":
+"loading","skins.vector.styles.legacy":"ready"};RLPAGEMODULES=["site","mediawiki.page.startup","mediawiki.page.ready","skins.vector.legacy.js"];</script>
+<script>(RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.options@1hzgi",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<link rel="stylesheet" href="/leyffer/load.php?lang=en&amp;modules=skins.vector.styles.legacy&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/leyffer/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=vector"></script>
+<meta name="generator" content="MediaWiki 1.35.6"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/leyffer/opensearch_desc.php" title="Svenleyffer (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href=" /leyffer/api.php?action=rsd"/>
+<link rel="alternate" type="application/atom+xml" title="Svenleyffer Atom feed" href="/leyffer/index.php?title=Special:RecentChanges&amp;feed=atom"/>
+<!--[if lt IE 9]><script src="/leyffer/resources/lib/html5shiv/html5shiv.js"></script><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-MacMPEC rootpage-MacMPEC skin-vector action-view skin-vector-legacy">
+<div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+	<a id="top"></a>
+	<div id="siteNotice" class="mw-body-content"></div>
+	<div class="mw-indicators mw-body-content">
+	</div>
+	<h1 id="firstHeading" class="firstHeading" lang="en">MacMPEC</h1>
+	<div id="bodyContent" class="mw-body-content">
+		<div id="siteSub" class="noprint">From Svenleyffer</div>
+		<div id="contentSub"></div>
+		<div id="contentSub2"></div>
+		
+		<div id="jump-to-nav"></div>
+		<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+		<a class="mw-jump-link" href="#searchInput">Jump to search</a>
+		<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>This directory contains a collection of Mathematical Programs with Equilibrium Constraints (MPEC) test problems in <a rel="nofollow" class="external text" href="http://www.ampl.com/">AMPL</a>. A <a rel="nofollow" class="external text" href="http://netlib.bell-labs.com/netlib/ampl/student/index.html">student version of AMPL</a> is available for free which can handle problems with up to 300 variables or constraints.
+</p><p>In the Table below, the following column headings are used:
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<th>heading
+</th>
+<th>meaning
+</th></tr>
+<tr>
+<td>NAME
+</td>
+<td>the name of the problem, click for a short reference
+</td></tr>
+<tr>
+<td>mod file
+</td>
+<td>the corresponding ampl model file
+</td></tr>
+<tr>
+<td>dat file
+</td>
+<td>the corresponding ampl data file
+</td></tr>
+<tr>
+<td>
+<p><a href="/leyffer/index.php/MPEC_class" title="MPEC class">classification</a>
+</p>
+</td>
+<td>classification of the MPEC
+</td></tr>
+<tr>
+<td>solution
+</td>
+<td>optimal objective value or best solution found; (I) if infeasible
+</td></tr></tbody></table>
+<p>The collection is available as individual problems below. 
+</p><p>Click on the NAME of the problem for a short description. There is a <a href="/leyffer/index.php/MPEC_Comments" title="MPEC Comments">complete list of descriptions &amp; some solution values</a> as well as <a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/macmpec/solutions.html">pictures of solutions</a>. You can also download a <a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/macmpec/MacMPEC.tar.gz">gzip'ed tar-ball with all problems and data files</a> or a <a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/macmpec/MacMPEC-nl.tar.gz">gzip'ed tar-ball with the stub.nl files</a>.
+</p><p>Finally, the following link gives a <a href="/leyffer/index.php/MPEC_updates" title="MPEC updates">list of updates and changes</a> to the AMPL files.
+</p>
+<table border="1" cellpadding="0" cellspacing="0">
+
+<tbody><tr align="left">
+<th>NAME
+</th>
+<th>mod file
+</th>
+<th>dat file
+</th>
+<th>
+<p><a href="/leyffer/index.php/MPEC_class" title="MPEC class">classification</a>
+</p>
+</th>
+<th>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/macmpec/solutions.html">solution</a>
+</p>
+</th></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bar-truss" title="MPEC Comments">bar-truss-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bar-truss.mod">bar-truss.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bar-truss-3.dat">bar-truss-3.dat</a>
+</p>
+</td>
+<td>LQR-MY-NCP-29-22-6
+</td>
+<td>10166.6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bard" title="MPEC Comments">bard1</a>
+</td>
+<td>
+<p><a href="/leyffer/images/1/1c/Bard1.mod" class="internal" title="Bard1.mod">Bard1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-5-1-3
+</td>
+<td>17.0000
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bard" title="MPEC Comments">bard2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard2.mod">bard2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-12-5-4
+</td>
+<td>6598.00
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bard" title="MPEC Comments">bard3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard3.mod">bard3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-6-3-2
+</td>
+<td>-12.6787
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bardm" title="MPEC Comments">bard1m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard1m.mod">bard1m.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-5-1-4
+</td>
+<td>17.0000
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bardm" title="MPEC Comments">bard2m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard2m.mod">bard2m.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-12-1-8
+</td>
+<td>-6598.00
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bardm" title="MPEC Comments">bard3m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard3m.mod">bard3m.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-6-1-4
+</td>
+<td>-12.6787
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bem-milanc30" title="MPEC Comments">bem-milanc30-s</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/b-pn2.mod">b-pn2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bem-milanc30-s.dat">bem-milanc30-s.dat</a>
+</p>
+</td>
+<td>SQR-MY-NCP-1972-505-1464
+</td>
+<td>83.2825
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilevel" title="MPEC Comments">bilevel1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel1.mod">bilevel1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-LCP-10-9-6
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilevelm" title="MPEC Comments">bilevel1m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel1m.mod">bilevel1m.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-LCP-8-7-6
+</td>
+<td>-55.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilevel" title="MPEC Comments">bilevel2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel2.mod">bilevel2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-16-13-8
+</td>
+<td>-6600.00
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilevelm" title="MPEC Comments">bilevel2m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel2m.mod">bilevel2m.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-16-13-8
+</td>
+<td>-6600.00
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilevel" title="MPEC Comments">bilevel3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel3.mod">bilevel3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-12-7-4
+</td>
+<td>-12.6787
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#bilin" title="MPEC Comments">bilin</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilin.mod">bilin.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-8-1-6
+</td>
+<td>18.4
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#dempe" title="MPEC Comments">dempe</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/dempe.mod">dempe.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QQR-AY-LCP-4-2-2
+</td>
+<td>28.25
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-1.mod">design-cent-1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-1.dat">design-cent-1.dat</a>
+</p>
+</td>
+<td>QOR-AY-NLP-12-9-3
+</td>
+<td>1.86065
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.mod">design-cent-2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.dat">design-cent-2.dat</a>
+</p>
+</td>
+<td>QOR-MY-NLP-13-13-3
+</td>
+<td>3.48382
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-21</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-21.mod">design-cent-21.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.dat">design-cent-2.dat</a>
+</p>
+</td>
+<td>QOR-MY-NLP-13-13-3
+</td>
+<td>3.48382
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.mod">design-cent-3.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.dat">design-cent-3.dat</a>
+</p>
+</td>
+<td>QOR-MY-NLP-15-9-3
+</td>
+<td>3.7237
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-31</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-31.mod">design-cent-31.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.dat">design-cent-3.dat</a>
+</p>
+</td>
+<td>QOR-MY-NLP-15-9-3
+</td>
+<td>3.72337
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#design-cent" title="MPEC Comments">design-cent-4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-4.mod">design-cent-4.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-4.dat">design-cent-4.dat</a>
+</p>
+</td>
+<td>QOR-AY-NLP-22-9-12
+</td>
+<td>3.0792
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#desilva" title="MPEC Comments">desilva</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/desilva.mod">desilva.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QQR-AY-NCP-6-2-2
+</td>
+<td>-1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#df1" title="MPEC Comments">df1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/df1.mod">df1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QQR-AY-NCP-2-2-1
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.1.mod">ex9.1.1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-13-12-5
+</td>
+<td>-13.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.2.mod">ex9.1.2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-10-9-4
+</td>
+<td>-6.25
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.3.mod">ex9.1.3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-23-21-6
+</td>
+<td>-29.2
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.4.mod">ex9.1.4.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-10-9-4
+</td>
+<td>-37.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.5</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.5.mod">ex9.1.5.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-13-12-5
+</td>
+<td>-1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.6</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.6.mod">ex9.1.6.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-14-13-6
+</td>
+<td>-49.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.7</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.7.mod">ex9.1.7.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-17-15-6
+</td>
+<td>-26.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.8.mod">ex9.1.8.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-14-12-5
+</td>
+<td>-3.25
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.9</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.9.mod">ex9.1.9.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-12-11-5
+</td>
+<td>3.11111
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.1" title="MPEC Comments">ex9.1.10</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.10.mod">ex9.1.10.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-14-12-5
+</td>
+<td>-3.25
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.1.mod">ex9.2.1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-10-9-4
+</td>
+<td>17.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.2.mod">ex9.2.2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-10-11-4
+</td>
+<td>100.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.3.mod">ex9.2.3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-16-16-6
+</td>
+<td>-55.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.4.mod">ex9.2.4.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-8-7-2
+</td>
+<td>0.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.5</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.5.mod">ex9.2.5.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-8-7-3
+</td>
+<td>6.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.6</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.6.mod">ex9.2.6.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-16-12-6
+</td>
+<td>-1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.7</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.7.mod">ex9.2.7.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-10-9-4
+</td>
+<td>17.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.8.mod">ex9.2.8.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NLP-6-5-2
+</td>
+<td>1.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ex9.2" title="MPEC Comments">ex9.2.9</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.9.mod">ex9.2.9.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-NLP-9-8-3
+</td>
+<td>2.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#flp2" title="MPEC Comments">flp2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp2.mod">flp2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AN-LCP-4-2-2
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#flp4" title="MPEC Comments">flp4-1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod">flp4.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-1.dat">flp4-1.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-80-60-30
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#flp4" title="MPEC Comments">flp4-2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod">flp4.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-2.dat">flp4-2.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-110-110-60
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#flp4" title="MPEC Comments">flp4-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod">flp4.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-3.dat">flp4-3.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-140-170-70
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#flp4" title="MPEC Comments">flp4-4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod">flp4.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-4.dat">flp4-4.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-200-250-100
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash10</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash10.dat">gnash10.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-230.823
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash11</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash11.dat">gnash11.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-129.912
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash12</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash12.dat">gnash12.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-36.9331
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash13</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash13.dat">gnash13.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-7.06178
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash14</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash14.dat">gnash14.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-0.179046
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash15</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash15.dat">gnash15.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-354.699
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash16.dat">gnash16.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-241.442
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash17</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash17.dat">gnash17.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-90.7491
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash18</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash18.dat">gnash18.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-25.6982
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1" title="MPEC Comments">gnash19</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod">gnash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash19.dat">gnash19.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-13-4-8
+</td>
+<td>-6.11671
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash10</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash10.dat">gnash10.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-230.823
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash11m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash11.dat">gnash11.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-129.912
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash12m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash12.dat">gnash12.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-36.9331
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash13m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash13.dat">gnash13.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-7.06178
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash14m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash14.dat">gnash14.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-0.179046
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash15m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash15.dat">gnash15.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-354.699
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash16m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash16.dat">gnash16.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-241.442
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash17m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash17.dat">gnash17.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-90.7491
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash18m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash18.dat">gnash18.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-25.6982
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gnash1m" title="MPEC Comments">gnash19m</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod">gnash1m.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash19.dat">gnash19.dat</a>
+</p>
+</td>
+<td>OOR-AY-LCP-9-8-8
+</td>
+<td>-6.11671
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#gauvin" title="MPEC Comments">gauvin</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gauvin.mod">gauvin.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-LCP-3-0-2
+</td>
+<td>20.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#hakonsen" title="MPEC Comments">hakonsen</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/hakonsen.mod">hakonsen.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>OOR-MY-NCP-9-8-4
+</td>
+<td>24.3668
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#hs044-i" title="MPEC Comments">hs044-i</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/hs044-i.mod">hs044-i.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-MY-NLP-20-14-10
+</td>
+<td>15.6178
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set1-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod">incid-set1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat">incid-set-8.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-117-119-49
+</td>
+<td>3.816E-17
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set1-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod">incid-set1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat">incid-set-16.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-485-491-225
+</td>
+<td>1.206E-16
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set1-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod">incid-set1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat">incid-set-32.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-1989-2003-961
+</td>
+<td>2.799E-07
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set1c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod">incid-set1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat">incid-set-8.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-117-126-49
+</td>
+<td>3.816E-17
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set1c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod">incid-set1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat">incid-set-16.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-485-506-225
+</td>
+<td>1.206E-16
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set1c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod">incid-set1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat">incid-set-32.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-1989-2034-961
+</td>
+<td>9.817E-06
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set2-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod">incid-set2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat">incid-set-8.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-117-119-49
+</td>
+<td>4.518E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set2-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod">incid-set2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat">incid-set-16.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-485-491-225
+</td>
+<td>3.036E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-set" title="MPEC Comments">incid-set2-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod">incid-set2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat">incid-set-32.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-1989-2003-961
+</td>
+<td>1.738E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set2c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod">incid-set2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat">incid-set-8.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-117-126-49
+</td>
+<td>5.471E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set2c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod">incid-set2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat">incid-set-16.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-485-506-225
+</td>
+<td>3.602E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#incid-setc" title="MPEC Comments">incid-set2c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod">incid-set2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat">incid-set-32.dat</a>
+</p>
+</td>
+<td>LOR-MY-LCP-1989-2034-961
+</td>
+<td>2.433E-03
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#jr" title="MPEC Comments">jr1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/jr1.mod">jr1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AN-LCP-2-1-1
+</td>
+<td>0.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#jr" title="MPEC Comments">jr2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/jr2.mod">jr2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AN-LCP-2-1-1
+</td>
+<td>0.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#kth" title="MPEC Comments">kth1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth1.mod">kth1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AN-LCP-2-0-1
+</td>
+<td>0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#kth" title="MPEC Comments">kth2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth2.mod">kth2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AN-LCP-2-0-1
+</td>
+<td>0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#kth" title="MPEC Comments">kth3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth3.mod">kth3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AN-LCP-2-0-1
+</td>
+<td>0.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#liswet1-inv" title="MPEC Comments">liswet1-050</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod">liswet1-inv.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-050.dat">liswet1-050.dat</a>
+</p>
+</td>
+<td>QLR-AN-NLP-152-103-50
+</td>
+<td>1.399E-02
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#liswet1-inv" title="MPEC Comments">liswet1-100</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod">liswet1-inv.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-100.dat">liswet1-100.dat</a>
+</p>
+</td>
+<td>QLR-AN-NLP-302-203-100
+</td>
+<td>1.373E-02
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#liswet1-inv" title="MPEC Comments">liswet1-200</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod">liswet1-inv.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-200.dat">liswet1-200.dat</a>
+</p>
+</td>
+<td>QLR-AN-NLP-602-403-200
+</td>
+<td>1.701E-02
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#monteiro" title="MPEC Comments">monteiro</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/monteiro.mod">monteiro.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-136-139-62
+</td>
+<td>37.53
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#monteiroB" title="MPEC Comments">monteiroB</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/monteiroB.mod">monteiroB.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-136-138-62
+</td>
+<td>827.859
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#nash1" title="MPEC Comments">nash1a</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod">nash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1a.dat">nash1a.dat</a>
+</p>
+</td>
+<td>QLR-AY-LCP-6-2-2
+</td>
+<td>7.88861E-30
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#nash1" title="MPEC Comments">nash1b</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod">nash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1b.dat">nash1b.dat</a>
+</p>
+</td>
+<td>QLR-AY-LCP-6-2-2
+</td>
+<td>7.88861E-30
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#nash1" title="MPEC Comments">nash1c</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod">nash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1c.dat">nash1c.dat</a>
+</p>
+</td>
+<td>QLR-AY-LCP-6-2-2
+</td>
+<td>7.88861E-30
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#nash1" title="MPEC Comments">nash1d</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod">nash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1d.dat">nash1d.dat</a>
+</p>
+</td>
+<td>QLR-AY-LCP-6-2-2
+</td>
+<td>7.88861E-30
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#nash1" title="MPEC Comments">nash1e</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod">nash1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1e.dat">nash1e.dat</a>
+</p>
+</td>
+<td>QLR-AY-LCP-6-2-2
+</td>
+<td>7.88861E-30
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#outrata" title="MPEC Comments">outrata31</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata31.mod">outrata31.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-NCP-5-0-4
+</td>
+<td>3.2077
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#outrata" title="MPEC Comments">outrata32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata32.mod">outrata32.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-NCP-5-0-4
+</td>
+<td>3.4494
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#outrata" title="MPEC Comments">outrata33</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata33.mod">outrata33.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-NCP-5-0-4
+</td>
+<td>4.60425
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#outrata" title="MPEC Comments">outrata34</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata34.mod">outrata34.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-NCP-5-0-4
+</td>
+<td>6.59268
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp1-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod">pack-comp1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-75-40-66
+</td>
+<td>0.6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp1-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod">pack-comp1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-332-151-315
+</td>
+<td>0.616951
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp1-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod">pack-comp1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1398-589-1365
+</td>
+<td>0.652979
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp1c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod">pack-comp1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-75-47-66
+</td>
+<td>0.6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp1c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod">pack-comp1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-332-166-315
+</td>
+<td>0.623043
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp1c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod">pack-comp1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1398-620-1365
+</td>
+<td>0.661443
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp1p-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod">pack-comp1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-107-106-49
+</td>
+<td>0.6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp1p-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod">pack-comp1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-467-466-225
+</td>
+<td>0.616951
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp1p-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod">pack-comp1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1955-1954-961
+</td>
+<td>0.652979
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp2-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod">pack-comp2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-75-40-66
+</td>
+<td>0.673117
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp2-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod">pack-comp2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-332-151-315
+</td>
+<td>0.727135
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-comp" title="MPEC Comments">pack-comp2-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod">pack-comp2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1398-589-1365
+</td>
+<td>0.782604
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp2c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod">pack-comp2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-75-47-66
+</td>
+<td>0.673458
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp2c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod">pack-comp2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-332-166-315
+</td>
+<td>0.727468
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compc" title="MPEC Comments">pack-comp2c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod">pack-comp2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1398-620-1365
+</td>
+<td>0.782944
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp2p-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod">pack-comp2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat">pack-comp-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-107-106-49
+</td>
+<td>0.673117
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp2p-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod">pack-comp2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat">pack-comp-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-467-466-225
+</td>
+<td>0.727134
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-compp" title="MPEC Comments">pack-comp2p-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod">pack-comp2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat">pack-comp-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-1955-1954-961
+</td>
+<td>0.782604
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig1-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod">pack-rig1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-29-40
+</td>
+<td>0.787932
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig1-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod">pack-rig1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-99-192
+</td>
+<td>0.826013
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig1-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod">pack-rig1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-521-832
+</td>
+<td>0.850895
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig1c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod">pack-rig1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-36-40
+</td>
+<td>0.7883
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig1c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod">pack-rig1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-148-192
+</td>
+<td>0.826498
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig1c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod">pack-rig1c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-552-832
+</td>
+<td>0.851641
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig1p-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod">pack-rig1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-58-20-58
+</td>
+<td>0.787932
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig1p-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod">pack-rig1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-242-121-225
+</td>
+<td>0.826013
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig1p-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod">pack-rig1p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-994-497-961
+</td>
+<td>0.850895
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig2-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod">pack-rig2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-29-40
+</td>
+<td>0.780404
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig2-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod">pack-rig2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-99-192
+</td>
+<td>(I)
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig2-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod">pack-rig2.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-512-832
+</td>
+<td>(I)
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig2c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod">pack-rig2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-36-40
+</td>
+<td>0.799306
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig2c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod">pack-rig2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-148-192
+</td>
+<td>(I)
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig2c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod">pack-rig2c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-552-832
+</td>
+<td>(I)
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig2p-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod">pack-rig2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-58-20-58
+</td>
+<td>0.780404
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig2p-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod">pack-rig2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-242-121-225
+</td>
+<td>1.08514
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigp" title="MPEC Comments">pack-rig2p-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod">pack-rig2p.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-994-497-961
+</td>
+<td>1.13589
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig3-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod">pack-rig3.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-29-40
+</td>
+<td>0.735202
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig3-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod">pack-rig3.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-99-192
+</td>
+<td>0.800431
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rig" title="MPEC Comments">pack-rig3-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod">pack-rig3.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-512-832
+</td>
+<td>tba
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig3c-8</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod">pack-rig3c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat">pack-rig-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-49-36-40
+</td>
+<td>0.753473
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig3c-16</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod">pack-rig3c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat">pack-rig-16.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-209-148-192
+</td>
+<td>0.8186
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#pack-rigc" title="MPEC Comments">pack-rig3c-32</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod">pack-rig3c.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat">pack-rig-32.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-865-552-832
+</td>
+<td>tba
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#portfl-i" title="MPEC Comments">portfl-i-1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod">portfl-i.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl1.dat">portfl1.dat</a>
+</p>
+</td>
+<td>QLR-AY-NLP-87-25-12
+</td>
+<td>1.502E-5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#portfl-i" title="MPEC Comments">portfl-i-2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod">portfl-i.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl2.dat">portfl2.dat</a>
+</p>
+</td>
+<td>QLR-AY-NLP-87-25-12
+</td>
+<td>1.457E-5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#portfl-i" title="MPEC Comments">portfl-i-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod">portfl-i.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl3.dat">portfl3.dat</a>
+</p>
+</td>
+<td>QLR-AY-NLP-87-25-12
+</td>
+<td>6.265E-6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#portfl-i" title="MPEC Comments">portfl-i-4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod">portfl-i.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl4.dat">portfl4.dat</a>
+</p>
+</td>
+<td>QLR-AY-NLP-87-25-12
+</td>
+<td>2.177E-6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#portfl-i" title="MPEC Comments">portfl-i-6</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod">portfl-i.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl6.dat">portfl6.dat</a>
+</p>
+</td>
+<td>QLR-AY-NLP-87-25-12
+</td>
+<td>2.361E-6
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-100-1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-1.dat">qpec-100-1.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-105-102-100
+</td>
+<td>0.0990028
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-100-2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-2.dat">qpec-100-2.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-110-102-100
+</td>
+<td>-6.59074
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-100-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-3.dat">qpec-100-3.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-110-104-100
+</td>
+<td>-5.48287
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-100-4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-4.dat">qpec-100-4.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-120-104-100
+</td>
+<td>-3.98212
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-200-1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-1.dat">qpec-200-1.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-210-204-200
+</td>
+<td>-1.93483
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-200-2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-2.dat">qpec-200-2.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-220-204-200
+</td>
+<td>-24.0299
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-200-3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-3.dat">qpec-200-3.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-220-208-200
+</td>
+<td>-1.95341
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpecgen" title="MPEC Comments">qpec-200-4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod">qpecgen.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-4.dat">qpec-200-4.dat</a>
+</p>
+</td>
+<td>QLR-AN-LCP-240-208-200
+</td>
+<td>-6.19323
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpec" title="MPEC Comments">qpec1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec1.mod">qpec1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-LCP-30-0-20
+</td>
+<td>80.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#qpec" title="MPEC Comments">qpec2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec2.mod">qpec2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-LCP-30-0-20
+</td>
+<td>45.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ralph" title="MPEC Comments">ralph1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralph1.mod">ralph1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LUR-AN-LCP-2-0-1
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ralph" title="MPEC Comments">ralph2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralph2.mod">ralph2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-LCP-2-0-1
+</td>
+<td>0.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#ralphmod" title="MPEC Comments">ralphmod</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralphmod.mod">ralphmod.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralphmod.dat">ralphmod.dat</a>
+</p>
+</td>
+<td>QUR-AN-LCP-104-0-100
+</td>
+<td>-683.033
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scholtes" title="MPEC Comments">scholtes1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes1.mod">scholtes1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NCP-3-1-1
+</td>
+<td>2.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scholtes" title="MPEC Comments">scholtes2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes2.mod">scholtes2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-NCP-3-1-1
+</td>
+<td>15.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scholtes3" title="MPEC Comments">scholtes3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes3.mod">scholtes3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QUR-AN-LCP-2-0-2
+</td>
+<td>0.5
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scholtes4" title="MPEC Comments">scholtes4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes4.mod">scholtes4.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LLR-AY-LCP-3-2-2
+</td>
+<td>-3.07336E-7
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scholtes5" title="MPEC Comments">scholtes5</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes5.mod">scholtes5.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QBR-AN-LCP-3-2-2
+</td>
+<td>1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#siouxfls" title="MPEC Comments">siouxfls</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tollmpec.mod">tollmpec.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/siouxfls.dat">siouxfls.dat</a>
+</p>
+</td>
+<td>LLR-MN-NCP-2402-627-1748
+</td>
+<td>208.258
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#siouxfls1" title="MPEC Comments">siouxfls1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tollmpec1.mod">tollmpec1.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/siouxfls.dat">siouxfls.dat</a>
+</p>
+</td>
+<td>OLR-MN-NCP-2402-627-1748
+</td>
+<td>979.386
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scale" title="MPEC Comments">scale1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale1.mod">scale1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-2-0-1
+</td>
+<td>1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scale" title="MPEC Comments">scale2</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale2.mod">scale2.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-2-0-1
+</td>
+<td>1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scale" title="MPEC Comments">scale3</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale3.mod">scale3.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-2-0-1
+</td>
+<td>1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scale" title="MPEC Comments">scale4</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale4.mod">scale4.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-2-0-1
+</td>
+<td>1.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#scale" title="MPEC Comments">scale5</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale5.mod">scale5.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-2-0-1
+</td>
+<td>100.0
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#sl1" title="MPEC Comments">sl1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/sl1.mod">sl1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-8-2-3
+</td>
+<td>0.0001
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#stackelberg1" title="MPEC Comments">stackelberg1</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/stackelberg1.mod">stackelberg1.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>QLR-AY-LCP-3-1-1
+</td>
+<td>-3266.67
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#tap-09" title="MPEC Comments">tap-09</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-09.mod">tap-09.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-09.dat">tap-09.dat</a>
+</p>
+</td>
+<td>OOR-AY-NCP-86-68-32
+</td>
+<td>109.143
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#tap-15" title="MPEC Comments">tap-15</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-15.mod">tap-15.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-15.dat">tap-15.dat</a>
+</p>
+</td>
+<td>OOR-AY-NCP-194-167-83
+</td>
+<td>184.295
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#taxmcp" title="MPEC Comments">taxmcp</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/taxmcp.mod">taxmcp.mod</a>
+</p>
+</td>
+<td>n/a
+</td>
+<td>LOR-AN-MCP-15-14-11
+</td>
+<td>0.818705
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-1.dat">TSC-1.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-364-604-120
+</td>
+<td>45.15
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-2.dat">TSC-2.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-364-604-120
+</td>
+<td>42.12
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-3.dat">TSC-3.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>80.63
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-4.dat">TSC-4.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>75.02
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-5.dat">TSC-5.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>88.06
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-6.dat">TSC-6.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>89.75
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-7.dat">TSC-7.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-367-609-121
+</td>
+<td>173.06
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-8.dat">TSC-8.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-367-609-121
+</td>
+<td>177.72
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-9.dat">TSC-9.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>46.32
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-10.dat">TSC-10.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>48.71
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-11.dat">TSC-11.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>90.39
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-12.dat">TSC-12.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>130.57
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#TrafficSignalCycle" title="MPEC Comments">TrafficSignalCycle</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod">TrafficSignalCycle.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-13.dat">TSC-13.dat</a>
+</p>
+</td>
+<td>LLR-AN-LCP-368-610-122
+</td>
+<td>83.55
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#water" title="MPEC Comments">water-net</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.mod">water-net.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.dat">water-net.dat</a>
+</p>
+</td>
+<td>OOR-MY-LCP-52-22-13
+</td>
+<td>929.169
+</td></tr>
+<tr>
+<td><a href="/leyffer/index.php/MPEC_Comments#water" title="MPEC Comments">water-FL</a>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.mod">water-net.mod</a>
+</p>
+</td>
+<td>
+<p><a rel="nofollow" class="external text" href="http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-FL.dat">water-FL.dat</a>
+</p>
+</td>
+<td>OOR-MY-LCP-169-72-33
+</td>
+<td>3411.92
+</td>
+</tr></tbody><caption align="bottom">MacMPEC: ampl collection of MPEC test problems
+</caption></table>
+<!-- 
+NewPP limit report
+Cached time: 20260512115808
+Cache expiry: 86400
+Dynamic content: false
+Complications: []
+CPU time usage: 0.125 seconds
+Real time usage: 0.129 seconds
+Preprocessor visited node count: 1/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 1/40
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 0/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key svenleyffer:pcache:idhash:29-0!canonical and timestamp 20260512115808 and revision id 1131
+ -->
+</div></div><div class="printfooter">Retrieved from "<a dir="ltr" href="http:/// /leyffer/index.php?title=MacMPEC&amp;oldid=1131">http:/// /leyffer/index.php?title=MacMPEC&amp;oldid=1131</a>"</div>
+		<div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div>
+	</div>
+</div>
+
+<div id="mw-navigation">
+	<h2>Navigation menu</h2>
+	<div id="mw-head">
+		<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-personal" class="vector-menu" aria-labelledby="p-personal-label" role="navigation" 
+	 >
+	<h3 id="p-personal-label">
+		<span>Personal tools</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="pt-login"><a href="/leyffer/index.php?title=Special:UserLogin&amp;returnto=MacMPEC" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li></ul>
+		
+	</div>
+</nav>
+
+
+		<div id="left-navigation">
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-namespaces" class="vector-menu vector-menu-tabs vectorTabs" aria-labelledby="p-namespaces-label" role="navigation" 
+	 >
+	<h3 id="p-namespaces-label">
+		<span>Namespaces</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="ca-nstab-main" class="selected"><a href="/leyffer/index.php/MacMPEC" title="View the content page [c]" accesskey="c">Page</a></li><li id="ca-talk" class="new"><a href="/leyffer/index.php?title=Talk:MacMPEC&amp;action=edit&amp;redlink=1" rel="discussion" title="Discussion about the content page (page does not exist) [t]" accesskey="t">Discussion</a></li></ul>
+		
+	</div>
+</nav>
+
+
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-variants" class="vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu" aria-labelledby="p-variants-label" role="navigation" 
+	 >
+	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="p-variants-label" />
+	<h3 id="p-variants-label">
+		<span>Variants</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="menu vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+
+		</div>
+		<div id="right-navigation">
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-views" class="vector-menu vector-menu-tabs vectorTabs" aria-labelledby="p-views-label" role="navigation" 
+	 >
+	<h3 id="p-views-label">
+		<span>Views</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="ca-view" class="collapsible selected"><a href="/leyffer/index.php/MacMPEC">Read</a></li><li id="ca-viewsource" class="collapsible"><a href="/leyffer/index.php?title=MacMPEC&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></li><li id="ca-history" class="collapsible"><a href="/leyffer/index.php?title=MacMPEC&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></li></ul>
+		
+	</div>
+</nav>
+
+
+			<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-cactions" class="vector-menu-empty emptyPortlet vector-menu vector-menu-dropdown vectorMenu" aria-labelledby="p-cactions-label" role="navigation" 
+	 >
+	<input type="checkbox" class="vector-menu-checkbox vectorMenuCheckbox" aria-labelledby="p-cactions-label" />
+	<h3 id="p-cactions-label">
+		<span>More</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="menu vector-menu-content-list"></ul>
+		
+	</div>
+</nav>
+
+
+			<div id="p-search" role="search">
+	<h3 >
+		<label for="searchInput">Search</label>
+	</h3>
+	<form action="/leyffer/index.php" id="searchform">
+		<div id="simpleSearch">
+			<input type="search" name="search" placeholder="Search Svenleyffer" title="Search Svenleyffer [f]" accesskey="f" id="searchInput"/>
+			<input type="hidden" name="title" value="Special:Search">
+			<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/>
+			<input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>
+		</div>
+	</form>
+</div>
+
+		</div>
+	</div>
+	
+<div id="mw-panel">
+	<div id="p-logo" role="banner">
+		<a  title="Visit the main page" class="mw-wiki-logo" href="/leyffer/index.php/Sven_Leyffer"></a>
+	</div>
+	<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-navigation" class="vector-menu vector-menu-portal portal portal-first" aria-labelledby="p-navigation-label" role="navigation" 
+	 >
+	<h3 id="p-navigation-label">
+		<span>Navigation</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="n-Main-Page"><a href="/leyffer/index.php/Sven_Leyffer">Main Page</a></li><li id="n-Appointments"><a href="/leyffer/index.php/Sven_Leyffer%27s_Appointments">Appointments</a></li><li id="n-Bio"><a href="/leyffer/index.php/Sven_Leyffer%27s_Bio">Bio</a></li><li id="n-Contact"><a href="/leyffer/index.php/Contact_Sven_Leyffer">Contact</a></li><li id="n-Courses-.26-Lectures"><a href="/leyffer/index.php/Sven_Leyffer%27s_Lectures">Courses &amp; Lectures</a></li><li id="n-Publications"><a href="/leyffer/index.php/Sven_Leyffer%27s_Publications">Publications</a></li><li id="n-Research"><a href="/leyffer/index.php/Sven_Leyffer%27s_Research">Research</a></li><li id="n-Software"><a href="/leyffer/index.php/Sven_Leyffer%27s_Software">Software</a></li><li id="n-Some-Talks"><a href="/leyffer/index.php/Sven_Leyffer%27s_Talks">Some Talks</a></li><li id="n-Test-Problems"><a href="/leyffer/index.php/Sven_Leyffer%27s_Test_Problems">Test Problems</a></li></ul>
+		
+	</div>
+</nav>
+
+
+	<!-- Please do not use role attribute as CSS selector, it is deprecated. -->
+<nav id="p-tb" class="vector-menu vector-menu-portal portal" aria-labelledby="p-tb-label" role="navigation" 
+	 >
+	<h3 id="p-tb-label">
+		<span>Tools</span>
+	</h3>
+	<!-- Please do not use the .body class, it is deprecated. -->
+	<div class="body vector-menu-content">
+		<!-- Please do not use the .menu class, it is deprecated. -->
+		<ul class="vector-menu-content-list"><li id="t-whatlinkshere"><a href="/leyffer/index.php/Special:WhatLinksHere/MacMPEC" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/leyffer/index.php/Special:RecentChangesLinked/MacMPEC" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/leyffer/index.php/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="javascript:print();" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/leyffer/index.php?title=MacMPEC&amp;oldid=1131" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/leyffer/index.php?title=MacMPEC&amp;action=info" title="More information about this page">Page information</a></li></ul>
+		
+	</div>
+</nav>
+
+
+	
+</div>
+
+</div>
+
+<footer id="footer" class="mw-footer" role="contentinfo" >
+	<ul id="footer-info" >
+		<li id="footer-info-lastmod"> This page was last edited on 14 August 2015, at 15:35.</li>
+	</ul>
+	<ul id="footer-places" >
+		<li id="footer-places-privacy"><a href="/leyffer/index.php/Svenleyffer:Privacy_policy" title="Svenleyffer:Privacy policy">Privacy policy</a></li>
+		<li id="footer-places-about"><a href="/leyffer/index.php/Svenleyffer:About" title="Svenleyffer:About">About Svenleyffer</a></li>
+		<li id="footer-places-disclaimer"><a href="/leyffer/index.php/Svenleyffer:General_disclaimer" title="Svenleyffer:General disclaimer">Disclaimers</a></li>
+	</ul>
+	<ul id="footer-icons" class="noprint">
+		<li id="footer-poweredbyico"><a href="https://www.mediawiki.org/"><img src="/leyffer/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/leyffer/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /leyffer/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" loading="lazy"/></a></li>
+	</ul>
+	<div style="clear: both;"></div>
+</footer>
+
+
+
+<script>(RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.125","walltime":"0.129","ppvisitednodes":{"value":1,"limit":1000000},"postexpandincludesize":{"value":0,"limit":2097152},"templateargumentsize":{"value":0,"limit":2097152},"expansiondepth":{"value":1,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":0,"limit":5000000},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20260512115808","ttl":86400,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":81});});</script></body></html>
