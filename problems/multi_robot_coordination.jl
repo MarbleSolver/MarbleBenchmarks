@@ -1,3 +1,9 @@
+include("../src/indexed_components.jl")
+include("../src/nlp_utils.jl")
+
+using ADNLPModels, NLPModels
+using JuMP, NLPModelsJuMP
+
 function multi_robot_coordination(; N=30, T=5.0)
     Δt = T / (N - 1)
     m = 1.0
@@ -89,7 +95,7 @@ function multi_robot_coordination(; N=30, T=5.0)
     f(x) = sum(stage_cost(x[inds.uA[k]]) + stage_cost(x[inds.uB[k]]) for k=1:N-1; init=0.0)
 
     nlp = ADNLPModel(f, zeros(nvar), c, lcon, ucon; name="Multi-Robot Coordination")
-    MPCCModels.MPCCModelConCon(nlp, ind_ccc1, ind_ccc2), inds
+    return nlp, ind_ccc1, ind_ccc2
 end
 
 @register multi_robot_coordination :robotics

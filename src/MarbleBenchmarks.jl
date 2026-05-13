@@ -1,14 +1,15 @@
 module MarbleBenchmarks
 
-using NLPModels, ADNLPModels
+using LinearAlgebra, SparseArrays
+using NLPModels, ADNLPModels, AmplNLReader, JuMP
 using Marble
 using MPCCModels
 
-include("nlp_utils.jl")
-export CBuilder, add!, add_eq!, add_ineq!, add_cc!, assemble
+# include("nlp_utils.jl")
+# export CBuilder, add!, add_eq!, add_ineq!, add_cc!, assemble
 
-include("indexed_components.jl")
-export indexed_components
+# include("indexed_components.jl")
+# export indexed_components
 
 struct ProblemEntry
     fn::Function
@@ -62,8 +63,11 @@ problem_types() = sort(unique(v.type for v in values(PROBLEM_REGISTRY)))
 
 export get_problem, list_problems, problem_types, @register
 
-for _f in readdir(joinpath(@__DIR__, "..", "problems"), join=true)
-    endswith(_f, ".jl") && include(_f)
-end
+# for _f in readdir(joinpath(@__DIR__, "..", "problems"), join=true)
+#     endswith(_f, ".jl") && include(_f)
+# end
+
+include("conversion.jl")
+export to_mpcc, to_jump
 
 end

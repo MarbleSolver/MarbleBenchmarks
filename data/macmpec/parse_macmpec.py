@@ -21,7 +21,7 @@ def is_qpcc(cls: str) -> bool:
     return (
         obj_char in "CLQ"
         and con_char in "UXBL"
-        and cc_type in ("LCP", "LMCP", "NLP")
+        and cc_type in ("LCP", "NLP")
     )
 
 soup = BeautifulSoup((HERE / "html" / "MacMPEC").read_text(), "html.parser")
@@ -41,8 +41,8 @@ for row in rows:
 
     if not name or not classification:
         continue
-    if not is_qpcc(classification):
-        continue
+    # if not is_qpcc(classification):
+    #     continue
 
     mod_links = cells[1].find_all("a")
     dat_links = cells[2].find_all("a")
@@ -67,7 +67,8 @@ for row in rows:
         "mod_file":         mod_file,
         "dat_file":         dat_file,
         "solution":         solution,
-        "convex_cost":      True if obj_char in "CL" else None,
+        "convex_cost":      None,
+        "linear_constraints": None,
     }
 
 out = HERE / "macmpec_qpcc.json"
