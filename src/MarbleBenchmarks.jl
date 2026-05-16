@@ -1,73 +1,71 @@
 module MarbleBenchmarks
 
 using LinearAlgebra, SparseArrays
-using NLPModels, ADNLPModels, AmplNLReader, JuMP
+using NLPModels, AmplNLReader, JuMP, NLPModelsJuMP
 using Marble
-using MPCCModels
 
-# include("nlp_utils.jl")
-# export CBuilder, add!, add_eq!, add_ineq!, add_cc!, assemble
+include("jump_mpcc.jl")
 
-# include("indexed_components.jl")
-# export indexed_components
+export nlp_con_row_map, nlp_var_col_map, var_var_complementarities, var_con_complementarities, con_con_complementarities
+export var_inds, reformulate_sos1
 
-struct ProblemEntry
-    fn::Function
-    type::Symbol
-end
+# using MPCCModels
 
-const PROBLEM_REGISTRY = Dict{Symbol, ProblemEntry}()
+const PROBLEM_REGISTRY = Dict{Symbol, Tuple{Function, Symbol}}()
+
+register(fn::Function, class::Symbol = :general) = (PROBLEM_REGISTRY[Symbol(fn)] = (fn, class))
 
 function get_problem(name::Symbol; kwargs...)
-    haskey(PROBLEM_REGISTRY, name) || error(
-        "Unknown problem: $name. Available: $(list_problems())"
-    )
-    return PROBLEM_REGISTRY[name].fn(; kwargs...)
-end
-
-# @register fn                  — named fn, type = :general
-# @register fn :type            — named fn, explicit type
-# @register sym_expr fn_expr    — dynamic name, type = :general
-# @register sym_expr fn_expr :type — dynamic name, explicit type
-macro register(fn)
-    sym = QuoteNode(fn)
-    quote
-        export $(esc(fn))
-        PROBLEM_REGISTRY[$sym] = ProblemEntry($(esc(fn)), :general)
-    end
-end
-
-macro register(a, b)
-    if a isa Symbol  # @register fn :type
-        sym = QuoteNode(a)
-        quote
-            export $(esc(a))
-            PROBLEM_REGISTRY[$sym] = ProblemEntry($(esc(a)), $(esc(b)))
-        end
-    else             # @register sym_expr fn_expr
-        quote
-            PROBLEM_REGISTRY[$(esc(a))] = ProblemEntry($(esc(b)), :general)
-        end
-    end
-end
-
-macro register(sym_expr, fn_expr, problem_type)
-    quote
-        PROBLEM_REGISTRY[$(esc(sym_expr))] = ProblemEntry($(esc(fn_expr)), $(esc(problem_type)))
-    end
+    haskey(PROBLEM_REGISTRY, name) || error("Unknown problem: $name. Available: $(list_problems())")
+    return PROBLEM_REGISTRY[name][1](; kwargs...)
 end
 
 list_problems() = sort(collect(keys(PROBLEM_REGISTRY)))
-list_problems(type::Symbol) = sort([k for (k, v) in PROBLEM_REGISTRY if v.type == type])
-problem_types() = sort(unique(v.type for v in values(PROBLEM_REGISTRY)))
+list_problems(class::Symbol) = sort([k for (k, (_, c)) in PROBLEM_REGISTRY if c == class])
+problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 
-export get_problem, list_problems, problem_types, @register
+export get_problem, list_problems, problem_classes, register
 
-# for _f in readdir(joinpath(@__DIR__, "..", "problems"), join=true)
-#     endswith(_f, ".jl") && include(_f)
-# end
-
-include("conversion.jl")
-export to_mpcc, to_jump
+const MACMPEC_QPCCs = [
+    "bard1",
+    "bard1m",
+    "bard2",
+    "bilevel2",
+    "bilevel2m",
+    "ex9.2.1",
+    "ex9.2.2",
+    "ex9.2.4",
+    "ex9.2.5",
+    "ex9.2.6",
+    "ex9.2.7",
+    "flp2",
+    "flp4-1",
+    "flp4-2",
+    "flp4-3",
+    "flp4-4",
+    "gauvin",
+    "hs044-i",
+    "jr1",
+    "jr2",
+    "kth2",
+    "kth3",
+    "liswet1-050",
+    "liswet1-100",
+    "liswet1-200",
+    "nash1a",
+    "nash1b",
+    "nash1c",
+    "nash1d",
+    "nash1e",
+    "portfl1",
+    "portfl2",
+    "portfl3",
+    "portfl4",
+    "portfl6",
+    "qpec1",
+    "qpec2",
+    "scholtes3",
+    "sl1",
+]
 
 end

@@ -1,6 +1,6 @@
 g3 10 1 0	# problem bard2
  12 9 1 0 5	# vars, constraints, objectives, ranges, eqns
- 0 1 3 0 0 0	# nonlinear constrs, objs; ccons: lin, nonlin, nd, nzlb
+ 0 1 4 0 0 0	# nonlinear constrs, objs; ccons: lin, nonlin, nd, nzlb
  0 0	# network constraints: nonlinear, linear
  0 4 0	# nonlinear vars in constraints, objectives, both
  0 0 0 1	# linear network variables; functions; arith, flags
@@ -30,7 +30,7 @@ r
 4 70
 4 4
 5 1 11
-4 0
+5 1 12
 C0
 n0
 C1
@@ -115,9 +115,9 @@ J7 3
 3 -0.7
 6 1
 J8 3
-2 0.6
-3 0.3
-7 -1
+2 -0.6
+3 -0.3
+7 1
 G0 4
 0 0
 1 0

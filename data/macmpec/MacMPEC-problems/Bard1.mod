@@ -22,10 +22,3 @@ subject to
    lin_1:  0 <= 3*x - y - 3        complements l[1] >= 0;
    lin_2:  0 <= - x + 0.5*y + 4    complements l[2] >= 0;
    lin_3:  0 <= - x - y + 7        complements l[3] >= 0;
-
-   
-
-
-
-        
-

@@ -3,7 +3,6 @@ using NLPModels
 using MPCCModels
 using AmplNLReader
 
-include("../src/conversion.jl")
 
 function multi_robot_coordination2(; N=30, T=5.0)
     Δt = T / (N - 1)
