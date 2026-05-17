@@ -78,7 +78,6 @@ Marble.debug!(opts, true)
 
 result = Marble.solve(marble_data; opts = opts)
 # result = Marble.solve(marble_data; opts = opts, z0=x_ipopt)
-# result = Marble.solve(marble_data; opts = opts, initial_z=x_ipopt)
 x_marble = Marble.z(result);
 
 @show Marble.converged(result)
