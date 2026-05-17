@@ -40,12 +40,12 @@ function quad_dynamics(x, u; m, g)
     [v; 0.5*L(q)*_H*ω; [0; 0; -g] + (1/m)*qtoQ(q)*[0; 0; T_thrust]]
 end
 
-function linearized_quad_dynamics(x̄, ū, Δt; m, g)
+function linearized_quad_dynamics(x̄, ū, Δt; m, g)
     nx, nu = 10, 4
     q0 = x̄[4:7]
-    Af = FD.jacobian(x -> quad_dynamics(x, ū; m=m, g=g), x̄)
-    Bf = FD.jacobian(u -> quad_dynamics(x̄, u; m=m, g=g), ū)
-    cf = quad_dynamics(x̄, ū; m=m, g=g)
+    Af = FD.jacobian(x -> quad_dynamics(x, ū; m=m, g=g), x̄)
+    Bf = FD.jacobian(u -> quad_dynamics(x̄, u; m=m, g=g), ū)
+    cf = quad_dynamics(x̄, ū; m=m, g=g)
     sysc = ss(Af, [Bf cf], I(nx), zeros(nx, nu + 1))
     sysd = c2d(sysc, Δt, :zoh)
     Ã = Eq(q0)' * sysd.A * Eq(q0)
@@ -53,7 +53,7 @@ function linearized_quad_dynamics(x̄, ū, Δt; m, g)
     return Ã, B̃[:, 1:nu], B̃[:, end]
 end
 
-function quadrotor_gates(; N=30, T=10.0)
+function quadrotor_gates(; N=40, T=9.0)
     m, g   = 1.0, 9.81
     Δt     = T / (N - 1)
     nx̃     = 9  # pos(3) + reduced attitude(3) + vel(3)
@@ -62,8 +62,8 @@ function quadrotor_gates(; N=30, T=10.0)
 
     q0 = [1.0; 0; 0; 0]
     x̄  = [zeros(3); q0; zeros(3)]
-    ū  = [m*g; zeros(3)]
-    Ã, B̃, c̃ = linearized_quad_dynamics(x̄, ū, Δt; m=m, g=g)
+    ū  = [m*g; zeros(3)]
+    Ã, B̃, c̃ = linearized_quad_dynamics(x̄, ū, Δt; m=m, g=g)
 
     gate_positions    = [[-2.0, 2.0, 0.25], [1.0, 6.0, 1.0], [2.0, 3.0, 2.0], [-4.0, 6.0, 0.5]]
     gate_orientations = [Rz(deg2rad(45.0)), Rz(deg2rad(-45.0)), Rz(0.0), Rz(deg2rad(20.0))]
@@ -85,13 +85,19 @@ function quadrotor_gates(; N=30, T=10.0)
     model = JuMP.Model()
 
     @variable(model, x[1:N, 1:nx̃])
-    @variable(model, u[1:N-1, 1:nu])             # deviation from hover ū
+    @variable(model, u[1:N-1, 1:nu])             # deviation from hover ū
     @variable(model, e[1:N, 1:ngates, 1:3])       # position error in gate frame
     @variable(model, λ[1:N, 1:ngates] >= 0)       # cumulative gate-completion state
     @variable(model, μ[1:N, 1:ngates] >= 0)       # per-step gate-completion increment
+    @variable(model, s_pos[1:N, 1:ngates, 1:3] >= 0)
+    @variable(model, s_neg[1:N, 1:ngates, 1:3] >= 0)
 
-    # Minimize absolute control effort + gate violation penalty
-    @objective(model, Min, sum(Δt/2 * (ū + u[k, :])' * (ū + u[k, :]) for k=1:N-1))
+    # Minimize physical control effort and keep gate-violation slacks tight.
+    slack_penalty = 1.0
+    @objective(model, Min,
+        sum(Δt / 2 * (ū + u[k, :])' * (ū + u[k, :]) for k=1:N-1) #+
+        #slack_penalty * Δt * sum(s_pos[k, j, d] + s_neg[k, j, d] for k=1:N, j=1:ngates, d=1:3)
+    )
 
     # Boundary conditions
     @constraint(model, ic, x[1, :] .== xstart)
@@ -122,49 +128,73 @@ function quadrotor_gates(; N=30, T=10.0)
     # x[k, 1:3] is the position delta; recover physical position by adding x̄[1:3].
     @expression(model, gate_error[k=1:N, j=1:ngates], gate_orientations[j]' * (x̄[1:3] + x[k, 1:3] - gate_positions[j]))
 
-    # σ = min(0, min_d(gate_dims[d]/2 - |e[d]|))
-    # σ = sum( max.(|e| - gate_dims./2, 0) )
+    # gate_dims[j][d] - gate_error[k, j][d] ≥ 0 for any d, then μ can be positive
+    # <=> gate_dims[j][d] ≥ gate_error[k, j][d] for all d, then μ can be positive
 
-    # If σ = 0, then the drone lies inside the gate's OBB along all dimensions
+    # # gate_error <= gate_dims + s1
+    # # gate_error >= -gate_dims - s2
 
-    @variable(model, e_abs[1:N, 1:ngates, 1:3])
-    @variable(model, λ_e_abs[1:N, 1:ngates, 1:3] >= 0)
+    h = gate_dims ./ 2  # if gate_dims are full dimensions
 
-    ## Complementarity constraints to model e_abs = |gate_error|:
-    # 0 ≤ λ ⟂ s - v ≥ 0  (con-var: λ_e_abs is the var, con_e_abs_rhs1 is the con)
-    @constraint(model, con_e_abs_rhs1[k=1:N, j=1:ngates, d=1:3], e_abs[k,j,d] .- gate_error[k,j][d] >= 0)
+    @constraint(model, gate_upper[k=1:N, j=1:ngates, d=1:3],
+        gate_error[k,j][d] <= h[d] + s_pos[k,j,d]
+    )
 
-    # 0 ≤ (1 - λ) ⟂ s + v ≥ 0  (con-con: con_lambda_ub ⟂ con_e_abs_rhs2)
-    @constraint(model, con_e_abs_lhs2[k=1:N, j=1:ngates, d=1:3], (1 .- λ_e_abs[k,j,d]) >= 0)
-    @constraint(model, con_e_abs_rhs2[k=1:N, j=1:ngates, d=1:3], e_abs[k,j,d] .+ gate_error[k,j][d] >= 0)
+    @constraint(model, gate_lower[k=1:N, j=1:ngates, d=1:3],
+        gate_error[k,j][d] >= -h[d] - s_neg[k,j,d]
+    )
 
-    ## Complementarity constraints to model pairwise_max_e_abs = max.(|e| - gate_dims./2, 0)
-    @variable(model, pairwise_max_e_abs[1:N, 1:ngates, 1:3] >= 0)
-    @variable(model, λ_pairwise_max_e_abs[1:N, 1:ngates, 1:3] >= 0)
+    @constraint(model, gate_violation[k=1:N, j=1:ngates],
+        sum(s_pos[k,j,:] + s_neg[k,j,:]) >= 0
+    )
 
-    # 0 ≤ λ ⟂ (s - v) ≥ 0  (con-var: λ_pairwise_max_e_abs is the var, con_pairwise_max_e_abs_rhs1 is the con)
-    @constraint(model, con_pairwise_max_e_abs_rhs1[k=1:N, j=1:ngates, d=1:3], pairwise_max_e_abs[k,j,d] .- (gate_dims[d]./2 .- e_abs[k,j,d]) >= 0)
+    # # <=> | ∑ min.(gate_dims[j] - gate_error[k, j], 0) | == 0 for all d, then μ can be positive
+    # @variable(model, pairwise_min[1:N, 1:ngates, 1:3] <= 0)
+    # @variable(model, λ_pairwise_min[1:N, 1:ngates, 1:3] >= 0)
 
-    # 0 ≤ (1 - λ) ⟂ (s - 0) ≥ 0  (con-var: pairwise_max_e_abs is the var, con_pairwise_max_e_abs_lhs2 is the con)
-    @constraint(model, con_pairwise_max_e_abs_lhs2[k=1:N, j=1:ngates, d=1:3], (1 - λ_pairwise_max_e_abs[k,j,d]) >= 0)
+    # @constraint(model, con_pairwise_min_rhs1[k=1:N, j=1:ngates, d=1:3], gate_dims[d] - gate_error[k, j][d] - pairwise_min[k,j,d] >= 0)
+    # @constraint(model, con_pairwise_min_lhs2[k=1:N, j=1:ngates, d=1:3], (1 - λ_pairwise_min[k,j,d]) >= 0)
+    
+    # @variable(model, abs_val[1:N, 1:ngates] >= 0)
+    # @variable(model, λ_abs_val[1:N, 1:ngates] >= 0)
 
-    ## Complementarity constraints to model 0 ≤ sum(pairwise_max_e_abs) ⟂ μ[k,j] ≥ 0
-    @constraint(model, con_sum_pairwise_max_e_abs_lhs[k=1:N, j=1:ngates], sum(pairwise_max_e_abs[k,j,:]) >= 0)
+    # @constraint(model, con_abs_val_rhs1[k=1:N, j=1:ngates], abs_val[k,j] - sum(pairwise_min[k,j,:]) >= 0)
 
-    # --- Complementarity assembly ---
-    # Each entry: (pairs_vector, type_tuple)
+    # @constraint(model, con_abs_val_lhs2[k=1:N, j=1:ngates], (1 - λ_abs_val[k,j]) >= 0)
+    # @constraint(model, con_abs_val_rhs2[k=1:N, j=1:ngates], abs_val[k,j] + sum(pairwise_min[k,j,:]) >= 0)
+    
     complementarities = [
-        # Gate completion: μ[k,j] ⟂ Σ_d max(|e[k,j,d]| - dims[d]/2, 0)
-        (var_con_complementarities(model, model[:μ],                      model[:con_sum_pairwise_max_e_abs_lhs]), (:var, :con)),
-
-        # |e| = max(e, 0) + max(-e, 0) LP complementarities
-        (var_con_complementarities(model, model[:λ_e_abs],                model[:con_e_abs_rhs1]),                (:var, :con)),
-        (con_con_complementarities(model, model[:con_e_abs_lhs2],         model[:con_e_abs_rhs2]),                (:con, :con)),
-
-        # max(|e| - dims/2, 0) LP complementarities
-        (var_con_complementarities(model, model[:λ_pairwise_max_e_abs],   model[:con_pairwise_max_e_abs_rhs1]),   (:var, :con)),
-        (var_con_complementarities(model, model[:pairwise_max_e_abs],     model[:con_pairwise_max_e_abs_lhs2]),   (:var, :con)),
+        # (var_con_complementarities(model, model[:λ_pairwise_min], model[:con_pairwise_min_rhs1]), (:var, :con)),
+        # (var_con_complementarities(model, model[:pairwise_min],   model[:con_pairwise_min_lhs2]), (:var, :con)),
+        # (var_con_complementarities(model, model[:λ_abs_val],     model[:con_abs_val_rhs1]),       (:var, :con)),
+        # (con_con_complementarities(model, model[:con_abs_val_lhs2], model[:con_abs_val_rhs2]),    (:con, :con)),
+        # (var_var_complementarities(model, model[:μ], model[:abs_val]),                            (:var, :var)),
+        (var_con_complementarities(model, model[:μ], model[:gate_violation]),                          (:var, :con)),
     ]
+
+    # If the drone is outside the gate along any dimension, then it doesn't get credit for passing through that gate at that timestep.
+    # Enforce μ[k,j] = 0 if e_abs[k,j,d] - gate_dims[j, d] > 0 for any d, by complementarity constraints:
+    
+
+    # ## Complementarity constraints to model pairwise_max_e_abs = max.(|e| - gate_dims./2, 0)
+    # @variable(model, pairwise_max_e_abs[1:N, 1:ngates, 1:3] >= 0)
+    # @variable(model, λ_pairwise_max_e_abs[1:N, 1:ngates, 1:3] >= 0)
+
+    # # 0 ≤ λ ⟂ (s - v) ≥ 0  (con-var: λ_pairwise_max_e_abs is the var, con_pairwise_max_e_abs_rhs1 is the con)
+    # @constraint(model, con_pairwise_max_e_abs_rhs1[k=1:N, j=1:ngates, d=1:3], pairwise_max_e_abs[k,j,d] - (e_abs[k,j,d] - gate_dims[d]/2) >= 0)
+
+    # # 0 ≤ (1 - λ) ⟂ (s - 0) ≥ 0  (con-var: pairwise_max_e_abs is the var, con_pairwise_max_e_abs_lhs2 is the con)
+    # @constraint(model, con_pairwise_max_e_abs_lhs2[k=1:N, j=1:ngates, d=1:3], (1 - λ_pairwise_max_e_abs[k,j,d]) >= 0)
+
+    # ## Complementarity constraints to model 0 ≤ sum(pairwise_max_e_abs) ⟂ μ[k,j] ≥ 0
+    # @constraint(model, con_sum_pairwise_max_e_abs_lhs[k=1:N, j=1:ngates], sum(pairwise_max_e_abs[k,j,:]) >= 0)
+
+    # Each entry: (pairs_vector, type_tuple)
+    # complementarities = [
+    #     # |e| = max(e, 0) + max(-e, 0) LP complementarities
+    #     (var_con_complementarities(model, model[:λ_e_abs],                model[:con_e_abs_rhs1]),                (:var, :con)),
+    #     (con_con_complementarities(model, model[:con_e_abs_lhs2],         model[:con_e_abs_rhs2]),                (:con, :con)),
+    # ]
 
     ind_cc1  = reduce(vcat, first.(p) for (p, _) in complementarities)
     ind_cc2  = reduce(vcat, last.(p)  for (p, _) in complementarities)
@@ -172,11 +202,55 @@ function quadrotor_gates(; N=30, T=10.0)
 
     return (; model, ind_cc1, ind_cc2, cc_types,
               inds=var_inds(model),
-              params=(; N, T, Δt, x̄, ū, ngates, gate_positions, gate_orientations, gate_dims))
+              params=(; N, T, Δt, x̄, ū, ngates, gate_positions, gate_orientations, gate_dims))
 end
 
 problem = quadrotor_gates()
 nvar = num_variables(problem.model)
+
+## Try something with Ipopt
+
+using Ipopt
+
+function solve_homotopy(base_model, ind_cc1, ind_cc2, types; κ_schedule, optimizer=Ipopt.Optimizer)
+    prev_vals = nothing
+
+    for κ in κ_schedule
+        model = reformulate_lie(base_model, ind_cc1, ind_cc2, types; κ=κ, form=:ineq)
+        set_optimizer(model, optimizer)
+        set_optimizer_attribute(model, "warm_start_init_point", "yes")
+
+        if prev_vals !== nothing
+            for (name, vals) in prev_vals
+                if haskey(object_dictionary(model), name)
+                    set_start_value.(model[name], vals)
+                end
+            end
+        end
+
+        optimize!(model)
+        termination_status(model) == MOI.LOCALLY_SOLVED || @warn "κ=$κ did not solve cleanly: $(termination_status(model))"
+
+        prev_vals = Dict(
+            k => value.(v)
+            for (k, v) in object_dictionary(model)
+            if v isa AbstractArray{VariableRef} && all(is_valid(model, vi) for vi in v)
+        )
+    end
+
+    return model
+end
+
+κ_schedule = [1.0]
+κ = 0.01
+ipopt_model = reformulate_lie(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; κ=κ, form=:eq)
+
+set_optimizer(ipopt_model, Ipopt.Optimizer)
+set_optimizer_attribute(model, "warm_start_init_point", "yes")
+optimize!(ipopt_model)
+# ipopt_model = solve_homotopy(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; κ_schedule=κ_schedule)
+
+x_ipopt = value.(all_variables(ipopt_model));
 
 ## Gurobi
 
@@ -236,7 +310,7 @@ nlp = MathOptNLPModel(problem.model)
 marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 
 opts = Marble.SolverOptions()
-Marble.verbosity!(opts, 1)
+Marble.verbosity!(opts, 0)
 Marble.max_iters!(opts, 4000)
 # Marble.relaxation_initial!(opts, 0.01)
 # Marble.penalty_initial!(opts, 1.0)
@@ -245,6 +319,8 @@ result = Marble.solve(marble_data; opts = opts)
 
 @show Marble.converged(result)
 @show Marble.solve_time_s(result)
+
+x_marble = Marble.z(result);
 
 ## Plot solution
 
@@ -303,9 +379,11 @@ function plot_quadrotor_solution(problem, x_sol)
     return fig
 end
 
-if status in (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
+if true || status in (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
     nvar  = num_variables(problem.model)
-    x_sol = value.(all_variables(gurobi_model))[1:nvar]
+    # x_sol = x_gurobi
+    x_sol = x_ipopt
+    # x_sol = x_ccopt
+    # x_sol = x_marble
     plot_quadrotor_solution(problem, x_sol)
 end
-

@@ -2,19 +2,8 @@ using Marble
 using JSOSolvers
 using NLPModels, NLPModelsJuMP, JuMP, AmplNLReader
 using LinearAlgebra
-using MPCCModels
 using Printf
 using Clarabel
-
-function mpcc_from_ampl(ampl::AmplNLReader.AmplModel)
-    # First we find the nonzero elements in the cvar vector:
-    # cvar = 0 → normal nonlinear constraint
-    # cvar ≠ 0 → complementarity with the cvar-th variable
-    ind_ccc2 = findall(!iszero, ampl.meta.cvar)
-    # Then we store the corresponding variables
-    ind_vcc1 = ampl.meta.cvar[ind_ccc2]
-    return MPCCModels.MPCCModelVarCon(ampl, ind_vcc1, ind_ccc2)
-end
 
 function try_project_solution(data::MarbleData; x::AbstractVector, comp_tol::Real = 1e-2)
     n_var = length(data.q)
@@ -152,8 +141,8 @@ function al_solve(data::MarbleData;
 
         r    = vcat(A * x + b_eq, J * x + c_stack - s)
         feas = norm(r, Inf)
-        sL = s[n_ineq+1:n_ineq+n_cc]
-        sR = s[n_ineq+n_cc+1:end]
+        # sL = s[n_ineq+1:n_ineq+n_cc]
+        # sR = s[n_ineq+n_cc+1:end]
         comp = norm((data.L * x + data.l) .* (data.R * x + data.r), Inf)
 
         verbose && @printf("%4d  %10.3e  %10.3e  %10.3e  %9.2e  %9.2e  %10s\n",
@@ -177,9 +166,11 @@ function al_solve(data::MarbleData;
         else
             ρ = min(γ * ρ, ρ_max)
         end
+        # λ .+= ρ .* r
+        # ρ = min(γ * ρ, ρ_max)
 
         # Grow complementarity penalty only when it failed to shrink.
-        if comp > τ * prev_comp
+        if comp > 0.9 * prev_comp
             μ = min(γ * μ, μ_max)
         end
 
@@ -194,6 +185,19 @@ function al_solve(data::MarbleData;
     return (; x, s, λ, μ, ρ, feas = prev_feas, comp = prev_comp,
               status = :max_iter, iters = max_outer, sub_stats)
 end
+
+##
+
+using MarbleBenchmarks
+using Marble
+using NLPModelsJuMP
+
+problem = get_problem(:quadrotor_gates; N=10, T=9.0);
+
+nlp = MathOptNLPModel(problem.model);
+marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types);
+
+result = al_solve(marble_data; ρ0 = 1.0, μ0 = 10.0, max_outer = 100, project = true)
 
 ##
 

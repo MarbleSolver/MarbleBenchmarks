@@ -1,7 +1,5 @@
 using JuMP
 
-function sos1_model(model, ind_cc1, ind_cc2, )
-end
 
 """
     nlp_con_row_map(model) -> Dict{MOI.ConstraintIndex, Int}
@@ -93,6 +91,40 @@ var_inds(model::JuMP.Model) = Dict(
     if v isa AbstractArray{VariableRef}
 )
 
+function _reformulation_helpers(model)
+    inv_var_map = Dict(col => vi for (vi, col) in nlp_var_col_map(model))
+    inv_con_map = Dict(row => ci for (ci, row) in nlp_con_row_map(model))
+
+    get_reference(i, t) = if t == :var
+        JuMP.VariableRef(model, inv_var_map[i])
+    elseif t == :con
+        JuMP.ConstraintRef(model, inv_con_map[i], JuMP.ScalarShape())
+    else
+        error("Unsupported complementarity type: $t")
+    end
+
+    get_cons_expr(con::JuMP.ConstraintRef) = begin
+        obj = constraint_object(con)
+        expr = obj.func - MOI.constant(obj.set)
+        return expr
+    end
+
+    # Maps constraint row index -> slack variable, so repeated occurrences of
+    # the same constraint reuse the existing slack (the original constraint is
+    # deleted on first encounter and can't be referenced again).
+    con_slack_cache = Dict{Int, JuMP.VariableRef}()
+
+    get_or_create_con_slack!(row_idx) = get!(con_slack_cache, row_idx) do
+        con = get_reference(row_idx, :con)
+        slack = @variable(model, lower_bound=0)
+        @constraint(model, slack == get_cons_expr(con))
+        delete(model, con)
+        slack
+    end
+
+    return get_reference, get_or_create_con_slack!, con_slack_cache
+end
+
 """
     reformulate_sos1(model, ind_cc1, ind_cc2, types)::JuMP.Model
 
@@ -120,36 +152,7 @@ i.e. the left-hand side when the constraint is written as `expr ∈ set`.
 """
 function reformulate_sos1(model::JuMP.Model, ind_cc1, ind_cc2, types)::JuMP.Model
     new_model = copy(model) # Work on a copy to avoid modifying the original model's indices
-
-    inv_var_map = Dict(col => vi for (vi, col) in nlp_var_col_map(new_model))
-    inv_con_map = Dict(row => ci for (ci, row) in nlp_con_row_map(new_model))
-
-    get_reference(i, t) = if t == :var
-        JuMP.VariableRef(new_model, inv_var_map[i])
-    elseif t == :con
-        JuMP.ConstraintRef(new_model, inv_con_map[i], JuMP.ScalarShape())
-    else
-        error("Unsupported complementarity type: $t")
-    end
-
-    get_cons_expr(con::JuMP.ConstraintRef) = begin
-        obj = constraint_object(con)
-        expr = obj.func - MOI.constant(obj.set)
-        return expr
-    end
-
-    # Maps constraint row index -> slack variable, so repeated occurrences of
-    # the same constraint reuse the existing slack (the original constraint is
-    # deleted on first encounter and can't be referenced again).
-    con_slack_cache = Dict{Int, JuMP.VariableRef}()
-
-    get_or_create_con_slack!(row_idx) = get!(con_slack_cache, row_idx) do
-        con = get_reference(row_idx, :con)
-        slack = @variable(new_model, lower_bound=0)
-        @constraint(new_model, slack == get_cons_expr(con))
-        delete(new_model, con)
-        slack
-    end
+    get_reference, get_or_create_con_slack!, _ = _reformulation_helpers(new_model)
 
     add_cc_pair!(i1, i2, t1, t2) = begin
         if (t1, t2) == (:var, :var)
@@ -172,6 +175,37 @@ function reformulate_sos1(model::JuMP.Model, ind_cc1, ind_cc2, types)::JuMP.Mode
     end
 
     foreach(((i1, i2, (t1, t2)),) -> add_cc_pair!(i1, i2, t1, t2), zip(ind_cc1, ind_cc2, types))
+
+    return new_model
+end
+
+function reformulate_lie(model::JuMP.Model, ind_cc1, ind_cc2, types; κ, form=:eq)::JuMP.Model
+    new_model = copy(model)
+    get_reference, _, _ = _reformulation_helpers(new_model)
+
+    ncc = length(ind_cc1)
+    retraction(x) = 1/2 * (x + sqrt(x^2 + 4))
+    con_expr(ref)  = (o = constraint_object(ref); o.func - MOI.constant(o.set))
+
+    @variable(new_model, s1[1:ncc])
+    if form == :ineq
+        @variable(new_model, s2[1:ncc])
+        @constraint(new_model, s1 + s2 .<= 0)
+    end
+
+    for (j, (i1, i2, (t1, t2))) in enumerate(zip(ind_cc1, ind_cc2, types))
+        cc1 = get_reference(i1, t1)
+        cc2 = get_reference(i2, t2)
+
+        expr1 = t1 == :var ? cc1 : con_expr(cc1)
+        expr2 = t2 == :var ? cc2 : con_expr(cc2)
+
+        t1 == :var ? delete_lower_bound(cc1) : delete(new_model, cc1)
+        t2 == :var ? delete_lower_bound(cc2) : delete(new_model, cc2)
+
+        @constraint(new_model, expr1 == √κ * retraction(s1[j]))
+        @constraint(new_model, expr2 == √κ * retraction(form == :eq ? -s1[j] : s2[j]))
+    end
 
     return new_model
 end
