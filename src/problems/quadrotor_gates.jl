@@ -85,7 +85,7 @@ function quadrotor_gates(; N=40, T=9.0, ngates=1)
 
     @objective(model, Min,
         sum(Δt / 2 * (ū + u[k, :])' * (ū + u[k, :]) for k=1:N-1)
-        # + slack_penalty * Δt * sum(s_pos[k, j, d] + s_neg[k, j, d] for k=1:N, j=1:ngates, d=1:3)
+        + slack_penalty * Δt * sum(s_pos[k, j, d] + s_neg[k, j, d] for k=1:N, j=1:ngates, d=1:3)
     )
 
     @constraint(model, ic, x[1, :] .== xstart)
