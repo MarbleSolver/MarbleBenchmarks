@@ -28,9 +28,10 @@ list_problems(class::Symbol) = sort([k for (k, (_, c)) in PROBLEM_REGISTRY if c 
 problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 
 export get_problem, list_problems, problem_classes, register
-export quadrotor_gates, multi_robot_coordination3
+export quadrotor_gates, quadrotor_gates_double_integrator, multi_robot_coordination
 
 include("problems/quadrotor_gates.jl")
+include("problems/quadrotor_gates_double_integrator.jl")
 include("problems/multi_robot_coordination.jl")
 
 const MACMPEC_QPCCs = [

@@ -2,6 +2,7 @@ using AmplNLReader
 using DataFrames
 using Dates
 using CSV
+using MadNLP
 
 nl_path(name) = begin
     name ∈ MarbleBenchmarks.MACMPEC_QPCCs || @warn "Problem $name not found in MacMPEC QPCC collection"

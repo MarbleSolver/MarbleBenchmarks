@@ -1,45 +1,85 @@
-using JuMP, Ipopt, MarbleBenchmarks, NLPModelsJuMP
+using JuMP, MarbleBenchmarks, NLPModelsJuMP
 
-function minimal_gate_mpcc(; N=2, xgate=0.0, slack_penalty=0.0)
-    h = 0.5  # gate half-width; gate is x ∈ [xgate-h, xgate+h]
+function minimal_gate_mpcc_minimal_s(; N=2, xgate=0.0)
+    h = 0.5
+    L = xgate - h
+    U = xgate + h
 
     model = JuMP.Model()
 
-    @variable(model, x[1:N])          # 1D position
-    @variable(model, u[1:N-1])        # control input
-    @variable(model, μ[1:N] >= 0)     # gate-credit increment
-    @variable(model, λ[1:N] >= 0)     # cumulative credit
-    @variable(model, s[1:N] >= 0)     # gate violation slack
+    @variable(model, x[1:N])
+    @variable(model, u[1:N-1])
+    @variable(model, μ[1:N] >= 0)
+    @variable(model, λ[1:N] >= 0)
+
+    # Actual gate-violation slack, now forced to be minimal via KKT conditions
+    @variable(model, s[1:N] >= 0)
+
+    # Margins for the two epigraph constraints:
+    #
+    # eta_ub = s - (x - U) >= 0
+    # eta_lb = s - (L - x) >= 0
+    @variable(model, eta_ub[1:N] >= 0)
+    @variable(model, eta_lb[1:N] >= 0)
+
+    # KKT multipliers for the hidden problem:
+    #
+    # min_s s
+    # s.t. s >= 0
+    #      s >= x - U
+    #      s >= L - x
+    @variable(model, alpha0[1:N] >= 0)
+    @variable(model, alpha_ub[1:N] >= 0)
+    @variable(model, alpha_lb[1:N] >= 0)
 
     @objective(model, Min,
         sum(u[k]^2 for k in 1:N-1)
-        # + s' * s
-        #- λ[end]
-        #- sum(λ[k] for k in 1:N)
-        + slack_penalty * sum(s)
     )
 
-    @constraint(model, x[1] == -2.0)                                  # start outside gate
+    @constraint(model, x[1] == -2.0)
     @constraint(model, dyn[k=1:N-1], x[k+1] == x[k] + u[k])
 
     @constraint(model, λ_ic, λ[1] == μ[1])
     @constraint(model, λ_dyn[k=2:N], λ[k] == λ[k-1] + μ[k])
-    @constraint(model, terminal, λ[N] == 1.0)                         # must pass gate
+    @constraint(model, terminal, λ[N] == 1.0)
 
-    # If x ∈ [x_gate - h, x_gate + h] then we have:
-    # x[k] - (xgate + h) is negative, (xgate - h) - x[k] is negative, so s can be 0
-    # and μ can be nonzero. If x > xgate + h, then x[k] - (xgate + h) is positive, so s > 0
-    # and if x < xgate - h, then (xgate - h) - x[k] is positive, so s > 0
-    # so μ must be 0 in both cases.
+    # Gate violation epigraph, written using explicit nonnegative margins
+    @constraint(model, gate_ub_margin[k=1:N],
+        eta_ub[k] == s[k] - (x[k] - U)
+    )
 
-    @constraint(model, gate_ub[k=1:N], x[k] - (xgate + h) <= s[k])
-    @constraint(model, gate_lb[k=1:N], (xgate - h) - x[k] <= s[k])
+    @constraint(model, gate_lb_margin[k=1:N],
+        eta_lb[k] == s[k] - (L - x[k])
+    )
 
-    # pairs   = var_con_complementarities(model, model[:μ], model[:gate_viol])
-    pairs   = var_var_complementarities(model, model[:μ], model[:s])  # μ[k] ⟂ s[k]
+    # Stationarity condition of hidden min_s problem:
+    #
+    # L = s - alpha0*s - alpha_ub*(s - (x-U)) - alpha_lb*(s - (L-x))
+    #
+    # dL/ds = 1 - alpha0 - alpha_ub - alpha_lb = 0
+    @constraint(model, slack_min_stationarity[k=1:N],
+        alpha0[k] + alpha_ub[k] + alpha_lb[k] == 1.0
+    )
+
+    # Original gate logic:
+    #
+    # μ[k] ⟂ s[k]
+    pairs_gate = var_var_complementarities(model, model[:μ], model[:s])
+
+    # Minimal-slack KKT complementarities:
+    #
+    # alpha0[k]    ⟂ s[k]
+    # alpha_ub[k] ⟂ eta_ub[k]
+    # alpha_lb[k] ⟂ eta_lb[k]
+    pairs_min0 = var_var_complementarities(model, model[:alpha0], model[:s])
+    pairs_minu = var_var_complementarities(model, model[:alpha_ub], model[:eta_ub])
+    pairs_minl = var_var_complementarities(model, model[:alpha_lb], model[:eta_lb])
+
+    pairs = vcat(pairs_gate, pairs_min0, pairs_minu, pairs_minl)
+
     ind_cc1 = first.(pairs)
     ind_cc2 = last.(pairs)
-    cc_types = fill((:var, :var), N)
+    cc_types = fill((:var, :var), length(pairs))
 
     return (; model, ind_cc1, ind_cc2, cc_types, inds=var_inds(model))
 end
@@ -47,7 +87,7 @@ end
 # Try slack_penalty = 0.0, 1.0 (works), 10.0
 
 # problem = minimal_gate_mpcc(N=2, xgate=1.0, slack_penalty=0.0) # Has linsearch failure on default params
-problem = minimal_gate_mpcc(N=3, xgate=1.0, slack_penalty=0.0) # Makes no progress with default params
+problem = minimal_gate_mpcc_minimal_s(N=30, xgate=10.0) # Makes no progress with default params
 
 ## Ipopt
 
@@ -73,11 +113,11 @@ Marble.verbosity!(opts, 1)
 Marble.max_iters!(opts, 1000)
 
 # Changing the initial relaxation sometimes allows it to converge?
-# Marble.relaxation_initial!(opts, 1e-5)
+# Marble.relaxation_initial!(opts, 1e-3)
 Marble.debug!(opts, true)
 
-result = Marble.solve(marble_data; opts = opts)
-# result = Marble.solve(marble_data; opts = opts, z0=x_ipopt)
+# result = Marble.solve(marble_data; opts = opts)
+result = Marble.solve(marble_data; opts = opts);
 x_marble = Marble.z(result);
 
 @show Marble.converged(result)
