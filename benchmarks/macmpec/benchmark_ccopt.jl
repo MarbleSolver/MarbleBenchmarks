@@ -19,14 +19,14 @@ function benchmark(; problems, save=false)
     )
 
     for name in problems
-        nlp, ind_vcc1, ind_ccc2 = macmpec_to_mpcc(name)
-        marble_data = MarbleData(nlp, ind_vcc1, ind_ccc2, (:var, :con))
-        
-        # TODO(@micah): Need to do this because CCOpt modifies the indices in-place, which is a bit sketchy
-        orig_ind_vcc1 = copy(ind_vcc1)
-        orig_ind_ccc2 = copy(ind_ccc2)
+        problem = get_problem(name)
+        marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 
-        mpcc = CCOpt.MPCCModelVarCon(nlp, ind_vcc1, ind_ccc2)
+        # TODO(@micah): Need to do this because CCOpt modifies the indices in-place, which is a bit sketchy
+        ind_vcc1 = copy(problem.ind_cc1)
+        ind_ccc2 = copy(problem.ind_cc2)
+
+        mpcc = CCOpt.MPCCModelVarCon(problem.model, ind_vcc1, ind_ccc2)
         vmpcc = CCOpt.vertical_form(mpcc)
 
         opts = CCOpt.RelaxationOptions()
@@ -45,7 +45,7 @@ function benchmark(; problems, save=false)
         solve_successful = Int(stats.status) <= 2
 
         if solve_successful
-            x = stats.solution[1:nlp.meta.nvar] # Extract original variables, this is safe / LiftedNLPModel enforces this
+            x = stats.solution[1:problem.model.meta.nvar] # Extract original variables, this is safe / LiftedNLPModel enforces this
         end
 
         objective_value = solve_successful ? Marble.obj(marble_data, x) : Inf
@@ -55,7 +55,7 @@ function benchmark(; problems, save=false)
 
         # Add entry to df
         push!(df, (
-            problem=name,
+            problem=string(name),
             status=madnlp_status_to_string[stats.status],
             obj=objective_value,
             residual_eq=residual_eq,
@@ -73,4 +73,4 @@ end
 
 ##
 
-benchmark(problems=MarbleBenchmarks.MACMPEC_QPCCs; save=true)
+benchmark(problems=list_problems(:macmpec); save=true)

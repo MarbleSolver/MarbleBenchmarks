@@ -22,9 +22,9 @@ function benchmark(; problems, save=false)
     )
 
     for name in problems
-        nlp, ind_vcc1, ind_ccc2 = macmpec_to_mpcc(name)
+        problem = get_problem(name)
 
-        marble_data = MarbleData(nlp, ind_vcc1, ind_ccc2, (:var, :con))
+        marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
         jump_model = to_jump(marble_data)
 
         set_optimizer(jump_model, () -> Gurobi.Optimizer(GRB_ENV))
@@ -37,7 +37,7 @@ function benchmark(; problems, save=false)
         solve_successful = status in (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
         if solve_successful
-            x = value.(all_variables(jump_model))[1:nlp.meta.nvar]
+            x = value.(all_variables(jump_model))[1:problem.model.meta.nvar]
         end
 
         objective_value = solve_successful ? Marble.obj(marble_data, x) : Inf
@@ -47,7 +47,7 @@ function benchmark(; problems, save=false)
 
         # Add entry to df
         push!(df, (
-            problem=name,
+            problem=string(name),
             status=string(status),
             obj=objective_value,
             residual_eq=residual_eq,
@@ -65,4 +65,4 @@ end
 
 ##
 
-benchmark(problems=MarbleBenchmarks.MACMPEC_QPCCs; save=true)
+benchmark(problems=list_problems(:macmpec); save=false)

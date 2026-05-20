@@ -18,9 +18,9 @@ function benchmark(; problems, save=false)
     )
 
     for name in problems
-        nlp, ind_vcc1, ind_ccc2 = macmpec_to_mpcc(name)
+        problem = get_problem(name)
 
-        marble_data = MarbleData(nlp, ind_vcc1, ind_ccc2, (:var, :con))
+        marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 
         # Set MacMPEC specific options
         opts = Marble.SolverOptions()
@@ -49,7 +49,7 @@ function benchmark(; problems, save=false)
 
         # Add entry to df
         push!(df, (
-            problem=name,
+            problem=string(name),
             status=string(status),
             obj=objective_value,
             residual_eq=residual_eq,
@@ -67,4 +67,4 @@ end
 
 ##
 
-benchmark(problems=MarbleBenchmarks.MACMPEC_QPCCs; save=true)
+benchmark(problems=list_problems(:macmpec); save=true)
