@@ -1,13 +1,6 @@
-using MarbleBenchmarks
-using Marble
-using CCOpt
-using MadNLP, MadNLPHSL
-using NLPModels
-using LinearAlgebra
+madnlp_status_to_string = Dict(s => string(s) for s in instances(MadNLP.Status))
 
-include(joinpath(@__DIR__, "..", "common.jl"))
-
-function benchmark(; problems, save=false)
+function benchmark_ccopt(; problems, save=false, results_dir=joinpath(@__DIR__, "results"))
     df = DataFrame(
         problem=String[],
         status=String[],
@@ -20,13 +13,11 @@ function benchmark(; problems, save=false)
 
     for name in problems
         problem = get_problem(name)
-        marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
+        nlp =  problem.model isa JuMP.Model ? MathOptNLPModel(problem.model) : problem.model
+        
+        marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 
-        # TODO(@micah): Need to do this because CCOpt modifies the indices in-place, which is a bit sketchy
-        ind_vcc1 = copy(problem.ind_cc1)
-        ind_ccc2 = copy(problem.ind_cc2)
-
-        mpcc = CCOpt.MPCCModelVarCon(problem.model, ind_vcc1, ind_ccc2)
+        mpcc = CCOpt.MPCCModelVarCon(nlp, copy(problem.ind_cc1), copy(problem.ind_cc2))
         vmpcc = CCOpt.vertical_form(mpcc)
 
         opts = CCOpt.RelaxationOptions()
@@ -45,7 +36,7 @@ function benchmark(; problems, save=false)
         solve_successful = Int(stats.status) <= 2
 
         if solve_successful
-            x = stats.solution[1:problem.model.meta.nvar] # Extract original variables, this is safe / LiftedNLPModel enforces this
+            x = stats.solution[1:nlp.meta.nvar] # Extract original variables, this is safe / LiftedNLPModel enforces this
         end
 
         objective_value = solve_successful ? Marble.obj(marble_data, x) : Inf
@@ -66,11 +57,9 @@ function benchmark(; problems, save=false)
     end
 
     if save
-        dt = Dates.format(Dates.now(), "yyyy-mm-dd_HH-MM-SS")
-        CSV.write(joinpath(@__DIR__, "results", "ccopt_results_$dt.csv"), df)
+        @info("Saving results to CSV in directory: $results_dir") 
+        save_df_csv(df, results_dir, "ccopt")
     end
+
+    return df
 end
-
-##
-
-benchmark(problems=list_problems(:macmpec); save=true)

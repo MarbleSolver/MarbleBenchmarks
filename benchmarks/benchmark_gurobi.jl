@@ -1,12 +1,8 @@
-using Marble
-using MarbleBenchmarks
-using JuMP
-using DataFrames
-using LinearAlgebra
+GRB_ENV = redirect_stdout(devnull) do
+    Gurobi.Env()
+end
 
-include(joinpath(@__DIR__, "..", "common.jl"))
-
-function benchmark(; problems, save=false)
+function benchmark_gurobi(; problems, save=false, results_dir=joinpath(@__DIR__, "results"))
     df = DataFrame(
         problem=String[],
         status=String[],
@@ -21,25 +17,19 @@ function benchmark(; problems, save=false)
         problem = get_problem(name)
 
         marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
+        jump_model = to_jump(marble_data)
 
-        # Set MacMPEC specific options
-        opts = Marble.SolverOptions()
+        set_optimizer(jump_model, () -> Gurobi.Optimizer(GRB_ENV))
+        set_silent(jump_model)
+        optimize!(jump_model)
 
-        Marble.verbosity!(opts, 0)
-        Marble.penalty_max!(opts, 1e7)
-        Marble.relaxation_min!(opts, 1e-9)
-        Marble.convergence_eq_violation!(opts, 1e-8)
-        Marble.convergence_ineq_violation!(opts, 1e-8)
-        Marble.convergence_comp_violation!(opts, 1e-8)
-
-        result = Marble.solve(marble_data; opts = opts)
-        status = Marble.converged(result) ? MOI.LOCALLY_SOLVED : MOI.INFEASIBLE
+        status = termination_status(jump_model)
 
         # Compute residuals and objective value
-        solve_successful = status in (MOI.LOCALLY_SOLVED, MOI.LOCALLY_SOLVED)
+        solve_successful = status in (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
         if solve_successful
-            x = Marble.z(result)
+            x = value.(all_variables(jump_model))[1:problem.model.meta.nvar]
         end
 
         objective_value = solve_successful ? Marble.obj(marble_data, x) : Inf
@@ -55,16 +45,14 @@ function benchmark(; problems, save=false)
             residual_eq=residual_eq,
             residual_ineq=residual_ineq,
             residual_comp=residual_comp,
-            total_time_s=solve_successful ? Marble.solve_time_s(result) : Inf,
+            total_time_s=solve_successful ? solve_time(jump_model) : Inf,
         ))
     end
 
     if save
-        dt = Dates.format(Dates.now(), "yyyy-mm-dd_HH-MM-SS")
-        CSV.write(joinpath(@__DIR__, "results", "marble_results_$dt.csv"), df)
+        @info("Saving results to CSV in directory: $results_dir") 
+        save_df_csv(df, results_dir, "ccopt")
     end
+
+    return df
 end
-
-##
-
-benchmark(problems=list_problems(:macmpec); save=true)
