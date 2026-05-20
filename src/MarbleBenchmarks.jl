@@ -6,6 +6,7 @@ using Marble
 using BlockDiagonals, Combinatorics, ControlSystems
 
 include("jump_mpcc.jl")
+include("quaternion_helpers.jl")
 # include("julia_marble_solver.jl")
 
 export nlp_con_row_map, nlp_var_col_map, var_var_complementarities, var_con_complementarities, con_con_complementarities
@@ -29,10 +30,11 @@ list_problems(class::Symbol) = sort([k for (k, (_, c)) in PROBLEM_REGISTRY if c 
 problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 
 export get_problem, list_problems, problem_classes, register
-export quadrotor_gates, multi_robot_coordination3
+export quadrotor_gates, multi_robot_coordination, rocket_catch
 
 include("problems/quadrotor_gates.jl")
 include("problems/multi_robot_coordination.jl")
+include("problems/rocket_catch.jl")
 include("problems/macmpec.jl")
 
 end
