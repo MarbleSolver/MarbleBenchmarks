@@ -13,10 +13,10 @@ function minimal_gate_mpcc(; N=2, xgate=0.0, slack_penalty=0.0)
 
     @objective(model, Min,
         sum(u[k]^2 for k in 1:N-1)
-        # + s' * s
+        # + slack_penalty * (s' * s)
         #- λ[end]
         #- sum(λ[k] for k in 1:N)
-        + slack_penalty * sum(s)
+        # + slack_penalty * sum(s)
     )
 
     @constraint(model, x[1] == -2.0)                                  # start outside gate
@@ -46,20 +46,24 @@ end
 
 # Try slack_penalty = 0.0, 1.0 (works), 10.0
 
-# problem = minimal_gate_mpcc(N=2, xgate=1.0, slack_penalty=0.0) # Has linsearch failure on default params
-problem = minimal_gate_mpcc(N=3, xgate=1.0, slack_penalty=0.0) # Makes no progress with default params
+problem = minimal_gate_mpcc(N=3, xgate=10.0, slack_penalty=1e-6) # Has linsearch failure on default params
+# problem = minimal_gate_mpcc(N=2, xgate=1.0, slack_penalty=0.0) # Makes no progress with default params
 
 ## Ipopt
 
 using Ipopt
 
-κ = 1e-2
-ipopt_model = reformulate_lie(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; κ=κ, form=:eq)
+κ = 1e-3
+ipopt_model = reformulate_lie(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; κ=κ, form=:ineq)
 
 set_optimizer(ipopt_model, Ipopt.Optimizer)
 optimize!(ipopt_model)
 
 x_ipopt = value.(all_variables(ipopt_model))[1:num_variables(problem.model)];
+
+x_ipopt[problem.inds[:x]]
+x_ipopt[problem.inds[:s]]
+objective_value(ipopt_model)
 
 ## Marble
 
@@ -94,3 +98,7 @@ set_optimizer(gurobi_model, Gurobi.Optimizer)
 optimize!(gurobi_model)
 
 x_gurobi = value.(all_variables(gurobi_model));
+
+x_gurobi[problem.inds[:x]]
+x_gurobi[problem.inds[:s]]
+objective_value(gurobi_model)

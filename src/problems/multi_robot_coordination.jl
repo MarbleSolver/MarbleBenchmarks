@@ -1,7 +1,6 @@
-function multi_robot_coordination(; N=30, T=5.0)
+function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
     Δt = T / (N - 1)
     m = 1.0
-    d_min = 5.0
     n_robots = 3
 
     x0 = [Float64[-5, 0, 0, 0], Float64[0, 0, 0, 0], Float64[5, 0, 0, 0]]

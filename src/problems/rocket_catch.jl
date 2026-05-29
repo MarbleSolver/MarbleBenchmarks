@@ -29,20 +29,32 @@ function linearized_rocket_dynamics(x̄, ū, Δt; m, g, l, J)
     return E' * sysd.A * E, E' * sysd.B[:, 1:nu], E' * sysd.B[:, end]
 end
 
-function rocket_engine_clearance(x_full, u; tower_normal)
-    nozzle_axis = -qtoQ(x_full[4:7]) * rocket_thrust_axis_body(u[2], u[3])
-    return tower_normal' * nozzle_axis
+"""
+    first_order_plume_axis_world(ϕ, δr, δp)
+
+First-order world-frame engine plume axis for the rocket catch constraints.
+
+The optimization state stores the small attitude as quaternion/Rodrigues vector
+`ϕ = qᵥ / qₛ`, so the first-order rotation vector is `2ϕ`. With small gimbal
+roll/pitch `(δr, δp)`, the thrust axis is
+
+    e₃ + [δp, -δr, 0] + (2ϕ) × e₃
+
+and the plume points in the opposite direction.
+"""
+function first_order_plume_axis_world(ϕ, δr, δp)
+    [
+        -δp - 2 * ϕ[2];
+         δr + 2 * ϕ[1];
+        -1.0;
+    ]
 end
 
-function linearized_engine_clearance(x̄, ū; tower_normal)
-    E = quat_state_lift(x̄[4:7], 6)
-    h0 = rocket_engine_clearance(x̄, ū; tower_normal=tower_normal)
-    hx = FD.gradient(x -> rocket_engine_clearance(x, ū; tower_normal=tower_normal), x̄)
-    hu = FD.gradient(u -> rocket_engine_clearance(x̄, ū + u; tower_normal=tower_normal), zeros(length(ū)))
-    return h0, E' * hx, hu
+function first_order_plume_clearance(ϕ, δr, δp; tower_normal)
+    return tower_normal' * first_order_plume_axis_world(ϕ, δr, δp)
 end
 
-function rocket_catch(; N=50, T=7.0)
+function rocket_catch(; N=40, T=4.0)
     Δt = T / (N - 1)
     nx̃, nu = 12, 3
 
@@ -69,9 +81,10 @@ function rocket_catch(; N=50, T=7.0)
         -1.0 arm_slope 0.0;
     ]
     catch_b = [tower_y; -arm_half_width; -arm_half_width]
-    nh = size(catch_A, 1) + 1
-
-    engine_h0, engine_hx, engine_hu = linearized_engine_clearance(x̄, ū; tower_normal=tower_normal)
+    n_catch_halfspaces = size(catch_A, 1)
+    plume_away_from_tower_index = n_catch_halfspaces + 1
+    n_state_triggered_constraints = plume_away_from_tower_index
+    nh = n_state_triggered_constraints
 
     thrust_min, thrust_max = 0.25 * m * g, 1.8 * m * g
     gimbal_max = deg2rad(15.0)
@@ -79,7 +92,7 @@ function rocket_catch(; N=50, T=7.0)
     ωmax = [1.2, 1.2, 0.6]
 
     x0_full = [
-        [1.2; -5.0; 22.0];
+        [5.0; 5.0; 22.0];
         rptoq([0.04; -0.06; 0.0]);
         [0.0; 1.0; -1.2];
         zeros(3);
@@ -101,10 +114,15 @@ function rocket_catch(; N=50, T=7.0)
     @variable(model, hp[1:N, 1:nh] >= 0)
     @variable(model, hn[1:N, 1:nh] >= 0)
 
+    height_is_below_trigger = gp
+    height_is_above_trigger = gn
+    state_triggered_margin = hp
+    state_triggered_violation = hn
+
     stc_penalty = 10.0
     @objective(model, Min,
         sum(Δt / 2 * ((ū[1] + u[k, 1])^2 + 15.0 * (u[k, 2]^2 + u[k, 3]^2)) for k=1:N)
-        + stc_penalty * Δt * sum(gp[k] + gn[k] + sum(hp[k, j] + hn[k, j] for j=1:nh) for k=1:N)
+        # + stc_penalty * Δt * sum(gp[k] + gn[k] + sum(hp[k, j] + hn[k, j] for j=1:nh) for k=1:N)
     )
 
     @constraint(model, ic, x[1, :] .== xstart)
@@ -120,27 +138,67 @@ function rocket_catch(; N=50, T=7.0)
     @constraint(model, omega_lb[k=1:N, j=1:3], x[k, 9+j] >= -ωmax[j])
     @constraint(model, omega_ub[k=1:N, j=1:3], x[k, 9+j] <=  ωmax[j])
 
-    @constraint(model, trigger_split[k=1:N], trigger_altitude - (x̄[3] + x[k, 3]) == gp[k] - gn[k])
-    @constraint(model, catch_halfspace[k=1:N, j=1:size(catch_A, 1)],
-        sum(catch_A[j, d] * (x̄[d] + x[k, d]) for d=1:3) - catch_b[j] == hp[k, j] - hn[k, j]
+    # State-triggered constraints:
+    #
+    #   1. height_is_below_trigger ⟂ height_is_above_trigger makes this an exact
+    #      positive/negative split of trigger_altitude - CoM_z.
+    #   2. If CoM_z < trigger_altitude, then height_is_below_trigger[k] > 0.
+    #      Complementarity with total_state_triggered_violation[k] then forces
+    #      every nonnegative violation slack to zero, activating all constraints below.
+    @expression(model, rocket_CoM[k=1:N, d=1:3], x̄[d] + x[k, d])
+    @constraint(model, trigger_altitude_split[k=1:N],
+        trigger_altitude - rocket_CoM[k, 3] == height_is_below_trigger[k] - height_is_above_trigger[k]
     )
-    @expression(model, engine_clearance[k=1:N],
-        engine_h0 + sum(engine_hx[d] * x[k, d] for d=1:nx̃) + sum(engine_hu[d] * u[k, d] for d=1:nu)
+
+    # When active, the rocket CoM must lie inside the catch region:
+    #
+    #   catch_A[j, :] ⋅ rocket_CoM >= catch_b[j]    for every catch half-space j.
+    @expression(model, catch_halfspace_margin[k=1:N, j=1:n_catch_halfspaces],
+        sum(catch_A[j, d] * rocket_CoM[k, d] for d=1:3) - catch_b[j]
     )
-    @constraint(model, engine_halfspace[k=1:N], engine_clearance[k] == hp[k, nh] - hn[k, nh])
-    @constraint(model, stc_violation[k=1:N], sum(hn[k, j] for j=1:nh) >= 0)
+    @constraint(model, catch_halfspace[k=1:N, j=1:n_catch_halfspaces],
+        catch_halfspace_margin[k, j] == state_triggered_margin[k, j] - state_triggered_violation[k, j]
+    )
 
-    stc_pairs = var_con_complementarities(model, model[:gp], model[:stc_violation])
+    # When active, the engine plume must point away from the tower plane. The
+    # plume is the negative thrust direction, and this first-order expression uses
+    # the small-angle attitude state ϕ = x[k, 4:6].
+    @expression(model, plume_axis_world[k=1:N], first_order_plume_axis_world(x[k, 4:6], ū[2] + u[k, 2], ū[3] + u[k, 3]))
+    @expression(model, plume_away_from_tower_margin[k=1:N], tower_normal' * plume_axis_world[k])
+    @constraint(model, engine_plume_away_from_tower[k=1:N],
+        plume_away_from_tower_margin[k] ==
+        state_triggered_margin[k, plume_away_from_tower_index] -
+        state_triggered_violation[k, plume_away_from_tower_index]
+    )
 
-    ind_cc1 = first.(stc_pairs)
-    ind_cc2 = last.(stc_pairs)
-    cc_types = fill((:var, :con), length(stc_pairs))
+    @constraint(model, total_state_triggered_violation[k=1:N],
+        sum(state_triggered_violation[k, j] for j=1:n_state_triggered_constraints) >= 0
+    )
+
+    trigger_split_pairs = var_var_complementarities(
+        model,
+        model[:gp],
+        model[:gn],
+    )
+    state_trigger_pairs = var_con_complementarities(
+        model,
+        model[:gp],
+        model[:total_state_triggered_violation],
+    )
+    cc_pairs = vcat(trigger_split_pairs, state_trigger_pairs)
+
+    ind_cc1 = first.(cc_pairs)
+    ind_cc2 = last.(cc_pairs)
+    cc_types = vcat(
+        fill((:var, :var), length(trigger_split_pairs)),
+        fill((:var, :con), length(state_trigger_pairs)),
+    )
 
     return (; model, ind_cc1, ind_cc2, cc_types,
               inds=var_inds(model),
               params=(; N, T, Δt, x̄, ū, m, g, l, J, catch_altitude, trigger_altitude,
                        tower_normal, tower_y, arm_half_width, arm_opening_angle,
-                       catch_A, catch_b, engine_h0, engine_hx, engine_hu,
+                       catch_A, catch_b, n_catch_halfspaces, plume_away_from_tower_index,
                        thrust_min, thrust_max, gimbal_max, ϕmax, ωmax))
 end
 

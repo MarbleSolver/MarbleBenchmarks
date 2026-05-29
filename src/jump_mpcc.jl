@@ -184,13 +184,18 @@ function reformulate_lie(model::JuMP.Model, ind_cc1, ind_cc2, types; κ, form=:e
     get_reference, _, _ = _reformulation_helpers(new_model)
 
     ncc = length(ind_cc1)
-    retraction(x) = 1/2 * (x + sqrt(x^2 + 4))
+    # retraction(x) = 1/2 * (x + sqrt(x^2 + 4))
+    # inv_retraction(y) = y - 1/2 * (y - sqrt(y^2 + 4))
+
+    retraction(x) = exp(x)
+    inv_retraction(y) = log(y)
+    
     con_expr(ref)  = (o = constraint_object(ref); o.func - MOI.constant(o.set))
 
     @variable(new_model, s1[1:ncc])
     if form == :ineq
         @variable(new_model, s2[1:ncc])
-        @constraint(new_model, s1 + s2 .<= 0)
+        @constraint(new_model, s1 + s2 .<= inv_retraction(κ))
     end
 
     for (j, (i1, i2, (t1, t2))) in enumerate(zip(ind_cc1, ind_cc2, types))
@@ -203,8 +208,12 @@ function reformulate_lie(model::JuMP.Model, ind_cc1, ind_cc2, types; κ, form=:e
         t1 == :var ? delete_lower_bound(cc1) : delete(new_model, cc1)
         t2 == :var ? delete_lower_bound(cc2) : delete(new_model, cc2)
 
-        @constraint(new_model, expr1 == √κ * retraction(s1[j]))
-        @constraint(new_model, expr2 == √κ * retraction(form == :eq ? -s1[j] : s2[j]))
+        if form == :ineq
+            @constraint(new_model, expr1 == retraction(s1[j]))
+            @constraint(new_model, expr2 == retraction(s2[j]))
+        else
+            @error "Only :ineq form is currently implemented"
+        end
     end
 
     return new_model
