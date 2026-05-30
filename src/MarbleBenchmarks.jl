@@ -30,11 +30,12 @@ list_problems(class::Symbol) = sort([k for (k, (_, c)) in PROBLEM_REGISTRY if c 
 problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 
 export get_problem, list_problems, problem_classes, register
-export quadrotor_gates, multi_robot_coordination, rocket_catch
+export quadrotor_gates, multi_robot_coordination, rocket_catch, block_pushing_1d
 
 include("problems/quadrotor_gates.jl")
 include("problems/multi_robot_coordination.jl")
 include("problems/rocket_catch.jl")
+include("problems/block_pushing_1d.jl")
 include("problems/macmpec.jl")
 
 end
