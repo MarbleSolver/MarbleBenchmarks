@@ -34,19 +34,12 @@ function block_pushing_1d(;
     # x[k, :] = [block position, block velocity, pusher position, pusher velocity]
     @variable(model, x[1:N, 1:nx])
 
-    # u[k, 1] is the force applied to the pusher point, positive right.
+    # u[k, 1] is the force applied to the pusher point, positive right
     @variable(model, u[1:N-1])
 
     # contact_force[k] is the nonnegative normal force transmitted from pusher to block
-    # over the interval ending at node k+1.
+    # over the interval ending at node k+1
     @variable(model, contact_force[1:N-1] >= 0)
-
-    # Split the block velocity at each implicit-Euler end node. These variables
-    # identify the sliding direction used by kinetic ground friction.
-    @variable(model, block_velocity_positive[1:N-1] >= 0)
-    @variable(model, block_velocity_negative[1:N-1] >= 0)
-    @variable(model, friction_positive_sliding[1:N-1] >= 0)
-    @variable(model, friction_negative_sliding[1:N-1] >= 0)
 
     # Minimize the force exerted on the pusher point.
     @objective(model, Min, sum(1/2 * dt * u[k]^2 for k=1:N-1))
@@ -66,14 +59,6 @@ function block_pushing_1d(;
     pusher_position(k) = x[k, pusher_position_index]
     pusher_velocity(k) = x[k, pusher_velocity_index]
 
-    # The pusher point approaches the block from the left. Its contact gap is
-    #
-    #     gap = block_left_side - pusher_position >= 0.
-    #
-    # The contact complementarity below enforces:
-    #
-    #     contact_force[k] > 0  =>  contact_gap[k+1] = 0
-    #     contact_gap[k+1] > 0  =>  contact_force[k] = 0
     @expression(model, block_left_side[k=1:N], block_position(k) - block_half_width)
     @expression(model, block_right_side[k=1:N], block_position(k) + block_half_width)
 
@@ -112,31 +97,11 @@ function block_pushing_1d(;
         x[k+1, :] .== x[k, :] + dt .* continuous_dynamics[k]
     )
 
-    contact_pairs = var_con_complementarities(
-        model,
-        model[:contact_force],
-        model[:contact_gap_nonnegative],
+    ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
+        (:var_con, model[:contact_force], model[:contact_gap_nonnegative]),
+        (:var_con, model[:λ_sign_kkt][:, 1], model[:v_block_sign_kkt2_rhs]),
+        (:var_con, model[:λ_sign_kkt][:, 2], model[:v_block_sign_kkt3_rhs]),
     )
-    v_block_sign_kkt2 = var_con_complementarities(
-        model,
-        model[:λ_sign_kkt][:, 1],
-        model[:v_block_sign_kkt2_rhs],
-    )
-    v_block_sign_kkt3 = var_con_complementarities(
-        model,
-        model[:λ_sign_kkt][:, 2],
-        model[:v_block_sign_kkt3_rhs],
-    )
-
-    complementarity_blocks = [
-        (contact_pairs,     (:var, :con)),
-        (v_block_sign_kkt2, (:var, :con)),
-        (v_block_sign_kkt3, (:var, :con)),
-    ]
-
-    ind_cc1 = reduce(vcat, first.(pairs) for (pairs, _) in complementarity_blocks)
-    ind_cc2 = reduce(vcat, last.(pairs) for (pairs, _) in complementarity_blocks)
-    cc_types = reduce(vcat, fill(type, length(pairs)) for (pairs, type) in complementarity_blocks)
 
     return (; model, ind_cc1, ind_cc2, cc_types,
               inds=var_inds(model),

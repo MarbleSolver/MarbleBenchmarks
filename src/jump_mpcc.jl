@@ -34,6 +34,149 @@ function nlp_var_col_map(model::JuMP.Model)
     return Dict(vi => i for (i, vi) in enumerate(vars))
 end
 
+mutable struct ComplementarityIndexBuilder
+    model::JuMP.Model
+    col_map::Dict{MOI.VariableIndex, Int}
+    row_map::Dict{MOI.ConstraintIndex, Int}
+    ind_cc1::Vector{Int}
+    ind_cc2::Vector{Int}
+    cc_types::Vector{Tuple{Symbol, Symbol}}
+end
+
+"""
+    ComplementarityIndexBuilder(model)
+
+Create a cached complementarity-index builder for a JuMP model. The builder
+computes the NLP variable-column and constraint-row maps once, then reuses them
+while adding any number of complementarity blocks. Create it after the variables
+and constraints you want to index have been added to the model.
+"""
+function ComplementarityIndexBuilder(model::JuMP.Model)
+    return ComplementarityIndexBuilder(
+        model,
+        nlp_var_col_map(model),
+        nlp_con_row_map(model),
+        Int[],
+        Int[],
+        Tuple{Symbol, Symbol}[],
+    )
+end
+
+_assert_same_shape(a, b) = @assert size(a) == size(b) "Complementarity arguments must have the same shape"
+
+_var_indices(builder::ComplementarityIndexBuilder, vars::AbstractArray) =
+    [builder.col_map[JuMP.index(v)] for v in vec(vars)]
+
+_con_indices(builder::ComplementarityIndexBuilder, cons::AbstractArray) =
+    [builder.row_map[JuMP.index(c)] for c in vec(cons)]
+
+function _append_complementarity_block!(
+        builder::ComplementarityIndexBuilder,
+        inds1,
+        inds2,
+        cc_type::Tuple{Symbol, Symbol},
+    )
+    append!(builder.ind_cc1, inds1)
+    append!(builder.ind_cc2, inds2)
+    append!(builder.cc_types, fill(cc_type, length(inds1)))
+    return builder
+end
+
+function add_var_var_complementarities!(
+        builder::ComplementarityIndexBuilder,
+        vars1::AbstractArray,
+        vars2::AbstractArray,
+    )
+    _assert_same_shape(vars1, vars2)
+    return _append_complementarity_block!(
+        builder,
+        _var_indices(builder, vars1),
+        _var_indices(builder, vars2),
+        (:var, :var),
+    )
+end
+
+function add_var_con_complementarities!(
+        builder::ComplementarityIndexBuilder,
+        vars::AbstractArray,
+        cons::AbstractArray,
+    )
+    _assert_same_shape(vars, cons)
+    return _append_complementarity_block!(
+        builder,
+        _var_indices(builder, vars),
+        _con_indices(builder, cons),
+        (:var, :con),
+    )
+end
+
+function add_con_var_complementarities!(
+        builder::ComplementarityIndexBuilder,
+        cons::AbstractArray,
+        vars::AbstractArray,
+    )
+    _assert_same_shape(cons, vars)
+    return _append_complementarity_block!(
+        builder,
+        _con_indices(builder, cons),
+        _var_indices(builder, vars),
+        (:con, :var),
+    )
+end
+
+function add_con_con_complementarities!(
+        builder::ComplementarityIndexBuilder,
+        cons1::AbstractArray,
+        cons2::AbstractArray,
+    )
+    _assert_same_shape(cons1, cons2)
+    return _append_complementarity_block!(
+        builder,
+        _con_indices(builder, cons1),
+        _con_indices(builder, cons2),
+        (:con, :con),
+    )
+end
+
+complementarity_indices(builder::ComplementarityIndexBuilder) =
+    builder.ind_cc1, builder.ind_cc2, builder.cc_types
+
+"""
+    complementarity_indices(model, blocks...)
+
+Build complementarity indices for many blocks while computing the NLP index maps
+only once. Each block is a tuple `(kind, lhs, rhs)`, where `kind` is one of
+`:var_var`, `:var_con`, `:con_var`, or `:con_con`.
+
+Example:
+
+```julia
+ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
+    (:var_con, model[:λ], model[:gap_nonnegative]),
+    (:var_var, model[:a], model[:b]),
+)
+```
+"""
+function complementarity_indices(model::JuMP.Model, blocks...)
+    builder = ComplementarityIndexBuilder(model)
+    for block in blocks
+        @assert length(block) == 3 "Each complementarity block must be `(kind, lhs, rhs)`"
+        kind, lhs, rhs = block
+        if kind == :var_var
+            add_var_var_complementarities!(builder, lhs, rhs)
+        elseif kind == :var_con
+            add_var_con_complementarities!(builder, lhs, rhs)
+        elseif kind == :con_var
+            add_con_var_complementarities!(builder, lhs, rhs)
+        elseif kind == :con_con
+            add_con_con_complementarities!(builder, lhs, rhs)
+        else
+            error("Unsupported complementarity block kind: $kind")
+        end
+    end
+    return complementarity_indices(builder)
+end
+
 """
     var_con_complementarities(model, vars, cons) -> Vector{Tuple{Int,Int}}
 
@@ -42,10 +185,12 @@ same shape, return `(col_idx, row_idx)` pairs suitable as complementarity indice
 in an NLPModel.
 """
 function var_con_complementarities(model::JuMP.Model, vars::AbstractArray, cons::AbstractArray)
-    @assert size(vars) == size(cons) "vars and cons must have the same shape"
-    col_map = nlp_var_col_map(model)
-    row_map = nlp_con_row_map(model)
-    return [(col_map[JuMP.index(v)], row_map[JuMP.index(c)]) for (v, c) in zip(vec(vars), vec(cons))]
+    return var_con_complementarities(ComplementarityIndexBuilder(model), vars, cons)
+end
+
+function var_con_complementarities(builder::ComplementarityIndexBuilder, vars::AbstractArray, cons::AbstractArray)
+    _assert_same_shape(vars, cons)
+    return collect(zip(_var_indices(builder, vars), _con_indices(builder, cons)))
 end
 
 """
@@ -56,9 +201,12 @@ return `(row_idx1, row_idx2)` pairs suitable as complementarity indices in an
 NLPModel.
 """
 function con_con_complementarities(model::JuMP.Model, cons1::AbstractArray, cons2::AbstractArray)
-    @assert size(cons1) == size(cons2) "cons1 and cons2 must have the same shape"
-    row_map = nlp_con_row_map(model)
-    return [(row_map[JuMP.index(c1)], row_map[JuMP.index(c2)]) for (c1, c2) in zip(vec(cons1), vec(cons2))]
+    return con_con_complementarities(ComplementarityIndexBuilder(model), cons1, cons2)
+end
+
+function con_con_complementarities(builder::ComplementarityIndexBuilder, cons1::AbstractArray, cons2::AbstractArray)
+    _assert_same_shape(cons1, cons2)
+    return collect(zip(_con_indices(builder, cons1), _con_indices(builder, cons2)))
 end
 
 """
@@ -69,9 +217,12 @@ return `(col_idx1, col_idx2)` pairs suitable as complementarity indices in an
 NLPModel. Both variables must be bounded below by zero.
 """
 function var_var_complementarities(model::JuMP.Model, vars1::AbstractArray, vars2::AbstractArray)
-    @assert size(vars1) == size(vars2) "vars1 and vars2 must have the same shape"
-    col_map = nlp_var_col_map(model)
-    return [(col_map[JuMP.index(v1)], col_map[JuMP.index(v2)]) for (v1, v2) in zip(vec(vars1), vec(vars2))]
+    return var_var_complementarities(ComplementarityIndexBuilder(model), vars1, vars2)
+end
+
+function var_var_complementarities(builder::ComplementarityIndexBuilder, vars1::AbstractArray, vars2::AbstractArray)
+    _assert_same_shape(vars1, vars2)
+    return collect(zip(_var_indices(builder, vars1), _var_indices(builder, vars2)))
 end
 
 """

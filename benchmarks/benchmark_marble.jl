@@ -24,6 +24,7 @@ function benchmark_marble(; problems, save=false, results_dir=joinpath(@__DIR__,
         Marble.convergence_eq_violation!(opts, 1e-8)
         Marble.convergence_ineq_violation!(opts, 1e-8)
         Marble.convergence_comp_violation!(opts, 1e-8)
+        Marble.max_iters!(opts, 2000)
 
         result = Marble.solve(marble_data; opts = opts)
         status = Marble.converged(result) ? MOI.LOCALLY_SOLVED : MOI.INFEASIBLE

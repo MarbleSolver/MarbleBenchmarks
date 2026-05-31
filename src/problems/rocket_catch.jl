@@ -175,23 +175,10 @@ function rocket_catch(; N=40, T=4.0)
         sum(state_triggered_violation[k, j] for j=1:n_state_triggered_constraints) >= 0
     )
 
-    trigger_split_pairs = var_var_complementarities(
+    ind_cc1, ind_cc2, cc_types = complementarity_indices(
         model,
-        model[:gp],
-        model[:gn],
-    )
-    state_trigger_pairs = var_con_complementarities(
-        model,
-        model[:gp],
-        model[:total_state_triggered_violation],
-    )
-    cc_pairs = vcat(trigger_split_pairs, state_trigger_pairs)
-
-    ind_cc1 = first.(cc_pairs)
-    ind_cc2 = last.(cc_pairs)
-    cc_types = vcat(
-        fill((:var, :var), length(trigger_split_pairs)),
-        fill((:var, :con), length(state_trigger_pairs)),
+        (:var_var, model[:gp], model[:gn]),
+        (:var_con, model[:gp], model[:total_state_triggered_violation]),
     )
 
     return (; model, ind_cc1, ind_cc2, cc_types,

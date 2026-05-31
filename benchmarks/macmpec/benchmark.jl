@@ -18,4 +18,4 @@ benchmark_ccopt(problems=list_problems(:macmpec); save=true, results_dir=results
 benchmark_gurobi(problems=list_problems(:macmpec); save=false, results_dir=results_dir)
 
 ## Marble
-benchmark_marble(problems=list_problems(:macmpec); save=false, results_dir=results_dir)
+df = benchmark_marble(problems=list_problems(:macmpec); save=false, results_dir=results_dir)
