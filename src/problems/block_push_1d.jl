@@ -1,4 +1,6 @@
-function block_pushing_1d(;
+using Marble: complementarity_indices
+
+function block_push_1d(;
         N=40,
         T=4.0,
         m_block=1.0,
@@ -66,27 +68,44 @@ function block_pushing_1d(;
     @constraint(model, initial_contact_gap_nonnegative, contact_gap[1] >= 0)
     @constraint(model, contact_gap_nonnegative[k=1:N-1], contact_gap[k+1] >= 0)
 
-    # Get the sign of the block velocity using KKT formulation of sign fn
-    @variable(model, λ_sign_kkt[k=1:N, d=1:2] >= 0)
-    @variable(model, v_block_sign[k=1:N])
-    
-    @constraint(model, v_block_sign_kkt1[k=1:N], -block_velocity(k) + λ_sign_kkt[k, 1] - λ_sign_kkt[k, 2] == 0)
-    
-    # λ_sign_kkt[k, 1] ⟂ v_block_sign_kkt2_rhs[k]
-    @constraint(model, v_block_sign_kkt2_rhs[k=1:N], 1 - v_block_sign[k] >= 0)
-    
-    # λ_sign_kkt[k, 2] ⟂ v_block_sign_kkt3_rhs[k]
-    @constraint(model, v_block_sign_kkt3_rhs[k=1:N], 1 + v_block_sign[k] >= 0)
-    
-    # One implicit-Euler vector equality for the full coupled dynamics
-    @expression(model, kinetic_friction_force[k=1:N], -v_block_sign[k] * μ_k * m_block * g)
+    # Coulomb friction via the maximum-dissipation complementarity model.
+    #
+    # The tangential friction force is split into nonnegative components acting in
+    # the +x and -x directions, with a slip-speed multiplier `slip_speed` that
+    # equals |block velocity| while the block slides and is zero while it sticks:
+    #
+    #   stick: slip_speed = 0  -> friction force free within the cone (static)
+    #   slip : slip_speed > 0  -> friction cone is tight, |friction| = μ_k m g (kinetic)
+    #
+    # μ_k is the single Coulomb coefficient governing both the static stick limit
+    # and the kinetic sliding force. The normal load is the block weight m g.
+    friction_normal_force = m_block * g
+
+    @variable(model, friction_force_pos[k=1:N] >= 0)
+    @variable(model, friction_force_neg[k=1:N] >= 0)
+    @variable(model, slip_speed[k=1:N] >= 0)
+
+    # slip_speed ⟂ friction_cone : a nonzero slip speed forces the cone tight.
+    @constraint(model, friction_cone[k=1:N],
+        μ_k * friction_normal_force - friction_force_pos[k] - friction_force_neg[k] >= 0)
+
+    # friction_force_pos ⟂ slip_pos : a +x friction component activates only while
+    # the block slides in the -x direction.
+    @constraint(model, slip_pos[k=1:N], slip_speed[k] + block_velocity(k) >= 0)
+
+    # friction_force_neg ⟂ slip_neg : a -x friction component activates only while
+    # the block slides in the +x direction.
+    @constraint(model, slip_neg[k=1:N], slip_speed[k] - block_velocity(k) >= 0)
+
+    # Net tangential friction force applied to the block (positive in +x).
+    @expression(model, friction_force[k=1:N], friction_force_pos[k] - friction_force_neg[k])
 
     @expression(model, continuous_dynamics[k=1:N-1],
         [
             # d/dt block position
             block_velocity(k+1);
             # d/dt block velcity
-            1/m_block * (contact_force[k] + kinetic_friction_force[k+1]);
+            1/m_block * (contact_force[k] + friction_force[k+1]);
             # d/dt pusher position
             pusher_velocity(k+1);
             # d/dt pusher velocity
@@ -99,8 +118,9 @@ function block_pushing_1d(;
 
     ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
         (:var_con, model[:contact_force], model[:contact_gap_nonnegative]),
-        (:var_con, model[:λ_sign_kkt][:, 1], model[:v_block_sign_kkt2_rhs]),
-        (:var_con, model[:λ_sign_kkt][:, 2], model[:v_block_sign_kkt3_rhs]),
+        (:var_con, model[:slip_speed], model[:friction_cone]),
+        (:var_con, model[:friction_force_pos], model[:slip_pos]),
+        (:var_con, model[:friction_force_neg], model[:slip_neg]),
     )
 
     return (; model, ind_cc1, ind_cc2, cc_types,
@@ -114,4 +134,4 @@ function block_pushing_1d(;
                        pusher_position_index, pusher_velocity_index))
 end
 
-register(block_pushing_1d, :robotics)
+register(block_push_1d, :robotics)

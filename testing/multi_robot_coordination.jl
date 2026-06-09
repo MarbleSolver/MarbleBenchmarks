@@ -2,14 +2,13 @@ using JuMP, NLPModelsJuMP
 using LinearAlgebra
 using Combinatorics
 using MarbleBenchmarks
-
-##
-
-problem = get_problem(:multi_robot_coordination; N=30, T=5.0, d_min=3.0);
-
-##
 using GLMakie
 
+##
+
+problem = get_problem(:multi_robot_coordination; N=30, T=5.0, d_min=5.0);
+
+##
 function extract_multi_robot_solution(problem, z)
     p = problem.params
     x_flat = z[problem.inds[:x]]
@@ -117,18 +116,21 @@ plot_multi_robot_solution(problem, z_gurobi; title="Multi-Robot Coordination (Gu
 
 using Marble
 
-nlp = MathOptNLPModel(problem.model)
-marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
+solver = Marble.Solver()
+Marble.setup!(solver, problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; verbosity = 1)
+results = Marble.solve!(solver)
+z_marble = Marble.z(results)
 
-opts = Marble.SolverOptions()
-Marble.verbosity!(opts, 1)
-Marble.max_iters!(opts, 4000)
-result = Marble.solve(marble_data; opts=opts)
+# nlp = MathOptNLPModel(problem.model)
+# marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 
-@show Marble.converged(result)
-@show Marble.solve_time_s(result)
+# opts = Marble.SolverOptions()
+# Marble.verbosity!(opts, 1)
+# Marble.max_iters!(opts, 4000)
+# result = Marble.solve(marble_data; opts=opts)
 
-z_marble = Marble.z(result)
+# @show Marble.converged(result)
+# @show Marble.solve_time_s(result)
 
 ##
 

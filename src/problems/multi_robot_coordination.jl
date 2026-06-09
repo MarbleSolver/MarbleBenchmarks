@@ -1,10 +1,20 @@
+using Marble: complementarity_indices
+
 function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
     Δt = T / (N - 1)
     m = 1.0
     n_robots = 3
 
-    x0 = [Float64[-5, 0, 0, 0], Float64[0, 0, 0, 0], Float64[5, 0, 0, 0]]
-    xF = [Float64[0, 10, 0, 0], Float64[5, 10, 0, 0], Float64[-5, 10, 0, 0]]
+    x0 = [
+        Float64[0, -4, 0, 0],
+        Float64[4, 1, 0, 0],
+        Float64[-4, 1, 0, 0]
+    ]
+    xF = [
+        Float64[0, 4, 0, 0],
+        Float64[-4, 1, 0, 0],
+        Float64[4, 1, 0, 0]
+    ]
 
     n_slacks = binomial(n_robots, 2)
 
@@ -13,7 +23,7 @@ function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
     # x[k, i, :] = [px, py, vx, vy] for robot i at time node k
     @variable(model, x[1:N, 1:n_robots, 1:4])
     # u[k, i, :] = [ax, ay] control acceleration for robot i
-    @variable(model, u[1:N, 1:n_robots, 1:2])
+    @variable(model, u[1:N-1, 1:n_robots, 1:2])
     # s stores |relative position| componentwise for each robot pair
     @variable(model, s[1:N, 1:n_slacks, 1:2])
     # λ_plus, λ_minus are KKT multipliers for s - d >= 0 and s + d >= 0

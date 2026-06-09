@@ -5,7 +5,7 @@ using MarbleBenchmarks
 
 ##
 
-problem = get_problem(:block_pushing_1d; N=40, T=4.0,
+problem = get_problem(:block_push_1d; N=40, T=4.0,
 	                      initial_block_position=0.0, target_block_position=3.0,
 	                      initial_pusher_gap=1.0);
 
@@ -127,18 +127,10 @@ plot_block_pushing_solution(problem, z_gurobi; title="1D Block Pushing (Gurobi)"
 
 using Marble
 
-nlp = MathOptNLPModel(problem.model)
-marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
-
-opts = Marble.SolverOptions()
-Marble.verbosity!(opts, 1)
-Marble.max_iters!(opts, 4000)
-result = Marble.solve(marble_data; opts=opts)
-
-@show Marble.converged(result)
-@show Marble.solve_time_s(result)
-
-z_marble = Marble.z(result)
+solver = Marble.Solver()
+Marble.setup!(solver, problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; verbosity = 1)
+results = Marble.solve!(solver)
+z_marble = Marble.z(results)
 
 ##
 
