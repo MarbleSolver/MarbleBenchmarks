@@ -10,7 +10,7 @@
 # Test problem from Visweswaran etal 1996
 # Originally from Shimizu Aiyoshi 81
 
-set I := 1..4;
+set I := 1..3;
 
 var x >= 0;
 var y >= 0;
@@ -25,7 +25,6 @@ subject to
    # ... Outer Problem Constraints
    o1:   x     <= 15;
    o2: - x + y <= 0;
-   o3: - x     <= 0;
 
    # ... Inner Problem Constraints
    c1: x + y + s[1] = 20;

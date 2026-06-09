@@ -11,7 +11,7 @@
 # Original example from A.D. De Silva's dissertation 78
 # Ouadratic Outer and Inner Objective - Nonlinear
 
-set I := 1..6;
+set I := 1..4;
 
 var x1 >= 0;
 var x2 >= 0;

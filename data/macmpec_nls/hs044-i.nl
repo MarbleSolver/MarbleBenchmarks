@@ -1,6 +1,6 @@
-g3 0 1 0	# problem tmp
+g3 0 1 0	# problem hs044-i
  20 14 1 0 4	# vars, constraints, objectives, ranges, eqns
- 0 1 10 0	# nonlinear constrs, objs; ccons: lin, nonlin
+ 0 1 10 0 0 0	# nonlinear constrs, objs; ccons: lin, nonlin, nd, nzlb
  0 0	# network constraints: nonlinear, linear
  0 4 0	# nonlinear vars in constraints, objectives, both
  0 0 0 1	# linear network variables; functions; arith, flags
@@ -8,6 +8,42 @@ g3 0 1 0	# problem tmp
  42 4	# nonzeros in Jacobian, gradients
  0 0	# max name lengths: constraints, variables
  0 0 0 0 0	# common exprs: b,c,o,c1,o1
+b
+2 0
+2 0
+2 0
+2 0
+2 0
+2 0
+2 0
+2 0
+2 0
+2 0
+3
+3
+3
+3
+0 0.01 10
+0 -10 -0.01
+0 0.1 1
+0 -1 -0.1
+0 -1 1
+0 0.001 10
+r
+4 -1
+4 1
+4 1
+4 0
+5 1 5
+5 1 6
+5 1 7
+5 1 8
+5 1 9
+5 1 10
+5 1 1
+5 1 2
+5 1 3
+5 1 4
 C0
 n0
 C1
@@ -57,42 +93,6 @@ o1
 n4
 v3
 n2
-r
-4 -1
-4 1
-4 1
-4 0
-5 1 5
-5 1 6
-5 1 7
-5 1 8
-5 1 9
-5 1 10
-5 1 1
-5 1 2
-5 1 3
-5 1 4
-b
-2 0
-2 0
-2 0
-2 0
-2 0
-2 0
-2 0
-2 0
-2 0
-2 0
-3
-3
-3
-3
-0 0.01 10
-0 -10 -0.01
-0 0.1 1
-0 -1 -0.1
-0 -1 1
-0 0.001 10
 k19
 5
 10
