@@ -2,7 +2,7 @@
 
 julia_version = "1.11.9"
 manifest_format = "2.0"
-project_hash = "7512dbfbfef8211e60df8d96468f70d11ea82d00"
+project_hash = "0763b7f4eea58338eaa2e164bd0d0ecede41be1d"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "bbc22a9a08a0ef6460041086d8a7b27940ed4ffd"
@@ -1707,7 +1707,7 @@ version = "0.4.3"
 
 [[deps.Marble]]
 deps = ["AmplNLReader", "CxxWrap", "JSON", "JuMP", "LinearAlgebra", "NLPModels", "NLPModelsJuMP", "Preferences", "SparseArrays"]
-path = "/Users/micahreich/Documents/RCQP/julia"
+path = "/Users/micahreich/Documents/Marble/julia"
 uuid = "b3638fc0-1f6f-44b7-b12a-1e2f3108bdcf"
 version = "0.1.0"
 
