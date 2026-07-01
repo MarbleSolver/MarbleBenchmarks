@@ -4,7 +4,7 @@ using MarbleBenchmarks
 
 ##
 
-problem = get_problem(Symbol("3d_gates_fewer_comps"); N=30, T=10.0, ngates=4, gate_violation_weight=1e-1);
+problem = get_problem(Symbol("3d_gates_fewer_comps"); N=30, T=10.0, ngates=4, gate_violation_weight=1.0);
 
 ##
 using GLMakie
@@ -131,23 +131,12 @@ plot_three_d_gates_solution(problem, z_gurobi; title="3D Gates (Gurobi)")
 
 using Marble
 
-nlp = MathOptNLPModel(problem.model)
-marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
-# marble_data.Q += 1e-5 * I # Regularize the objective to avoid unboundedness when gate_violation_weight=0.
-
-opts = Marble.SolverOptions()
-Marble.verbosity!(opts, 1)
-Marble.max_iters!(opts, 1500)
-# Marble.gamma_constraint!(opts, 1e-7)
-# Marble.gamma_objective!(opts, 1e-7)
-# Marble.debug!(opts, true)
-# Marble.debug_output_path!(opts, "/Users/micahreich/Documents/MarbleBenchmarks/testing/3d_gates_marble_debug.json")
-result = Marble.solve(marble_data; opts=opts)
-
-@show Marble.converged(result)
-@show Marble.solve_time_s(result)
-
-z_marble = Marble.z(result)
+solver = Marble.Solver()
+Marble.setup!(solver, problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types;
+              verbosity = 1, debug = false, max_iters=2000, max_inner_iters_per_subproblem=50,
+              prox_scale=0.1, relaxation_min=1e-8, penalty_max=1e8, relaxation_scaling=0.1)
+results = Marble.solve!(solver)
+z_marble = Marble.z(results)
 
 ##
 

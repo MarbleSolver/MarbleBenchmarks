@@ -117,10 +117,11 @@ plot_multi_robot_solution(problem, z_gurobi; title="Multi-Robot Coordination (Gu
 using Marble
 
 solver = Marble.Solver()
-Marble.setup!(solver, problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types; verbosity = 1)
+Marble.setup!(solver, problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types;
+              verbosity = 1, debug = false, max_iters=1000, max_inner_iters_per_subproblem=1000,
+              prox_scale=0.0, relaxation_min=1e-8, penalty_max=1e8, relaxation_scaling=0.1)
 results = Marble.solve!(solver)
 z_marble = Marble.z(results)
-
 # nlp = MathOptNLPModel(problem.model)
 # marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
 

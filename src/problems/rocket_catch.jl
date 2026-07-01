@@ -175,18 +175,13 @@ function rocket_catch(; N=40, T=4.0)
         sum(state_triggered_violation[k, j] for j=1:n_state_triggered_constraints) >= 0
     )
 
-    ind_cc1, ind_cc2, cc_types = complementarity_indices(
-        model,
-        (:var_var, model[:gp], model[:gn]),
-        (:var_con, model[:gp], model[:total_state_triggered_violation]),
-    )
-
-    return (; model, ind_cc1, ind_cc2, cc_types,
-              inds=var_inds(model),
-              params=(; N, T, Δt, x̄, ū, m, g, l, J, catch_altitude, trigger_altitude,
-                       tower_normal, tower_y, arm_half_width, arm_opening_angle,
-                       catch_A, catch_b, n_catch_halfspaces, plume_away_from_tower_index,
-                       thrust_min, thrust_max, gimbal_max, ϕmax, ωmax))
+    return MPCCJuMP(model,
+        (model[:gp], model[:gn]),
+        (model[:gp], model[:total_state_triggered_violation]);
+        params=(; N, T, Δt, x̄, ū, m, g, l, J, catch_altitude, trigger_altitude,
+                 tower_normal, tower_y, arm_half_width, arm_opening_angle,
+                 catch_A, catch_b, n_catch_halfspaces, plume_away_from_tower_index,
+                 thrust_min, thrust_max, gimbal_max, ϕmax, ωmax))
 end
 
 register(rocket_catch, :robotics)

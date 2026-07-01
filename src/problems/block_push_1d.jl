@@ -1,5 +1,3 @@
-using Marble: complementarity_indices
-
 function block_push_1d(;
         N=40,
         T=4.0,
@@ -116,22 +114,18 @@ function block_push_1d(;
         x[k+1, :] .== x[k, :] + dt .* continuous_dynamics[k]
     )
 
-    ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
-        (:var_con, model[:contact_force], model[:contact_gap_nonnegative]),
-        (:var_con, model[:slip_speed], model[:friction_cone]),
-        (:var_con, model[:friction_force_pos], model[:slip_pos]),
-        (:var_con, model[:friction_force_neg], model[:slip_neg]),
-    )
-
-    return (; model, ind_cc1, ind_cc2, cc_types,
-              inds=var_inds(model),
-              params=(; N, T, dt, m_block, m_pusher, g,
-                       μ_k, block_half_width,
-                       initial_block_position, target_block_position,
-                       initial_pusher_gap, initial_pusher_position,
-                       max_control_force, max_pusher_speed,
-                       block_position_index, block_velocity_index,
-                       pusher_position_index, pusher_velocity_index))
+    return MPCCJuMP(model,
+        (model[:contact_force], model[:contact_gap_nonnegative]),
+        (model[:slip_speed], model[:friction_cone]),
+        (model[:friction_force_pos], model[:slip_pos]),
+        (model[:friction_force_neg], model[:slip_neg]);
+        params=(; N, T, dt, m_block, m_pusher, g,
+                 μ_k, block_half_width,
+                 initial_block_position, target_block_position,
+                 initial_pusher_gap, initial_pusher_position,
+                 max_control_force, max_pusher_speed,
+                 block_position_index, block_velocity_index,
+                 pusher_position_index, pusher_velocity_index))
 end
 
 register(block_push_1d, :robotics)

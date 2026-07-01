@@ -14,44 +14,50 @@ function benchmark_gurobi(; problems, save=false, results_dir=joinpath(@__DIR__,
     )
 
     for name in problems
-        problem = get_problem(name)
+        p = get_problem(name)
+        if !(p isa Marble.MPCC) 
+            @assert p isa NamedTuple "get_problem($name) must return a NamedTuple or a Marble.MPCC"
+            v = values(p)
+            mpcc = v[findfirst(x -> x isa Marble.MPCC, v)]
+        else
+            mpcc = p
+        end
 
-        marble_data = MarbleData(problem.model, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
-        jump_model = to_jump(marble_data)
+        data = Marble.mpcc_to_marble(mpcc)
+        problem = Marble.Problem(data...)
+        
+        model = mpcc_to_sos1(mpcc)
 
-        set_optimizer(jump_model, () -> Gurobi.Optimizer(GRB_ENV))
-        set_silent(jump_model)
-        optimize!(jump_model)
+        set_optimizer(model, () -> Gurobi.Optimizer(GRB_ENV))
+        set_silent(model)
+        optimize!(model)
 
-        status = termination_status(jump_model)
+        status = termination_status(model)
 
         # Compute residuals and objective value
         solve_successful = status in (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
-
         if solve_successful
-            x = value.(all_variables(jump_model))[1:problem.model.meta.nvar]
+            @assert haskey(model, :x) "Gurobi model does not have variable `x`"
+            x = value.(model[:x])
         end
 
-        objective_value = solve_successful ? Marble.obj(marble_data, x) : Inf
-        residual_eq = solve_successful ? norm(Marble.residual_eq(marble_data, x), Inf) : Inf
-        residual_ineq = solve_successful ? norm(Marble.residual_ineq(marble_data, x), Inf) : Inf
-        residual_comp = solve_successful ? norm(Marble.residual_comp(marble_data, x), Inf) : Inf
+        stats = solution_stats(problem, x; solve_successful=solve_successful)
 
         # Add entry to df
         push!(df, (
             problem=string(name),
             status=string(status),
-            obj=objective_value,
-            residual_eq=residual_eq,
-            residual_ineq=residual_ineq,
-            residual_comp=residual_comp,
-            total_time_s=solve_successful ? solve_time(jump_model) : Inf,
+            obj=stats.objective_value,
+            residual_eq=stats.residual_eq,
+            residual_ineq=stats.residual_ineq,
+            residual_comp=stats.residual_comp,
+            total_time_s=solve_successful ? solve_time(model) : Inf,
         ))
     end
 
     if save
         @info("Saving results to CSV in directory: $results_dir") 
-        save_df_csv(df, results_dir, "ccopt")
+        save_df_csv(df, results_dir, "gurobi")
     end
 
     return df

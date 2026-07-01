@@ -7,7 +7,8 @@ using BlockDiagonals, Combinatorics, ControlSystems
 
 include("quaternion_helpers.jl")
 
-# using MPCCModels
+include("reformulation.jl")
+export mpcc_to_sos1
 
 const PROBLEM_REGISTRY = Dict{Symbol, Tuple{Function, Symbol}}()
 
@@ -32,5 +33,7 @@ include("problems/multi_robot_coordination.jl")
 include("problems/rocket_catch.jl")
 include("problems/block_push_1d.jl")
 include("problems/macmpec.jl")
+include("problems/minimal_gate_mpcc.jl")
+include("problems/minimal_gate_mpcc_cc.jl")
 
 end

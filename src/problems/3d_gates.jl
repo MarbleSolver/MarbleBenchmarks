@@ -67,14 +67,10 @@ function three_d_gates_fewer_comps(;
         gate_violation[k, j] - (-gate_error[k, j][d] - h[d]) >= 0
     )
 
-    ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
-        (:var_var, model[:μ], model[:gate_violation]),
-    )
-
-    return (; model, ind_cc1, ind_cc2, cc_types,
-              inds=var_inds(model),
-              params=(; N, T, Δt, ngates, gate_positions, gate_orientations,
-                       gate_dims, max_gate_violation, gate_violation_weight))
+    return MPCCJuMP(model,
+        (model[:μ], model[:gate_violation]);
+        params=(; N, T, Δt, ngates, gate_positions, gate_orientations,
+                 gate_dims, max_gate_violation, gate_violation_weight))
 end
 
 register(three_d_gates_fewer_comps, Symbol("3d_gates_fewer_comps"), :robotics)

@@ -44,11 +44,14 @@ nl_path(name) = joinpath(@__DIR__, "..", "..", "data", "macmpec_nls", "$name.nl"
 
 function macmpec(; name)
     nlp = AmplModel(nl_path(name))
-    ind_ccc2 = findall(!iszero, nlp.meta.cvar)
-    ind_vcc1 = nlp.meta.cvar[ind_ccc2]
-    cc_types = (:var, :con)
 
-    return (; model=nlp, ind_cc1=ind_vcc1, ind_cc2=ind_ccc2, cc_types=cc_types, params=(; name))
+    # AMPL marks each complementarity constraint row with the index of the
+    # variable it is paired with (0 otherwise), so each pair is `var ⊥ con`.
+    ind_con = findall(!iszero, nlp.meta.cvar)   # complementarity constraint rows
+    ind_var = nlp.meta.cvar[ind_con]            # variable each row is paired with
+    cc_types = fill((:var, :con), length(ind_var))
+
+    return MPCC(nlp, ind_var, ind_con, cc_types)
 end
 
 for name in MACMPEC_QPCCs
