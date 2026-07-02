@@ -1,9 +1,13 @@
-const CRISP_OPTIONS = (;)
+const CRISP_OPTIONS = (;
+    trail_tol=1e-3,
+    trust_region_tol=1e-3,
+    weighted_mode=1.0,
+)
 
 function benchmark_crisp(; problems, save=false, results_dir=default_results_dir())
     run_benchmark("crisp"; problems, save, results_dir) do name
         data = Marble.mpcc_to_marble(get_mpcc(name))
-        result = CRISP.solve_qpcc_with_crisp(data; CRISP_OPTIONS..., x0 = zeros(length(data.q)))
+        result = CRISP.solve_qpcc_with_crisp(data; CRISP_OPTIONS...,)
 
         ok = result.converged
         x = ok ? result.x : nothing

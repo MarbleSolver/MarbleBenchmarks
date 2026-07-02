@@ -27,7 +27,7 @@ problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 export get_problem, list_problems, problem_classes, register
 export quadrotor_gates, three_d_gates, three_d_gates_fewer_comps, multi_robot_coordination, rocket_catch, block_push_1d
 
-include("problems/quadrotor_gates.jl")
+include("problems/quadrotor_gates_3d.jl")
 include("problems/3d_gates.jl")
 include("problems/multi_robot_coordination.jl")
 include("problems/rocket_catch_3d.jl")

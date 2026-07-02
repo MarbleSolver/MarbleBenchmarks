@@ -4,7 +4,7 @@ using MarbleBenchmarks
 
 ##
 
-problem = get_problem(:quadrotor_gates; N=40, T=9.0, ngates=2);
+problem = get_problem(:quadrotor_gates_3d; N=30, T=9.0, ngates=4);
 
 ##
 using GLMakie
@@ -100,17 +100,19 @@ end
 plot_quadrotor_solution(problem, z_ipopt; title="Quadrotor Gate Traversal (Ipopt)")
 
 ## Marble
-
 using Marble
 
-nlp = MathOptNLPModel(problem.model)
-marble_data = MarbleData(nlp, problem.ind_cc1, problem.ind_cc2, problem.cc_types)
-
-opts = Marble.SolverOptions()
-Marble.verbosity!(opts, 1)
-Marble.max_iters!(opts, 4000)
-result = Marble.solve(marble_data; opts=opts)
-
+solver = Marble.Solver()
+Marble.setup!(solver, problem.mpcc;
+    relaxation_scaling=0.5,
+    max_iters=2000,
+    verbosity=1,
+    convergence_comp_violation=1e-1,
+    convergence_eq_violation=1e-1,
+    convergence_ineq_violation=1e-1,
+    relaxation_initial=0.1,
+)
+result = Marble.solve!(solver)
 @show Marble.converged(result)
 @show Marble.solve_time_s(result)
 

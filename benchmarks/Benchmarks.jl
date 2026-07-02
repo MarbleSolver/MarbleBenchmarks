@@ -16,7 +16,6 @@ include("solvers/marble.jl")
 include("solvers/gurobi.jl")
 include("solvers/crisp.jl")
 include("solvers/lcqpow.jl")
-include("solvers/ccopt.jl")
 
 export benchmark_marble, benchmark_gurobi, benchmark_crisp, benchmark_lcqpow, benchmark_ccopt
 export get_problem, list_problems, problem_classes
