@@ -30,7 +30,7 @@ export quadrotor_gates, three_d_gates, three_d_gates_fewer_comps, multi_robot_co
 include("problems/quadrotor_gates.jl")
 include("problems/3d_gates.jl")
 include("problems/multi_robot_coordination.jl")
-include("problems/rocket_catch.jl")
+include("problems/rocket_catch_3d.jl")
 include("problems/block_push_1d.jl")
 include("problems/macmpec.jl")
 include("problems/minimal_gate_mpcc.jl")

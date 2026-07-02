@@ -4,7 +4,7 @@ using MarbleBenchmarks
 
 ##
 
-problem = get_problem(:rocket_catch; N=40, T=4.5);
+problem = get_problem(:rocket_catch_3d; N=40, T=4.5);
 
 ##
 using GLMakie

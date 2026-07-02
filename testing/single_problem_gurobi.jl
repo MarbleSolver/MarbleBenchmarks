@@ -1,6 +1,27 @@
 using MarbleBenchmarks
 using Gurobi
 
+const GRB_ENV = redirect_stdout(devnull) do
+    Gurobi.Env()
+end
+
+## 
+
+problem = get_problem(:rocket_catch_3d;
+    N=40, T=4.0,
+    x0=[0.0, 0.0, 25.0],
+    q0=[1.0, 0.0, 0.0, 0.0],
+    v0=[0.0, 0.0, -1.2],
+    w0=[0.0, 0.0, 0.0],
+);
+model = mpcc_to_sos1(problem.mpcc)
+
+set_optimizer(model, () -> Gurobi.Optimizer(GRB_ENV))
+# for (k, v) in pairs(GUROBI_OPTIONS)
+#     set_attribute(model, String(k), v)
+# end
+optimize!(model)
+solve_time(model)
 ## sl1 problem in JuMP
 
 model = JuMP.Model()
