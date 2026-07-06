@@ -1,0 +1,1739 @@
+{
+  "bar-truss-bar-truss-3": {
+    "display_name": "bar-truss-3",
+    "classification": "LQR-MY-NCP-29-22-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bar-truss.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bar-truss-3.dat",
+    "solution": 10166.6,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "bard1": {
+    "display_name": "bard1",
+    "classification": "QLR-AY-NLP-5-1-3",
+    "mod_file": "/leyffer/images/1/1c/Bard1.mod",
+    "dat_file": null,
+    "solution": 17.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bard2": {
+    "display_name": "bard2",
+    "classification": "QLR-AY-NLP-12-5-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard2.mod",
+    "dat_file": null,
+    "solution": 6598.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bard3": {
+    "display_name": "bard3",
+    "classification": "QLR-AY-NLP-6-3-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard3.mod",
+    "dat_file": null,
+    "solution": -12.6787,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "bard1m": {
+    "display_name": "bard1m",
+    "classification": "QLR-AY-NLP-5-1-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard1m.mod",
+    "dat_file": null,
+    "solution": 17.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bard2m": {
+    "display_name": "bard2m",
+    "classification": "QLR-AY-NLP-12-1-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard2m.mod",
+    "dat_file": null,
+    "solution": -6598.0,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "bard3m": {
+    "display_name": "bard3m",
+    "classification": "QLR-AY-NLP-6-1-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bard3m.mod",
+    "dat_file": null,
+    "solution": -12.6787,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "b-pn2-bem-milanc30-s": {
+    "display_name": "bem-milanc30-s",
+    "classification": "SQR-MY-NCP-1972-505-1464",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/b-pn2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bem-milanc30-s.dat",
+    "solution": 83.2825,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "bilevel1": {
+    "display_name": "bilevel1",
+    "classification": "LLR-AY-LCP-10-9-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel1.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bilevel1m": {
+    "display_name": "bilevel1m",
+    "classification": "LLR-AY-LCP-8-7-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel1m.mod",
+    "dat_file": null,
+    "solution": -55.0,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "bilevel2": {
+    "display_name": "bilevel2",
+    "classification": "QLR-AY-LCP-16-13-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel2.mod",
+    "dat_file": null,
+    "solution": -6600.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bilevel2m": {
+    "display_name": "bilevel2m",
+    "classification": "QLR-AY-LCP-16-13-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel2m.mod",
+    "dat_file": null,
+    "solution": -6600.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "bilevel3": {
+    "display_name": "bilevel3",
+    "classification": "QLR-AY-LCP-12-7-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilevel3.mod",
+    "dat_file": null,
+    "solution": -12.6787,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "bilin": {
+    "display_name": "bilin",
+    "classification": "LLR-AY-NLP-8-1-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/bilin.mod",
+    "dat_file": null,
+    "solution": 18.4,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "dempe": {
+    "display_name": "dempe",
+    "classification": "QQR-AY-LCP-4-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/dempe.mod",
+    "dat_file": null,
+    "solution": 28.25,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "design-cent-1-design-cent-1": {
+    "display_name": "design-cent-1",
+    "classification": "QOR-AY-NLP-12-9-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-1.dat",
+    "solution": 1.86065,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "design-cent-2-design-cent-2": {
+    "display_name": "design-cent-2",
+    "classification": "QOR-MY-NLP-13-13-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.dat",
+    "solution": 3.48382,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "design-cent-21-design-cent-2": {
+    "display_name": "design-cent-21",
+    "classification": "QOR-MY-NLP-13-13-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-21.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-2.dat",
+    "solution": 3.48382,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "design-cent-3-design-cent-3": {
+    "display_name": "design-cent-3",
+    "classification": "QOR-MY-NLP-15-9-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.dat",
+    "solution": 3.7237,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "design-cent-31-design-cent-3": {
+    "display_name": "design-cent-31",
+    "classification": "QOR-MY-NLP-15-9-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-31.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-3.dat",
+    "solution": 3.72337,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "design-cent-4-design-cent-4": {
+    "display_name": "design-cent-4",
+    "classification": "QOR-AY-NLP-22-9-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-4.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/design-cent-4.dat",
+    "solution": 3.0792,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "desilva": {
+    "display_name": "desilva",
+    "classification": "QQR-AY-NCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/desilva.mod",
+    "dat_file": null,
+    "solution": -1.0,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "df1": {
+    "display_name": "df1",
+    "classification": "QQR-AY-NCP-2-2-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/df1.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "ex9.1.1": {
+    "display_name": "ex9.1.1",
+    "classification": "LLR-AY-NLP-13-12-5",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.1.mod",
+    "dat_file": null,
+    "solution": -13.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.2": {
+    "display_name": "ex9.1.2",
+    "classification": "LLR-AY-NLP-10-9-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.2.mod",
+    "dat_file": null,
+    "solution": -6.25,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.3": {
+    "display_name": "ex9.1.3",
+    "classification": "LLR-AY-NLP-23-21-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.3.mod",
+    "dat_file": null,
+    "solution": -29.2,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.4": {
+    "display_name": "ex9.1.4",
+    "classification": "LLR-AY-NLP-10-9-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.4.mod",
+    "dat_file": null,
+    "solution": -37.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.5": {
+    "display_name": "ex9.1.5",
+    "classification": "LLR-AY-NLP-13-12-5",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.5.mod",
+    "dat_file": null,
+    "solution": -1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.6": {
+    "display_name": "ex9.1.6",
+    "classification": "LLR-AY-NLP-14-13-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.6.mod",
+    "dat_file": null,
+    "solution": -49.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.7": {
+    "display_name": "ex9.1.7",
+    "classification": "LLR-AY-NLP-17-15-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.7.mod",
+    "dat_file": null,
+    "solution": -26.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.8": {
+    "display_name": "ex9.1.8",
+    "classification": "LLR-AY-NLP-14-12-5",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.8.mod",
+    "dat_file": null,
+    "solution": -3.25,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.9": {
+    "display_name": "ex9.1.9",
+    "classification": "LLR-AY-NLP-12-11-5",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.9.mod",
+    "dat_file": null,
+    "solution": 3.11111,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.1.10": {
+    "display_name": "ex9.1.10",
+    "classification": "LLR-AY-NLP-14-12-5",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.1.10.mod",
+    "dat_file": null,
+    "solution": -3.25,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.1": {
+    "display_name": "ex9.2.1",
+    "classification": "QLR-AY-NLP-10-9-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.1.mod",
+    "dat_file": null,
+    "solution": 17.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.2": {
+    "display_name": "ex9.2.2",
+    "classification": "QLR-AY-NLP-10-11-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.2.mod",
+    "dat_file": null,
+    "solution": 100.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.3": {
+    "display_name": "ex9.2.3",
+    "classification": "LLR-AY-NLP-16-16-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.3.mod",
+    "dat_file": null,
+    "solution": -55.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.4": {
+    "display_name": "ex9.2.4",
+    "classification": "QLR-AY-NLP-8-7-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.4.mod",
+    "dat_file": null,
+    "solution": 0.5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.5": {
+    "display_name": "ex9.2.5",
+    "classification": "QLR-AY-NLP-8-7-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.5.mod",
+    "dat_file": null,
+    "solution": 6.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.6": {
+    "display_name": "ex9.2.6",
+    "classification": "QLR-AY-NLP-16-12-6",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.6.mod",
+    "dat_file": null,
+    "solution": -1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.7": {
+    "display_name": "ex9.2.7",
+    "classification": "QLR-AY-NLP-10-9-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.7.mod",
+    "dat_file": null,
+    "solution": 17.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ex9.2.8": {
+    "display_name": "ex9.2.8",
+    "classification": "QLR-AY-NLP-6-5-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.8.mod",
+    "dat_file": null,
+    "solution": 1.5,
+    "convex_cost": false,
+    "linear_constraints": true
+  },
+  "ex9.2.9": {
+    "display_name": "ex9.2.9",
+    "classification": "LLR-AY-NLP-9-8-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ex9.2.9.mod",
+    "dat_file": null,
+    "solution": 2.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "flp2": {
+    "display_name": "flp2",
+    "classification": "QLR-AN-LCP-4-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp2.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "flp4-flp4-1": {
+    "display_name": "flp4-1",
+    "classification": "QLR-AN-LCP-80-60-30",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-1.dat",
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "flp4-flp4-2": {
+    "display_name": "flp4-2",
+    "classification": "QLR-AN-LCP-110-110-60",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-2.dat",
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "flp4-flp4-3": {
+    "display_name": "flp4-3",
+    "classification": "QLR-AN-LCP-140-170-70",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-3.dat",
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "flp4-flp4-4": {
+    "display_name": "flp4-4",
+    "classification": "QLR-AN-LCP-200-250-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/flp4-4.dat",
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "gnash1-gnash10": {
+    "display_name": "gnash10",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash10.dat",
+    "solution": -230.823,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash11": {
+    "display_name": "gnash11",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash11.dat",
+    "solution": -129.912,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash12": {
+    "display_name": "gnash12",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash12.dat",
+    "solution": -36.9331,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash13": {
+    "display_name": "gnash13",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash13.dat",
+    "solution": -7.06178,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash14": {
+    "display_name": "gnash14",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash14.dat",
+    "solution": -0.179046,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash15": {
+    "display_name": "gnash15",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash15.dat",
+    "solution": -354.699,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash16": {
+    "display_name": "gnash16",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash16.dat",
+    "solution": -241.442,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash17": {
+    "display_name": "gnash17",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash17.dat",
+    "solution": -90.7491,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash18": {
+    "display_name": "gnash18",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash18.dat",
+    "solution": -25.6982,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1-gnash19": {
+    "display_name": "gnash19",
+    "classification": "OOR-AY-LCP-13-4-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash19.dat",
+    "solution": -6.11671,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash10": {
+    "display_name": "gnash10",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash10.dat",
+    "solution": -230.823,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash11": {
+    "display_name": "gnash11m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash11.dat",
+    "solution": -129.912,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash12": {
+    "display_name": "gnash12m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash12.dat",
+    "solution": -36.9331,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash13": {
+    "display_name": "gnash13m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash13.dat",
+    "solution": -7.06178,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash14": {
+    "display_name": "gnash14m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash14.dat",
+    "solution": -0.179046,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash15": {
+    "display_name": "gnash15m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash15.dat",
+    "solution": -354.699,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash16": {
+    "display_name": "gnash16m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash16.dat",
+    "solution": -241.442,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash17": {
+    "display_name": "gnash17m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash17.dat",
+    "solution": -90.7491,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash18": {
+    "display_name": "gnash18m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash18.dat",
+    "solution": -25.6982,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gnash1m-gnash19": {
+    "display_name": "gnash19m",
+    "classification": "OOR-AY-LCP-9-8-8",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash1m.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gnash19.dat",
+    "solution": -6.11671,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "gauvin": {
+    "display_name": "gauvin",
+    "classification": "QUR-AN-LCP-3-0-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/gauvin.mod",
+    "dat_file": null,
+    "solution": 20.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "hakonsen": {
+    "display_name": "hakonsen",
+    "classification": "OOR-MY-NCP-9-8-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/hakonsen.mod",
+    "dat_file": null,
+    "solution": 24.3668,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "hs044-i": {
+    "display_name": "hs044-i",
+    "classification": "QLR-MY-NLP-20-14-10",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/hs044-i.mod",
+    "dat_file": null,
+    "solution": 15.6178,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "incid-set1-incid-set-8": {
+    "display_name": "incid-set1-8",
+    "classification": "LOR-MY-LCP-117-119-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat",
+    "solution": 3.816e-17,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set1-incid-set-16": {
+    "display_name": "incid-set1-16",
+    "classification": "LOR-MY-LCP-485-491-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat",
+    "solution": 1.206e-16,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set1-incid-set-32": {
+    "display_name": "incid-set1-32",
+    "classification": "LOR-MY-LCP-1989-2003-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat",
+    "solution": 2.799e-7,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set1c-incid-set-8": {
+    "display_name": "incid-set1c-8",
+    "classification": "LOR-MY-LCP-117-126-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat",
+    "solution": 3.816e-17,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set1c-incid-set-16": {
+    "display_name": "incid-set1c-16",
+    "classification": "LOR-MY-LCP-485-506-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat",
+    "solution": 1.206e-16,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set1c-incid-set-32": {
+    "display_name": "incid-set1c-32",
+    "classification": "LOR-MY-LCP-1989-2034-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat",
+    "solution": 9.817e-6,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2-incid-set-8": {
+    "display_name": "incid-set2-8",
+    "classification": "LOR-MY-LCP-117-119-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat",
+    "solution": 0.004518,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2-incid-set-16": {
+    "display_name": "incid-set2-16",
+    "classification": "LOR-MY-LCP-485-491-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat",
+    "solution": 0.003036,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2-incid-set-32": {
+    "display_name": "incid-set2-32",
+    "classification": "LOR-MY-LCP-1989-2003-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat",
+    "solution": 0.001738,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2c-incid-set-8": {
+    "display_name": "incid-set2c-8",
+    "classification": "LOR-MY-LCP-117-126-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-8.dat",
+    "solution": 0.005471,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2c-incid-set-16": {
+    "display_name": "incid-set2c-16",
+    "classification": "LOR-MY-LCP-485-506-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-16.dat",
+    "solution": 0.003602,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "incid-set2c-incid-set-32": {
+    "display_name": "incid-set2c-32",
+    "classification": "LOR-MY-LCP-1989-2034-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/incid-set-32.dat",
+    "solution": 0.002433,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "jr1": {
+    "display_name": "jr1",
+    "classification": "QLR-AN-LCP-2-1-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/jr1.mod",
+    "dat_file": null,
+    "solution": 0.5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "jr2": {
+    "display_name": "jr2",
+    "classification": "QLR-AN-LCP-2-1-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/jr2.mod",
+    "dat_file": null,
+    "solution": 0.5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "kth1": {
+    "display_name": "kth1",
+    "classification": "LLR-AN-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth1.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "kth2": {
+    "display_name": "kth2",
+    "classification": "QLR-AN-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth2.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "kth3": {
+    "display_name": "kth3",
+    "classification": "QLR-AN-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/kth3.mod",
+    "dat_file": null,
+    "solution": 0.5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "liswet1-inv-liswet1-050": {
+    "display_name": "liswet1-050",
+    "classification": "QLR-AN-NLP-152-103-50",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-050.dat",
+    "solution": 0.01399,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "liswet1-inv-liswet1-100": {
+    "display_name": "liswet1-100",
+    "classification": "QLR-AN-NLP-302-203-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-100.dat",
+    "solution": 0.01373,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "liswet1-inv-liswet1-200": {
+    "display_name": "liswet1-200",
+    "classification": "QLR-AN-NLP-602-403-200",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-inv.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/liswet1-200.dat",
+    "solution": 0.01701,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "monteiro": {
+    "display_name": "monteiro",
+    "classification": "QLR-AY-LCP-136-139-62",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/monteiro.mod",
+    "dat_file": null,
+    "solution": 37.53,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "monteirob": {
+    "display_name": "monteiroB",
+    "classification": "QLR-AY-LCP-136-138-62",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/monteiroB.mod",
+    "dat_file": null,
+    "solution": 827.859,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "nash1-nash1a": {
+    "display_name": "nash1a",
+    "classification": "QLR-AY-LCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1a.dat",
+    "solution": 7.88861e-30,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "nash1-nash1b": {
+    "display_name": "nash1b",
+    "classification": "QLR-AY-LCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1b.dat",
+    "solution": 7.88861e-30,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "nash1-nash1c": {
+    "display_name": "nash1c",
+    "classification": "QLR-AY-LCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1c.dat",
+    "solution": 7.88861e-30,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "nash1-nash1d": {
+    "display_name": "nash1d",
+    "classification": "QLR-AY-LCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1d.dat",
+    "solution": 7.88861e-30,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "nash1-nash1e": {
+    "display_name": "nash1e",
+    "classification": "QLR-AY-LCP-6-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/nash1e.dat",
+    "solution": 7.88861e-30,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "outrata31": {
+    "display_name": "outrata31",
+    "classification": "QUR-AN-NCP-5-0-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata31.mod",
+    "dat_file": null,
+    "solution": 3.2077,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "outrata32": {
+    "display_name": "outrata32",
+    "classification": "QUR-AN-NCP-5-0-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata32.mod",
+    "dat_file": null,
+    "solution": 3.4494,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "outrata33": {
+    "display_name": "outrata33",
+    "classification": "QUR-AN-NCP-5-0-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata33.mod",
+    "dat_file": null,
+    "solution": 4.60425,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "outrata34": {
+    "display_name": "outrata34",
+    "classification": "QUR-AN-NCP-5-0-4",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/outrata34.mod",
+    "dat_file": null,
+    "solution": 6.59268,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1-pack-comp-8": {
+    "display_name": "pack-comp1-8",
+    "classification": "LLR-AN-LCP-75-40-66",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.6,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1-pack-comp-16": {
+    "display_name": "pack-comp1-16",
+    "classification": "LLR-AN-LCP-332-151-315",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.616951,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1-pack-comp-32": {
+    "display_name": "pack-comp1-32",
+    "classification": "LLR-AN-LCP-1398-589-1365",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.652979,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1c-pack-comp-8": {
+    "display_name": "pack-comp1c-8",
+    "classification": "LLR-AN-LCP-75-47-66",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.6,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1c-pack-comp-16": {
+    "display_name": "pack-comp1c-16",
+    "classification": "LLR-AN-LCP-332-166-315",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.623043,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1c-pack-comp-32": {
+    "display_name": "pack-comp1c-32",
+    "classification": "LLR-AN-LCP-1398-620-1365",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.661443,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp1p-pack-comp-8": {
+    "display_name": "pack-comp1p-8",
+    "classification": "LLR-AN-LCP-107-106-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.6,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-comp1p-pack-comp-16": {
+    "display_name": "pack-comp1p-16",
+    "classification": "LLR-AN-LCP-467-466-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.616951,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-comp1p-pack-comp-32": {
+    "display_name": "pack-comp1p-32",
+    "classification": "LLR-AN-LCP-1955-1954-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.652979,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-comp2-pack-comp-8": {
+    "display_name": "pack-comp2-8",
+    "classification": "LLR-AN-LCP-75-40-66",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.673117,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2-pack-comp-16": {
+    "display_name": "pack-comp2-16",
+    "classification": "LLR-AN-LCP-332-151-315",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.727135,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2-pack-comp-32": {
+    "display_name": "pack-comp2-32",
+    "classification": "LLR-AN-LCP-1398-589-1365",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.782604,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2c-pack-comp-8": {
+    "display_name": "pack-comp2c-8",
+    "classification": "LLR-AN-LCP-75-47-66",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.673458,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2c-pack-comp-16": {
+    "display_name": "pack-comp2c-16",
+    "classification": "LLR-AN-LCP-332-166-315",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.727468,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2c-pack-comp-32": {
+    "display_name": "pack-comp2c-32",
+    "classification": "LLR-AN-LCP-1398-620-1365",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.782944,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-comp2p-pack-comp-8": {
+    "display_name": "pack-comp2p-8",
+    "classification": "LLR-AN-LCP-107-106-49",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-8.dat",
+    "solution": 0.673117,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-comp2p-pack-comp-16": {
+    "display_name": "pack-comp2p-16",
+    "classification": "LLR-AN-LCP-467-466-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-16.dat",
+    "solution": 0.727134,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-comp2p-pack-comp-32": {
+    "display_name": "pack-comp2p-32",
+    "classification": "LLR-AN-LCP-1955-1954-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-comp-32.dat",
+    "solution": 0.782604,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "pack-rig1-pack-rig-8": {
+    "display_name": "pack-rig1-8",
+    "classification": "LLR-AN-LCP-49-29-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.787932,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1-pack-rig-16": {
+    "display_name": "pack-rig1-16",
+    "classification": "LLR-AN-LCP-209-99-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 0.826013,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1-pack-rig-32": {
+    "display_name": "pack-rig1-32",
+    "classification": "LLR-AN-LCP-865-521-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": 0.850895,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1c-pack-rig-8": {
+    "display_name": "pack-rig1c-8",
+    "classification": "LLR-AN-LCP-49-36-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.7883,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1c-pack-rig-16": {
+    "display_name": "pack-rig1c-16",
+    "classification": "LLR-AN-LCP-209-148-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 0.826498,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1c-pack-rig-32": {
+    "display_name": "pack-rig1c-32",
+    "classification": "LLR-AN-LCP-865-552-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": 0.851641,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1p-pack-rig-8": {
+    "display_name": "pack-rig1p-8",
+    "classification": "LLR-AN-LCP-58-20-58",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.787932,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1p-pack-rig-16": {
+    "display_name": "pack-rig1p-16",
+    "classification": "LLR-AN-LCP-242-121-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 0.826013,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig1p-pack-rig-32": {
+    "display_name": "pack-rig1p-32",
+    "classification": "LLR-AN-LCP-994-497-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig1p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": 0.850895,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2-pack-rig-8": {
+    "display_name": "pack-rig2-8",
+    "classification": "LLR-AN-LCP-49-29-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.780404,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2-pack-rig-16": {
+    "display_name": "pack-rig2-16",
+    "classification": "LLR-AN-LCP-209-99-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2-pack-rig-32": {
+    "display_name": "pack-rig2-32",
+    "classification": "LLR-AN-LCP-865-512-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2c-pack-rig-8": {
+    "display_name": "pack-rig2c-8",
+    "classification": "LLR-AN-LCP-49-36-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.799306,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2c-pack-rig-16": {
+    "display_name": "pack-rig2c-16",
+    "classification": "LLR-AN-LCP-209-148-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2c-pack-rig-32": {
+    "display_name": "pack-rig2c-32",
+    "classification": "LLR-AN-LCP-865-552-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2p-pack-rig-8": {
+    "display_name": "pack-rig2p-8",
+    "classification": "LLR-AN-LCP-58-20-58",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.780404,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2p-pack-rig-16": {
+    "display_name": "pack-rig2p-16",
+    "classification": "LLR-AN-LCP-242-121-225",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 1.08514,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig2p-pack-rig-32": {
+    "display_name": "pack-rig2p-32",
+    "classification": "LLR-AN-LCP-994-497-961",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig2p.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": 1.13589,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3-pack-rig-8": {
+    "display_name": "pack-rig3-8",
+    "classification": "LLR-AN-LCP-49-29-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.735202,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3-pack-rig-16": {
+    "display_name": "pack-rig3-16",
+    "classification": "LLR-AN-LCP-209-99-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 0.800431,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3-pack-rig-32": {
+    "display_name": "pack-rig3-32",
+    "classification": "LLR-AN-LCP-865-512-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3c-pack-rig-8": {
+    "display_name": "pack-rig3c-8",
+    "classification": "LLR-AN-LCP-49-36-40",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-8.dat",
+    "solution": 0.753473,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3c-pack-rig-16": {
+    "display_name": "pack-rig3c-16",
+    "classification": "LLR-AN-LCP-209-148-192",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-16.dat",
+    "solution": 0.8186,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "pack-rig3c-pack-rig-32": {
+    "display_name": "pack-rig3c-32",
+    "classification": "LLR-AN-LCP-865-552-832",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig3c.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/pack-rig-32.dat",
+    "solution": null,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "portfl-i-portfl1": {
+    "display_name": "portfl-i-1",
+    "classification": "QLR-AY-NLP-87-25-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl1.dat",
+    "solution": 1.502e-5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "portfl-i-portfl2": {
+    "display_name": "portfl-i-2",
+    "classification": "QLR-AY-NLP-87-25-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl2.dat",
+    "solution": 1.457e-5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "portfl-i-portfl3": {
+    "display_name": "portfl-i-3",
+    "classification": "QLR-AY-NLP-87-25-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl3.dat",
+    "solution": 6.265e-6,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "portfl-i-portfl4": {
+    "display_name": "portfl-i-4",
+    "classification": "QLR-AY-NLP-87-25-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl4.dat",
+    "solution": 2.177e-6,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "portfl-i-portfl6": {
+    "display_name": "portfl-i-6",
+    "classification": "QLR-AY-NLP-87-25-12",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl-i.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/portfl6.dat",
+    "solution": 2.361e-6,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-100-1": {
+    "display_name": "qpec-100-1",
+    "classification": "QLR-AN-LCP-105-102-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-1.dat",
+    "solution": 0.0990028,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-100-2": {
+    "display_name": "qpec-100-2",
+    "classification": "QLR-AN-LCP-110-102-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-2.dat",
+    "solution": -6.59074,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-100-3": {
+    "display_name": "qpec-100-3",
+    "classification": "QLR-AN-LCP-110-104-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-3.dat",
+    "solution": -5.48287,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-100-4": {
+    "display_name": "qpec-100-4",
+    "classification": "QLR-AN-LCP-120-104-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-100-4.dat",
+    "solution": -3.98212,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-200-1": {
+    "display_name": "qpec-200-1",
+    "classification": "QLR-AN-LCP-210-204-200",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-1.dat",
+    "solution": -1.93483,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-200-2": {
+    "display_name": "qpec-200-2",
+    "classification": "QLR-AN-LCP-220-204-200",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-2.dat",
+    "solution": -24.0299,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-200-3": {
+    "display_name": "qpec-200-3",
+    "classification": "QLR-AN-LCP-220-208-200",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-3.dat",
+    "solution": -1.95341,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpecgen-qpec-200-4": {
+    "display_name": "qpec-200-4",
+    "classification": "QLR-AN-LCP-240-208-200",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpecgen.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec-200-4.dat",
+    "solution": -6.19323,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpec1": {
+    "display_name": "qpec1",
+    "classification": "QUR-AN-LCP-30-0-20",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec1.mod",
+    "dat_file": null,
+    "solution": 80.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "qpec2": {
+    "display_name": "qpec2",
+    "classification": "QUR-AN-LCP-30-0-20",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/qpec2.mod",
+    "dat_file": null,
+    "solution": 45.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ralph1": {
+    "display_name": "ralph1",
+    "classification": "LUR-AN-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralph1.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "ralph2": {
+    "display_name": "ralph2",
+    "classification": "QUR-AN-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralph2.mod",
+    "dat_file": null,
+    "solution": 0.0,
+    "convex_cost": false,
+    "linear_constraints": true
+  },
+  "ralphmod-ralphmod": {
+    "display_name": "ralphmod",
+    "classification": "QUR-AN-LCP-104-0-100",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralphmod.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/ralphmod.dat",
+    "solution": -683.033,
+    "convex_cost": false,
+    "linear_constraints": true
+  },
+  "scholtes1": {
+    "display_name": "scholtes1",
+    "classification": "QLR-AY-NCP-3-1-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes1.mod",
+    "dat_file": null,
+    "solution": 2.0,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "scholtes2": {
+    "display_name": "scholtes2",
+    "classification": "QLR-AY-NCP-3-1-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes2.mod",
+    "dat_file": null,
+    "solution": 15.0,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "scholtes3": {
+    "display_name": "scholtes3",
+    "classification": "QUR-AN-LCP-2-0-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes3.mod",
+    "dat_file": null,
+    "solution": 0.5,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scholtes4": {
+    "display_name": "scholtes4",
+    "classification": "LLR-AY-LCP-3-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes4.mod",
+    "dat_file": null,
+    "solution": -3.07336e-7,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scholtes5": {
+    "display_name": "scholtes5",
+    "classification": "QBR-AN-LCP-3-2-2",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scholtes5.mod",
+    "dat_file": null,
+    "solution": 1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "tollmpec-siouxfls": {
+    "display_name": "siouxfls",
+    "classification": "LLR-MN-NCP-2402-627-1748",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tollmpec.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/siouxfls.dat",
+    "solution": 208.258,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "tollmpec1-siouxfls": {
+    "display_name": "siouxfls1",
+    "classification": "OLR-MN-NCP-2402-627-1748",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tollmpec1.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/siouxfls.dat",
+    "solution": 979.386,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "scale1": {
+    "display_name": "scale1",
+    "classification": "QLR-AY-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale1.mod",
+    "dat_file": null,
+    "solution": 1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scale2": {
+    "display_name": "scale2",
+    "classification": "QLR-AY-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale2.mod",
+    "dat_file": null,
+    "solution": 1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scale3": {
+    "display_name": "scale3",
+    "classification": "QLR-AY-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale3.mod",
+    "dat_file": null,
+    "solution": 1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scale4": {
+    "display_name": "scale4",
+    "classification": "QLR-AY-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale4.mod",
+    "dat_file": null,
+    "solution": 1.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "scale5": {
+    "display_name": "scale5",
+    "classification": "QLR-AY-LCP-2-0-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/scale5.mod",
+    "dat_file": null,
+    "solution": 100.0,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "sl1": {
+    "display_name": "sl1",
+    "classification": "QLR-AY-LCP-8-2-3",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/sl1.mod",
+    "dat_file": null,
+    "solution": 0.0001,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "stackelberg1": {
+    "display_name": "stackelberg1",
+    "classification": "QLR-AY-LCP-3-1-1",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/stackelberg1.mod",
+    "dat_file": null,
+    "solution": -3266.67,
+    "convex_cost": false,
+    "linear_constraints": true
+  },
+  "tap-09-tap-09": {
+    "display_name": "tap-09",
+    "classification": "OOR-AY-NCP-86-68-32",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-09.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-09.dat",
+    "solution": 109.143,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "tap-15-tap-15": {
+    "display_name": "tap-15",
+    "classification": "OOR-AY-NCP-194-167-83",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-15.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/tap-15.dat",
+    "solution": 184.295,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "taxmcp": {
+    "display_name": "taxmcp",
+    "classification": "LOR-AN-MCP-15-14-11",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/taxmcp.mod",
+    "dat_file": null,
+    "solution": 0.818705,
+    "convex_cost": true,
+    "linear_constraints": false
+  },
+  "trafficsignalcycle-tsc-1": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-364-604-120",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-1.dat",
+    "solution": 45.15,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-2": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-364-604-120",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-2.dat",
+    "solution": 42.12,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-3": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-3.dat",
+    "solution": 80.63,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-4": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-4.dat",
+    "solution": 75.02,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-5": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-5.dat",
+    "solution": 88.06,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-6": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-6.dat",
+    "solution": 89.75,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-7": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-367-609-121",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-7.dat",
+    "solution": 173.06,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-8": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-367-609-121",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-8.dat",
+    "solution": 177.72,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-9": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-9.dat",
+    "solution": 46.32,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-10": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-10.dat",
+    "solution": 48.71,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-11": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-11.dat",
+    "solution": 90.39,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-12": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-12.dat",
+    "solution": 130.57,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "trafficsignalcycle-tsc-13": {
+    "display_name": "TrafficSignalCycle",
+    "classification": "LLR-AN-LCP-368-610-122",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TrafficSignalCycle.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/TSC-13.dat",
+    "solution": 83.55,
+    "convex_cost": true,
+    "linear_constraints": true
+  },
+  "water-net-water-net": {
+    "display_name": "water-net",
+    "classification": "OOR-MY-LCP-52-22-13",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.dat",
+    "solution": 929.169,
+    "convex_cost": false,
+    "linear_constraints": false
+  },
+  "water-net-water-fl": {
+    "display_name": "water-FL",
+    "classification": "OOR-MY-LCP-169-72-33",
+    "mod_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-net.mod",
+    "dat_file": "http://www.mcs.anl.gov/~leyffer/MacMPEC/problems/water-FL.dat",
+    "solution": 3411.92,
+    "convex_cost": false,
+    "linear_constraints": false
+  }
+}
