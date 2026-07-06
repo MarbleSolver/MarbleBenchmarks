@@ -14,6 +14,22 @@ CCOpt with HSL linear system solvers requires an academic license. Follow the in
 
 Clone [the Marble repo](https://github.com/MarbleSolver/Marble) and follow the build instructions from the Marble README. Then, install Marble's Julia package in dev mode in the `MarbleBenchmarks` environment.
 
+## Running CRISP
+
+Clone [the CRISP fork](https://github.com/micahreich/CRISP) and follow the build instructions from its README to build the C++ bindings. Then install its Julia package (in the `julia/` subdirectory) in dev mode in the `MarbleBenchmarks` environment:
+
+```bash
+julia --project=. -e 'using Pkg; Pkg.develop(path="/path/to/CRISP/julia")'
+```
+
+## Running LCQPow
+
+Clone [the LCQPow fork](https://github.com/micahreich/LCQPow) and follow the build instructions from its README to build the C++ bindings. Then install its Julia package (in the `interfaces/julia/` subdirectory) in dev mode in the `MarbleBenchmarks` environment:
+
+```bash
+julia --project=. -e 'using Pkg; Pkg.develop(path="/path/to/LCQPow/interfaces/julia")'
+```
+
 # Installing MarbleBenchmarks
 
 Once the above steps have been completed, from the root of the `MarbleBenchmarks` repository, enter into a new Julia terminal and precompile the package:
