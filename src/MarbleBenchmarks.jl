@@ -25,15 +25,23 @@ list_problems(class::Symbol) = sort([k for (k, (_, c)) in PROBLEM_REGISTRY if c 
 problem_classes() = sort(unique(c for (_, c) in values(PROBLEM_REGISTRY)))
 
 export get_problem, list_problems, problem_classes, register
-export quadrotor_gates, three_d_gates, three_d_gates_fewer_comps, multi_robot_coordination, rocket_catch, block_push_1d
+export quadrotor_gates, three_d_gates, three_d_gates_fewer_comps, multi_robot_coordination,
+       multi_robot_obstacle_avoidance, rocket_catch, block_push_1d
 
 include("problems/quadrotor_gates_3d.jl")
-include("problems/3d_gates.jl")
 include("problems/multi_robot_coordination.jl")
+include("problems/multi_robot_obstacle_avoidance.jl")
 include("problems/rocket_catch_3d.jl")
+include("problems/rocket_catch_2d.jl")
 include("problems/block_push_1d.jl")
 include("problems/macmpec.jl")
-include("problems/minimal_gate_mpcc.jl")
-include("problems/minimal_gate_mpcc_cc.jl")
+
+# Benchmark harness as a submodule. NOTE: this pulls in the solver backends
+# (Gurobi, CRISP, LCQPow, CCOpt, MadNLP, MadNLPHSL), so `using MarbleBenchmarks`
+# now also loads all of them.
+include("../benchmarks/Benchmarks.jl")
+using .Benchmarks
+export benchmark_marble, benchmark_gurobi, benchmark_crisp, benchmark_lcqpow, benchmark_ccopt
+export run_benchmark, SolverResult, get_mpcc, feasibility_stats
 
 end

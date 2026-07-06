@@ -1,314 +1,204 @@
-using CSV, DataFrames, Statistics, Printf
-using GLMakie
+using CSV, DataFrames, Printf
+using Plots
+pgfplotsx()   # PGFPlotsX backend so figures save as standalone .tex (TikZ/pgfplots)
 
-const ROOT_DIR = @__DIR__
-const RESULTS_DIRS = [joinpath(ROOT_DIR, "results"), ROOT_DIR]
-const FIGURES_DIR = joinpath(ROOT_DIR, "figures")
-mkpath(FIGURES_DIR)
+const RESULTS_DIR = joinpath(@__DIR__, "results")
+const FIGURES_DIR = joinpath(@__DIR__, "figures")
 
-const SUCCESS = Set(["OPTIMAL", "LOCALLY_SOLVED", "SOLVE_SUCCEEDED"])
-const EPS_TIME = 1e-12
-const MIN_GAP = 1e-14
+# A solve counts as "solved" iff its recorded feasibility residuals are all
+# within this tolerance. This is the single place that decision is made — the
+# solver CSVs only report residuals and the solver's own `converged` flag (which
+# we deliberately ignore here). Tune this without re-running the solvers
+const FEAS_TOL = 2e-7   # 1e-7 just barely excludes CRISP's ex9.2.2 (comp = 1.4e-7)
 
-function latest_result_file(solver::String)
-    prefix = "$(solver)_results_"
-    files = String[]
+is_solved(row; tol = FEAS_TOL) =
+    isfinite(row.total_time_s) &&
+    row.residual_eq   <= tol &&
+    row.residual_ineq <= tol &&
+    row.residual_comp <= tol
 
-    for dir in RESULTS_DIRS
-        isdir(dir) || continue
-        append!(
-            files,
-            joinpath.(Ref(dir), filter(f -> startswith(f, prefix) && endswith(f, ".csv"), readdir(dir)))
-        )
+# Display name and line color per solver (unknown solvers fall back sensibly).
+const SOLVER_LABEL = Dict(
+    "marble" => "Marble (ours)",
+    "lcqpow" => "LCQPow",
+    "gurobi" => "Gurobi",
+    "crisp"  => "CRISP",
+)
+const SOLVER_COLOR = Dict(
+    "marble" => RGB(230/255, 0, 0),
+    "lcqpow" => RGB(0.0, 12.189765/255, 124.51650000000001/255),
+    "gurobi" => RGB(26.526375/255, 142.418775/255, 98.729625/255),
+    "crisp"  => RGB(123/255, 31/255, 162/255),
+)
+# Draw order: these solvers first (in this order), then any others alphabetically.
+const SOLVER_ORDER = ["marble", "lcqpow", "crisp", "gurobi",]
+
+solver_label(s) = get(SOLVER_LABEL, s, uppercasefirst(s))
+solver_color(s) = get(SOLVER_COLOR, s, :auto)
+function ordered_solvers(ratios)
+    present = collect(keys(ratios))
+    known  = [s for s in SOLVER_ORDER if s in present]
+    extras = sort([s for s in present if s ∉ SOLVER_ORDER])
+    return vcat(known, extras)
+end
+
+"""
+    load_latest_results(dir) -> Dict{String,DataFrame}
+
+Read the result CSVs in `dir`, one per solver. Filenames look like
+`marble_2026-07-02_17-45-02.csv`; the solver name is the prefix before the first
+`_`. If several files exist for a solver, keep the most recent (the timestamped
+names sort chronologically).
+"""
+function load_latest_results(dir=RESULTS_DIR)
+    files = filter(f -> endswith(f, ".csv"), readdir(dir))
+    isempty(files) && error("no result CSVs found in $dir")
+    latest = Dict{String,String}()
+    for f in sort(files)                       # ascending → newest overwrites
+        solver = String(split(f, '_')[1])
+        latest[solver] = f
     end
-
-    isempty(files) && error("No results for '$solver' in $(join(RESULTS_DIRS, ", "))")
-    return sort(files; by = basename)[end]
+    return Dict(solver => CSV.read(joinpath(dir, f), DataFrame)
+                for (solver, f) in latest)
 end
 
-function load_latest(solver::String)
-    path = latest_result_file(solver)
-    @info "[$solver] loading $(basename(path))"
+"""
+    solver_metrics(results; metric=:total_time_s) -> (problems, times)
 
-    df = CSV.read(path, DataFrame)
+`problems` is the sorted union of problem names. `times[solver][problem]` is the
+metric value when `is_solved(row)` (feasibility residuals within `FEAS_TOL`),
+else `Inf`.
+"""
+function solver_metrics(results; metric=:total_time_s)
+    problems = String[]
+    for df in values(results)
+        append!(problems, String.(df.problem))
+    end
+    problems = sort(unique(problems))
 
-    required = [
-        :problem,
-        :status,
-        :obj,
-        :residual_eq,
-        :residual_ineq,
-        :residual_comp,
-        :total_time_s,
-    ]
-
-    missing_cols = setdiff(required, propertynames(df))
-    isempty(missing_cols) || error("$(basename(path)) missing columns: $missing_cols")
-
-    return select(df, required)
-end
-
-is_success(s) = !ismissing(s) && strip(String(s)) in SUCCESS
-is_finite_num(x) = !ismissing(x) && isfinite(x)
-is_pos_time(x) = is_finite_num(x) && x > 0
-
-function keep_valid_successes!(df::DataFrame)
-    filter!(
-        r -> is_success(r.status) &&
-             is_finite_num(r.obj) &&
-             is_pos_time(r.total_time_s) &&
-             is_finite_num(r.residual_comp),
-        df,
-    )
-    return df
-end
-
-raw_g = keep_valid_successes!(load_latest("gurobi"))
-raw_c = keep_valid_successes!(load_latest("ccopt"))
-raw_m = keep_valid_successes!(load_latest("marble"))
-
-df = innerjoin(
-    select(raw_g, :problem,
-           :total_time_s  => :t_gurobi,
-           :obj           => :obj_gurobi,
-           :residual_comp => :comp_gurobi),
-    select(raw_c, :problem,
-           :total_time_s  => :t_ccopt,
-           :obj           => :obj_ccopt,
-           :residual_comp => :comp_ccopt),
-    select(raw_m, :problem,
-           :total_time_s  => :t_marble,
-           :obj           => :obj_marble,
-           :residual_comp => :comp_marble),
-    on = :problem,
-)
-
-n = nrow(df)
-n > 0 || error("No common successfully solved problems across all solvers.")
-@info "Common problems across all solvers: $n"
-
-ref_obj = abs.(df.obj_gurobi) .+ 1e-10
-df[!, :gap_ccopt]  = abs.(df.obj_ccopt  .- df.obj_gurobi) ./ ref_obj
-df[!, :gap_marble] = abs.(df.obj_marble .- df.obj_gurobi) ./ ref_obj
-
-const C_GUROBI = RGBf(0.20, 0.47, 0.87)
-const C_CCOPT  = RGBf(0.91, 0.38, 0.13)
-const C_MARBLE = RGBf(0.13, 0.67, 0.40)
-
-set_theme!(
-    theme_light();
-    fontsize = 13,
-    Axis = (
-        spinewidth     = 0.8,
-        xgridvisible   = true,
-        ygridvisible   = true,
-        gridcolor      = (:black, 0.09),
-        gridwidth      = 0.5,
-        xticklabelsize = 11,
-        yticklabelsize = 11,
-    ),
-)
-
-# ---------------------------------------------------------------------
-# Figure 1: Dolan-Moré performance profile
-# ---------------------------------------------------------------------
-
-sort!(df, :t_gurobi)
-
-T = Matrix{Float64}(df[:, [:t_gurobi, :t_ccopt, :t_marble]])
-T = max.(T, EPS_TIME)
-
-best = minimum(T; dims = 2)
-R = T ./ best
-
-τ_max = max(1.05, maximum(R) * 1.05)
-τ_vals = exp10.(range(0.0, log10(τ_max); length = 1000))
-ρ = [count(R[:, s] .<= τ) / n for τ in τ_vals, s in 1:3]
-
-fig1 = Figure(size = (680, 400))
-ax1 = Axis(fig1[1, 1];
-    title  = "Performance Profile - MacMPEC Benchmark",
-    xlabel = "Performance ratio (t_solver / t_best)",
-    ylabel = "Fraction of problems solved",
-    xscale = log10,
-    yticks = 0:0.1:1.0,
-)
-
-for (i, (label, color)) in enumerate(zip(
-        ("Gurobi", "CCOpt", "Marble"),
-        (C_GUROBI, C_CCOPT, C_MARBLE)))
-    lines!(ax1, τ_vals, ρ[:, i]; color, label, linewidth = 2.4)
-end
-
-hlines!(ax1, [1.0]; color = (:black, 0.15), linestyle = :dot, linewidth = 1.0)
-axislegend(ax1; position = :rb, framevisible = true, labelsize = 12)
-ylims!(ax1, -0.02, 1.08)
-
-save(joinpath(FIGURES_DIR, "1_perf_profile.png"), fig1; px_per_unit = 2)
-display(fig1)
-
-# ---------------------------------------------------------------------
-# Figure 2: CCOpt vs Marble solve time
-# ---------------------------------------------------------------------
-
-t_ccopt = max.(df.t_ccopt, EPS_TIME)
-t_marble = max.(df.t_marble, EPS_TIME)
-t_gurobi = max.(df.t_gurobi, EPS_TIME)
-
-t_all = vcat(t_ccopt, t_marble)
-t_lo = minimum(t_all) / 1.4
-t_hi = maximum(t_all) * 1.4
-
-fig2 = Figure(size = (560, 520))
-ax2 = Axis(fig2[1, 1];
-    title  = "CCOpt vs. Marble Solve Time",
-    xlabel = "CCOpt solve time (s)",
-    ylabel = "Marble solve time (s)",
-    xscale = log10,
-    yscale = log10,
-    aspect = 1,
-)
-
-lines!(ax2, [t_lo, t_hi], [t_lo, t_hi];
-    color = (:black, 0.35), linestyle = :dash, linewidth = 1.1)
-
-sc = scatter!(ax2, t_ccopt, t_marble;
-    color       = log10.(t_gurobi),
-    colormap    = :viridis,
-    markersize  = 11,
-    strokecolor = :black,
-    strokewidth = 0.6,
-)
-
-Colorbar(fig2[1, 2], sc;
-    label         = "log10(Gurobi time, s)",
-    labelsize     = 11,
-    ticklabelsize = 10,
-    width         = 14,
-)
-
-for row in eachrow(df)
-    ratio = row.t_ccopt / row.t_marble
-    
-    text!(ax2, max(row.t_ccopt, EPS_TIME) * 1.15, max(row.t_marble, EPS_TIME);
-        text     = String(row.problem),
-        fontsize = 8,
-        align    = (:left, :center),
-    )
-end
-
-xlims!(ax2, t_lo, t_hi)
-ylims!(ax2, t_lo, t_hi)
-
-save(joinpath(FIGURES_DIR, "2_ccopt_vs_marble_time.png"), fig2; px_per_unit = 2)
-display(fig2)
-
-# ---------------------------------------------------------------------
-# Figure 3: objective gap vs Gurobi
-# ---------------------------------------------------------------------
-
-gap_sort_order = sortperm(max.(df.gap_ccopt, df.gap_marble); rev = true)
-df_gap = df[gap_sort_order, :]
-
-gap_c = max.(df_gap.gap_ccopt, MIN_GAP)
-gap_m = max.(df_gap.gap_marble, MIN_GAP)
-
-probs_gap = String.(df_gap.problem)
-pidx_gap = collect(1:nrow(df_gap))
-
-fig3 = Figure(size = (680, max(540, nrow(df_gap) * 22 + 100)))
-ax3 = Axis(fig3[1, 1];
-    title     = "Objective Gap vs. Gurobi Global Solution",
-    xlabel    = "|f_solver - f*| / (|f*| + eps)  [Gurobi = reference]",
-    yticks    = (pidx_gap, probs_gap),
-    xscale    = log10,
-    yreversed = true,
-)
-
-vlines!(ax3, 1e-2; color = (:red, 0.35), linestyle = :dash, linewidth = 1.1)
-
-text!(ax3, 1e-2 * 1.15, 0.4;
-    text     = "1% gap",
-    fontsize = 9,
-    color    = RGBAf(0.7, 0.1, 0.1, 0.8),
-    align    = (:left, :center),
-)
-
-scatter!(ax3, gap_c, pidx_gap .- 0.2;
-    color = (C_CCOPT, 0.9),
-    marker = :rect,
-    markersize = 9,
-    label = "CCOpt",
-    strokecolor = :black,
-    strokewidth = 0.5,
-)
-
-scatter!(ax3, gap_m, pidx_gap .+ 0.2;
-    color = (C_MARBLE, 0.9),
-    marker = :diamond,
-    markersize = 10,
-    label = "Marble",
-    strokecolor = :black,
-    strokewidth = 0.5,
-)
-
-axislegend(ax3; position = :rb, framevisible = true, labelsize = 12)
-
-save(joinpath(FIGURES_DIR, "3_obj_gap.png"), fig3; px_per_unit = 2)
-display(fig3)
-
-# ---------------------------------------------------------------------
-# Summary statistics
-# ---------------------------------------------------------------------
-
-println()
-println("="^62)
-println("  MacMPEC Benchmark Summary   ($n problems, all solvers converged)")
-println("="^62)
-
-println("\n  Solve Time (ms):")
-@printf("  %-8s  %8s  %8s  %8s\n", "Solver", "Median", "Mean", "Max")
-for (name, col) in (
-        ("Gurobi", df.t_gurobi),
-        ("CCOpt",  df.t_ccopt),
-        ("Marble", df.t_marble))
-    @printf("  %-8s  %8.3f  %8.3f  %8.3f\n",
-        name, median(col) * 1e3, mean(col) * 1e3, maximum(col) * 1e3)
-end
-
-println("\n  Speedup vs. Gurobi:")
-@printf("  %-8s  %10s  %10s  %10s\n", "Solver", "Median×", "GeoMean×", "Max×")
-for (name, col) in (
-        ("CCOpt",  df.t_gurobi ./ max.(df.t_ccopt, EPS_TIME)),
-        ("Marble", df.t_gurobi ./ max.(df.t_marble, EPS_TIME)))
-    gm = exp(mean(log.(max.(col, EPS_TIME))))
-    @printf("  %-8s  %10.2f  %10.2f  %10.2f\n",
-        name, median(col), gm, maximum(col))
-end
-
-println("\n  Objective gap vs. Gurobi:")
-@printf("  %-8s  %12s  %12s\n", "Solver", "Median gap", "Max gap")
-for (name, col) in (
-        ("CCOpt",  df.gap_ccopt),
-        ("Marble", df.gap_marble))
-    @printf("  %-8s  %12.2e  %12.2e\n",
-        name, median(col), maximum(col))
-end
-
-println("\n  Problems with gap > 1%:")
-found_any = false
-for row in eachrow(df)
-    for (name, gap, fval) in (
-            ("CCOpt",  row.gap_ccopt,  row.obj_ccopt),
-            ("Marble", row.gap_marble, row.obj_marble))
-        if gap > 0.01
-            @printf("    %-12s  %-8s  gap = %.2e  (f=%.6g  vs  f*=%.6g)\n",
-                row.problem, name, gap, fval, row.obj_gurobi)
-            found_any = true
+    times = Dict{String,Dict{String,Float64}}()
+    for (solver, df) in results
+        d = Dict{String,Float64}(p => Inf for p in problems)
+        for row in eachrow(df)
+            if is_solved(row)
+                d[String(row.problem)] = Float64(getproperty(row, metric))
+            end
         end
+        times[solver] = d
+    end
+    return problems, times
+end
+
+"""
+    performance_ratios(problems, times) -> Dict solver => Vector{Float64}
+
+`r[p, s] = t[p, s] / min_{s'} t[p, s']`, and `Inf` where solver `s` failed.
+"""
+function performance_ratios(problems, times)
+    best = Dict(p => minimum(times[s][p] for s in keys(times)) for p in problems)
+    ratios = Dict{String,Vector{Float64}}()
+    for (s, d) in times
+        ratios[s] = [isfinite(best[p]) ? d[p] / best[p] : Inf for p in problems]
+    end
+    return ratios
+end
+
+"""
+    plot_performance_profile(problems, ratios; tau_max=200.0, n_tau=100) -> Plot
+
+Performance profile in the paper style: % of problems solved vs performance
+ratio τ on a log10 x-axis. The profile is sampled on a log-spaced τ grid and
+drawn as smooth lines, one per solver.
+"""
+function plot_performance_profile(problems, ratios; tau_max=500.0, n_tau=100)
+    np = length(problems)
+    taus = exp.(range(log(1.0), stop=log(tau_max), length=n_tau))
+
+    plt = plot(; size=(350, 190), legend=:bottomright,
+                 xscale=:log10, xlims=(1.0, tau_max), ylims=(0, 105))
+    for s in ordered_solvers(ratios)
+        pct = [count(<=(τ), ratios[s]) for τ in taus] ./ np .* 100
+        plot!(plt, taus, pct; label=solver_label(s), color=solver_color(s), lw=2)
+    end
+    xlabel!(plt, raw"\(10^x\) times best")
+    ylabel!(plt, "% problems solved")
+    return plt
+end
+
+"""
+    print_summary(problems, ratios; thresholds)
+
+Text table: fraction of problems each solver solves within τ× best.
+"""
+function print_summary(problems, ratios; thresholds = [1, 2, 4, 8, 10, 16, 100])
+    np = length(problems)
+    solvers = sort(collect(keys(ratios)))
+    println("\nFraction of $np problems solved within τ× the best (fastest) time:")
+    @printf("  %-8s", "τ")
+    foreach(s -> @printf("%-12s", s), solvers)
+    println()
+    for τ in sort(thresholds)
+        @printf("  %-8g", τ)
+        for s in solvers
+            @printf("%-12.2f", count(<=(float(τ)), ratios[s]) / np)
+        end
+        println()
     end
 end
-found_any || println("    (none)")
 
-println("\n  Figures saved to: $FIGURES_DIR")
-println()
+"""
+    print_global_summary(results; ref="gurobi", rtol=1e-3, atol=1e-4)
+
+How many problems each solver reaches the *global* optimum on: it must return a
+feasible solution (`is_solved`) whose objective matches the reference solver's
+(`ref` = Gurobi, which solves the MacMPEC MPCCs to global optimality) within
+`|Δobj| ≤ atol + rtol·|obj_ref|`. Denominator is the set of problems `ref` solves.
+"""
+function print_global_summary(results; ref="gurobi", rtol=1e-3, atol=1e-4)
+    haskey(results, ref) || (@warn "no `$ref` results; skipping global-solution summary"; return)
+    obj    = Dict(s => Dict(String(r.problem) => Float64(r.obj) for r in eachrow(df)) for (s, df) in results)
+    solved = Dict(s => Dict(String(r.problem) => is_solved(r)   for r in eachrow(df)) for (s, df) in results)
+    gref = Dict(p => obj[ref][p] for p in keys(obj[ref]) if solved[ref][p])   # global objective per problem
+    nref = length(gref)
+    matches(a, b) = abs(a - b) <= atol + rtol * abs(b)
+
+    println("\nGlobal solutions found — objective matches $ref (of the $nref problems $ref solves globally):")
+    for s in ordered_solvers(results)
+        s == ref && continue
+        hits = count(p -> get(solved[s], p, false) && haskey(obj[s], p) && matches(obj[s][p], gref[p]), keys(gref))
+        @printf("  %-8s %2d / %d  (%.1f%%)\n", s, hits, nref, 100 * hits / nref)
+    end
+end
+
+# Save `plt` as a TikZ `.tex`. Plots' pgfplotsx backend hard-codes an absolute
+# mm size, which overflows a narrow paper column. Wrapping the picture in
+# \resizebox{\linewidth}{!}{…} makes it scale to the enclosing column width, so
+# it never runs off the page (requires \usepackage{graphicx} in the document).
+function save_tex(plt, path)
+    savefig(plt, path)
+    tex = read(path, String)
+    tex = replace(tex, "\\begin{tikzpicture}" => "\\resizebox{\\linewidth}{!}{%\n\\begin{tikzpicture}"; count = 1)
+    tex = replace(tex, "\\end{tikzpicture}"   => "\\end{tikzpicture}%\n}"; count = 1)
+    write(path, tex)
+    return path
+end
+
+function main(; metric = :total_time_s, tau_max = 1000.0)
+    results = load_latest_results()
+    problems, times = solver_metrics(results; metric)
+    ratios = performance_ratios(problems, times)
+
+    mkpath(FIGURES_DIR)
+    plt = plot_performance_profile(problems, ratios; tau_max)
+    display(plt)
+    out = joinpath(FIGURES_DIR, "performance_profile.svg")
+    save_tex(plt, out)
+    @info "wrote $out"
+
+    print_summary(problems, ratios)
+    print_global_summary(results)
+    return problems, ratios
+end
+
+# Executed as a script (`julia --project analysis.jl`); harmless if included.
+main()

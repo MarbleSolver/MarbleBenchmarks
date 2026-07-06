@@ -3,9 +3,10 @@ default_results_dir() = joinpath(pwd(), "results")
 results_df() = DataFrame(
     problem = String[],
     status = String[],
+    converged = Bool[],           # what the solver itself reported (informational)
     obj = Float64[],
-    residual_eq = Float64[],
-    residual_ineq = Float64[],
+    residual_eq = Float64[],      # feasibility residuals of the returned point;
+    residual_ineq = Float64[],    # the analysis thresholds these to decide "solved"
     residual_comp = Float64[],
     total_time_s = Float64[],
 )
@@ -37,10 +38,22 @@ function feasibility_stats(data, x)
     )
 end
 
+# Feasibility residuals of the returned point (for the CSV), or FAILED_STATS
+# when there is no usable point. This only *reports* residuals — the "solved"
+# decision lives in the analysis, which thresholds them.
+function residuals_or_failed(data, x)
+    x === nothing && return FAILED_STATS
+    try
+        feasibility_stats(data, x)
+    catch
+        FAILED_STATS
+    end
+end
+
 # What every benchmark_* solve returns; each solve_one splats `feasibility_stats`
 # (or FAILED_STATS) into the feasibility fields.
 Base.@kwdef struct SolverResult
-    successful::Bool
+    converged::Bool               # the solver's own convergence report
     status::String
     solve_time::Float64
     x = nothing
@@ -58,11 +71,12 @@ function run_benchmark(solve_one, csv_name; problems, save=false, results_dir=de
         push!(df, (
             problem = string(name),
             status = r.status,
+            converged = r.converged,
             obj = r.obj,
             residual_eq = r.residual_eq,
             residual_ineq = r.residual_ineq,
             residual_comp = r.residual_comp,
-            total_time_s = r.successful ? r.solve_time : Inf,
+            total_time_s = r.solve_time,
         ))
     end
     if save

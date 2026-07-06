@@ -1,6 +1,6 @@
 # Marble Benchmarks
 
-Benchmark problems and driver code for comparing Marble against MPCC solvers like CCOpt and Gurobi. 
+Benchmark problems and driver code for comparing Marble against MPCC solvers like CCOpt, Gurobi, CRISP, LCQPow.
 
 ## Running Gurobi
 
@@ -12,7 +12,7 @@ CCOpt with HSL linear system solvers requires an academic license. Follow the in
 
 ## Running Marble
 
-Clone [the Marble repo](https://github.com/MarbleSolver/RCQP) and follow the build instructions from the Marble README. Then, install Marble's Julia package in dev mode in the `MarbleBenchmarks` environment.
+Clone [the Marble repo](https://github.com/MarbleSolver/Marble) and follow the build instructions from the Marble README. Then, install Marble's Julia package in dev mode in the `MarbleBenchmarks` environment.
 
 # Installing MarbleBenchmarks
 

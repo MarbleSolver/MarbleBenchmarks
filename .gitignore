@@ -1,3 +1,5 @@
 src/marblejl.jl
 latex/
 testing/
+visualizations/multi_robot_obstacle_avoidance.jl
+**/.DS_Store

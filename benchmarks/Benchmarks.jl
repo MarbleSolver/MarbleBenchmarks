@@ -4,7 +4,7 @@ using LinearAlgebra
 using DataFrames, CSV, Dates
 using JuMP
 using Marble
-using MarbleBenchmarks
+using ..MarbleBenchmarks   # parent module: get_problem, list_problems, …
 using Gurobi
 using CRISP, LCQPow
 using CCOpt, MadNLP, MadNLPHSL
