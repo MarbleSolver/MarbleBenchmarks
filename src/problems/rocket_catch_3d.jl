@@ -5,7 +5,7 @@ rocket_Ry(θ) = [cos(θ) 0 sin(θ); 0 1.0 0; -sin(θ) 0 cos(θ)]
 rocket_thrust_axis_body(δr, δp) = rocket_Rx(δr) * rocket_Ry(δp) * [0.0; 0.0; 1.0]
 
 # Full state: [p; q; v; ω; δr; δp]. Control: [thrust; δ̇r; δ̇p]
-function rocket_dynamics(x, u; m, g, l, J)
+function rocket_dynamics_3d(x, u; m, g, l, J)
     q, v, ω = x[4:7], x[8:10], x[11:13]
     δr, δp = x[14], x[15]
     thrust_axis = rocket_thrust_axis_body(δr, δp)
@@ -22,12 +22,12 @@ function rocket_dynamics(x, u; m, g, l, J)
     ]
 end
 
-function linearized_rocket_dynamics(x̄, ū, Δt; m, g, l, J)
+function linearized_rocket_dynamics_3d(x̄, ū, Δt; m, g, l, J)
     nx, nu = 15, 3
     E = quat_state_lift(x̄[4:7], 8)
-    Af = FD.jacobian(x -> rocket_dynamics(x, ū; m=m, g=g, l=l, J=J), x̄)
-    Bf = FD.jacobian(u -> rocket_dynamics(x̄, u; m=m, g=g, l=l, J=J), ū)
-    cf = rocket_dynamics(x̄, ū; m=m, g=g, l=l, J=J)
+    Af = FD.jacobian(x -> rocket_dynamics_3d(x, ū; m=m, g=g, l=l, J=J), x̄)
+    Bf = FD.jacobian(u -> rocket_dynamics_3d(x̄, u; m=m, g=g, l=l, J=J), ū)
+    cf = rocket_dynamics_3d(x̄, ū; m=m, g=g, l=l, J=J)
     sysc = ss(Af, [Bf cf], I(nx), zeros(nx, nu + 1))
     sysd = c2d(sysc, Δt, :zoh)
     return E' * sysd.A * E, E' * sysd.B[:, 1:nu], E' * sysd.B[:, end]
@@ -76,7 +76,7 @@ function rocket_catch_3d(; N=40, T=16.0,
     # Reduced state: [p; ϕ; v; ω; δr; δp]
     x̄ = [zeros(3); q_ref; zeros(8)]
     ū = [m * g; 0.0; 0.0]
-    Ã, B̃, c̃ = linearized_rocket_dynamics(x̄, ū, Δt; m=m, g=g, l=l, J=J)
+    Ã, B̃, c̃ = linearized_rocket_dynamics_3d(x̄, ū, Δt; m=m, g=g, l=l, J=J)
 
     # Catch funnel and trigger geometry
     tower_normal = [0.0, 1.0, 0.0]

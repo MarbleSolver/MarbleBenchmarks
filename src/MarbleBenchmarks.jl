@@ -35,6 +35,7 @@ include("problems/rocket_catch_3d.jl")
 include("problems/rocket_catch_2d.jl")
 include("problems/block_push_1d.jl")
 include("problems/macmpec.jl")
+include("problems/simple_test.jl")
 
 # Benchmark harness as a submodule. NOTE: this pulls in the solver backends
 # (Gurobi, CRISP, LCQPow, CCOpt, MadNLP, MadNLPHSL), so `using MarbleBenchmarks`
