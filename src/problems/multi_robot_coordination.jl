@@ -54,12 +54,6 @@ function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
     @constraint(model, kkt_abs_s_plus_d[k=1:N, i=1:n_slacks, j=1:2], s[k, i, j] + d[k, i, j] >= 0)
     @constraint(model, [k=1:N, i=1:n_slacks], sum(s[k, i, j] for j=1:2) >= d_min)
 
-    mpcc = MPCC()
-    ind_cc1, ind_cc2, cc_types = complementarity_indices(model,
-        (model[:λ_plus], model[:kkt_abs_s_minus_d]),
-        (model[:λ_minus], model[:kkt_abs_s_plus_d]),
-    )
-
     mpcc = MPCC(model, (model[:λ_plus], model[:kkt_abs_s_minus_d]), (model[:λ_minus], model[:kkt_abs_s_plus_d]))
     inds = var_inds(model)
     params = (; N, T, d_min, n_robots)
