@@ -1,6 +1,28 @@
 using Plots
 pgfplotsx()
 
+# Output is a bare tikzpicture (sigma_curve.tikz). pgfplots draws it at your column
+# width while the labels keep the absolute point sizes set below — no font shrinking
+# from \includegraphics scaling. In your document preamble:
+#
+#   \usepackage{pgfplots}
+#   \pgfplotsset{compat=1.18}
+#   \usetikzlibrary{arrows.meta,backgrounds}
+#   \usepgfplotslibrary{patchplots,fillbetween}
+#   \usepackage{tikzscale}
+#
+# then:  \includegraphics[width=\columnwidth]{figs/sigma_curve.tikz}
+#
+# NOTE: the file MUST be .tikz — graphicx/tikzscale does not recognize a .tex
+# extension, which is why \includegraphics{...tex} errors with "unknown graphics
+# extension .tex". tikzscale rescales the geometry to \columnwidth (so it always
+# fits the column) while fonts stay pinned at the pt sizes below.
+#
+# LABEL_PT = 10 matches the IEEEtran / RA-L body font (a 10 pt document class).
+const LABEL_PT = 10   # axis titles (s, t) and σ labels — IEEE two-column body font
+const TICK_PT  = 8    # tick numbers (≈ \footnotesize)
+const KAPPA_PT = LABEL_PT - 1
+
 # colours consistent with bifurcation.jl
 const GRAY = RGB(0.4, 0.4, 0.4)
 const BLUE = RGB(0.15, 0.50, 0.82)
@@ -15,7 +37,7 @@ function st_curve(κ; n = 400)
     return ss, κ ./ ss
 end
 
-function st_label!(plt, κ, label, t; rotation = nothing, fontsize = 9)
+function st_label!(plt, κ, label, t; rotation = nothing, fontsize = KAPPA_PT)
     s = κ == 0 ? 0.0 : κ / t
     θ = isnothing(rotation) ? rad2deg(atan(-t / s)) : rotation
     u = (cosd(θ), sind(θ))
@@ -50,13 +72,19 @@ function arrowhead!(plt, px, py, dx, dy; len = 0.06, col = :black)
 end
 
 function sigma_curve_plot()
-    plt = plot(; size = 0.75 .* (560, 520), legend = false, aspect_ratio = 1,
+    # Natural size ≈ one IEEE column (~3.5in) so tikzscale barely rescales.
+    plt = plot(; size = 0.56 .* (560, 520), legend = false, aspect_ratio = 1,
         xlims = (XLO, XHI), ylims = (YLO, YHI),
         xticks = ([0.0, 0.5, 1.0], ["0", "0.5", "1"]),
         yticks = ([0.0, 0.5, 1.0], ["0", "0.5", "1"]),
         xlabel = raw"\(s\)", ylabel = raw"\(t\)",
+        guidefontsize = LABEL_PT, tickfontsize = TICK_PT, legendfontsize = TICK_PT,
         framestyle = :box, grid = true, gridalpha = 0.15,
-        top_margin = 3Plots.mm, right_margin = 3Plots.mm)
+        top_margin = 3Plots.mm, right_margin = 3Plots.mm,
+        # pull the s/t axis titles in toward the ticks (trims pgfplots' default gap)
+        extra_kwargs = Dict(:subplot => Dict(
+            "xlabel style" => "{yshift=5pt}",
+            "ylabel style" => "{xshift=5pt}")))
 
     # context curves
     for κ in [0.0, 0.08, 0.16]
@@ -101,12 +129,12 @@ function sigma_curve_plot()
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
     scatter!(plt, [scur(σ2)], [tcur(σ2)]; marker = :circle, ms = 7.5, color = BLUE,
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
-    annotate!(plt, scur(σ1) + 0.04, tcur(σ1) + 0.09, text(raw"\(\sigma = -0.5\)", 11, GREEN, :left))
-    annotate!(plt, scur(σ2) + 0.04, tcur(σ2) + 0.09, text(raw"\(\sigma = 0.5\)", 11, BLUE, :left))
+    annotate!(plt, scur(σ1) + 0.04, tcur(σ1) + 0.09, text(raw"\(\sigma = -0.5\)", LABEL_PT, GREEN, :left))
+    annotate!(plt, scur(σ2) + 0.04, tcur(σ2) + 0.09, text(raw"\(\sigma = 0.5\)", LABEL_PT, BLUE, :left))
 
     return plt
 end
 
 plt = sigma_curve_plot()
-savefig(plt, joinpath(@__DIR__, "sigma_curve.svg"))
+savefig(plt, joinpath(@__DIR__, "sigma_curve.tikz"))   # bare tikzpicture, include with tikzscale (see header)
 display(plt)
