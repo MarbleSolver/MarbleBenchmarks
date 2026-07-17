@@ -33,11 +33,19 @@ N, ngates = p.N, p.ngates
 
 z = deserialize(solfile)["quadrotor_gates_3d"]
 X = z[inds[:x]]        # N × 9  (Δ-state; x̄[1:3] = 0 so cols 1:3 are world x,y,z)
+μ = z[inds[:μ]]        # N × ngates  (progress multipliers; spikes as a gate is cleared)
 
 # Reconstruct the world-frame trajectory ------------------------------------
 r_traj = [p.x̄[1:3] .+ X[k, 1:3] for k in 1:N]   # position
 q_traj = [rptoq(X[k, 4:6]) for k in 1:N]         # body attitude quaternion (scalar-first)
 v_traj = [X[k, 7:9] for k in 1:N]                # velocity
+
+# knots at which each gate is cleared: μ[k, j] spikes when gate j is passed.
+const MU_TOL = 1e-3
+gate_knot = [(k, argmax(μ[k, :])) for k in 1:N if maximum(μ[k, :]) > MU_TOL]
+
+# distinct per-gate palette (shared with plot_tikz_quadrotor_gates_3d_persp.jl)
+const GATE_COLORS = ["#2C6FB0", "#E6A817", "#2E9E52", "#CB4154"]
 
 # --- quaternion helpers (scalar-first, matching L/qtoQ) --------------------
 # scalar-first quaternion multiply: q = a ⊗ b
@@ -87,8 +95,12 @@ makie_quat(q) = GLMakie.Quaternion(q[2], q[3], q[4], q[1])
 quad = load(joinpath(@__DIR__, "assets", "quadrotor.obj"))
 gate = load(joinpath(@__DIR__, "assets", "dronegate.obj"))
 
+# shaded material with a restrained specular so the bright gate colours don't
+# blow out to white. Scene brightness is handled by the lights (see below).
+const LIT = (; shading=true, specular=0.1f0, shininess=12.0f0)
+
 function plot_quadrotor!(ax; p, q, v, color=:lightsteelblue3, s=0.075)
-    quad_plot = mesh!(ax, quad; color=color, alpha=1.0, transparency=false)
+    quad_plot = mesh!(ax, quad; color=color, alpha=1.0, transparency=false, LIT...)
 
     GLMakie.scale!(quad_plot, (s, s, s))
     GLMakie.translate!(quad_plot, p...)
@@ -102,7 +114,7 @@ function plot_quadrotor!(ax; p, q, v, color=:lightsteelblue3, s=0.075)
 end
 
 function plot_gate!(ax; pos, R=Matrix(I(3)), num=1, color=:slateblue, textc=:gray, s=0.85)
-    gate_plot = mesh!(ax, gate; color=color, shading=true)
+    gate_plot = mesh!(ax, gate; color=color, LIT...)
     GLMakie.scale!(gate_plot, (s, s, s))
     GLMakie.translate!(gate_plot, pos...)
 
@@ -117,7 +129,7 @@ function plot_gate!(ax; pos, R=Matrix(I(3)), num=1, color=:slateblue, textc=:gra
         align       = (:center, :center),
         fontsize    = s * p.gate_dims[1] / 6,
         color       = textc,
-        alpha       = 0.6,
+        alpha       = 0.9,
         markerspace = :data,
         rotation    = makie_quat(q_text),
     )
@@ -128,7 +140,7 @@ function plot_gate!(ax; pos, R=Matrix(I(3)), num=1, color=:slateblue, textc=:gra
         corner[3] <= FLOORZ && continue
         bottom = Point3f((corner .* [1, 1, 0] .+ [0, 0, FLOORZ])...)
         top    = Point3f(corner...)
-        mesh!(ax, Cylinder(bottom, top, 0.02f0); color=:gray, shading=true)
+        mesh!(ax, Cylinder(bottom, top, 0.02f0); color=color, LIT...)
     end
     return nothing
 end
@@ -154,23 +166,33 @@ const FLOORZ = -1.0
 fig = let
     lims = (xmin, xmax, ymin, ymax, zmin, zmax)
 
-    fig = Figure(size=(900, 700))
+    fig = Figure(size=(900, 700), figure_padding=0)
     ax  = Axis3(fig[1, 1], aspect=:data, perspectiveness=0.8, limits=lims)
     hidedecorations!(ax); hidespines!(ax)
 
-    gate_color = :aliceblue
-    textc      = :lightgray
+    # brighten the scene: a strong ambient keeps the bright gate colours
+    # saturated, while the default camera-following directional light still
+    # gives the meshes gentle 3-D shading.
+    set_ambient_light!(ax.scene, RGBf(0.65, 0.65, 0.65))
 
-    # gates
+    # gates — each in its own colour (frame + legs + number)
     for i in 1:ngates
         plot_gate!(ax; pos=Point3f(Float32.(p.gate_positions[i])...),
-                   R=p.gate_orientations[i], num=i, color=gate_color, textc=textc)
+                   R=p.gate_orientations[i], num=i, color=GATE_COLORS[i], textc=GATE_COLORS[i])
     end
 
-    # quadrotors along the path, coloured by knot index
-    tcolors = cgrad(:diverging_rainbow_bgymr_45_85_c67_n256, N; categorical=true).colors
+    # quadrotors: neutral along the path, highlighted in the gate's colour at
+    # the knot where that gate is cleared.
+    # light slate — reads as a solid step under the strong ambient light (a
+    # near-white like aliceblue would blow out to invisible).
+    c = RGBf(0.68, 0.73, 0.80)
+    gate_ks = Set(k for (k, _) in gate_knot)
     for i in [1:5:N-5; N]
-        plot_quadrotor!(ax; p=Point3f(r_traj[i]...), q=q_traj[i], v=v_traj[i], color=tcolors[i])
+        i in gate_ks && continue
+        plot_quadrotor!(ax; p=Point3f(r_traj[i]...), q=q_traj[i], v=v_traj[i], color=c)
+    end
+    for (k, j) in gate_knot
+        plot_quadrotor!(ax; p=Point3f(r_traj[k]...), q=q_traj[k], v=v_traj[k], color=GATE_COLORS[j])
     end
 
     # flown path
@@ -188,10 +210,29 @@ fig = let
         end
     end
 
-    ax.azimuth[]   = 4.437327508326985
-    ax.elevation[] = 0.5123475191987236
+    # low, looking-forward view matching the TikZ perspective camera
+    # (eye behind the start, slightly elevated → ~21° above the horizon).
+    ax.azimuth[]   = 4.428
+    ax.elevation[] = 0.366
 
     fig
 end
 
-save(joinpath(@__DIR__, "quadrotor_gates_3d_glmakie.png"), fig, px_per_unit=3)
+const OUTPATH = joinpath(@__DIR__, "quadrotor_gates_3d_glmakie.png")
+save(OUTPATH, fig, px_per_unit=6)
+
+# --- trim the surrounding whitespace ---------------------------------------
+# reload the rendered PNG and crop to the bounding box of everything that isn't
+# the (near-white) background, leaving a small uniform margin.
+let img = load(OUTPATH)
+    isbg(c) = Float64(c.r) > 0.985 && Float64(c.g) > 0.985 && Float64(c.b) > 0.985
+    H, W = size(img)
+    rowhas = [any(!isbg(img[i, j]) for j in 1:W) for i in 1:H]
+    colhas = [any(!isbg(img[i, j]) for i in 1:H) for j in 1:W]
+    r0, r1 = findfirst(rowhas), findlast(rowhas)
+    c0, c1 = findfirst(colhas), findlast(colhas)
+    pad = round(Int, 0.02 * max(r1 - r0, c1 - c0))
+    r0 = max(1, r0 - pad); r1 = min(H, r1 + pad)
+    c0 = max(1, c0 - pad); c1 = min(W, c1 + pad)
+    GLMakie.FileIO.save(OUTPATH, img[r0:r1, c0:c1])
+end

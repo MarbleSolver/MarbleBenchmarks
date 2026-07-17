@@ -1,5 +1,10 @@
 using PGFPlotsX, MarbleBenchmarks, Serialization, LinearAlgebra
 
+# attitude helpers (reference quaternion is identity, so q = rptoq(δrp) and the
+# body→world rotation is qtoQ(q)).
+const rptoq = MarbleBenchmarks.rptoq
+const qtoQ  = MarbleBenchmarks.qtoQ
+
 # ===========================================================================
 # Quadrotor-gates trajectory — slightly top-down, looking-forward PERSPECTIVE
 # view (PGFPlotsX / TikZ). Same content as plot_tikz_quadrotor_gates_3d.jl but
@@ -51,7 +56,7 @@ end
 # slightly elevated, behind the start (y<0), looking forward along +y and down.
 # pulled well back with a longer focal length so the depth compression is gentle
 # (no single near gate blows up in size).
-cam = make_cam([-0.5, -13.0, 8.0],  # eye
+cam = make_cam([-5.5, -12.0, 8.0],  # eye (shifted left, so we face rightward)
                [-0.5,   5.0, 1.2],  # target (roughly the arena centre)
                [0.0, 0.0, 1.0],     # up
                5.0)                 # focal length (larger = narrower FOV)
@@ -69,7 +74,7 @@ ff(v)  = string(round(v, digits = 5))
 # each gate spans its width axis (local x = Rz[:,1]) and its height axis (z),
 # ±half-dims about the centre. dimensions are inflated by a small factor purely
 # for legibility (frame + posts both follow, since they use these corners).
-const GATE_INFLATE = 1.2
+const GATE_INFLATE = 1.6
 hw, hh = GATE_INFLATE * p.gate_dims[1] / 2, GATE_INFLATE * p.gate_dims[3] / 2
 gate_corners = map(1:ngates) do j
     c   = p.gate_positions[j]
@@ -94,6 +99,9 @@ push!(PGFPlotsX.CUSTOM_PREAMBLE, raw"""
 \definecolor{cknot}{HTML}{6E747C}    % highlighted γ knots
 \definecolor{cends}{HTML}{2B2F36}    % start / goal text
 \definecolor{cgrid}{HTML}{C9CDD3}    % ground grid
+\definecolor{cqbody}{HTML}{3A3F47}   % quad arms / hub
+\definecolor{cqfill}{HTML}{C3C8CE}   % quad rotor discs
+\definecolor{cqedge}{HTML}{6E747C}   % quad rotor rims
 """ *
     join(["\\definecolor{g$j}{HTML}{$(GATE_HEX[j])}" for j in 1:ngates], "\n") *
 raw"""
@@ -147,8 +155,8 @@ traj_sy = [sy(P[k]) for k in 1:N]
 traj_d  = [sd(P[k]) for k in 1:N]      # depth along the view axis
 dmin, dmax = extrema(traj_d)
 
-traj_c0 = (43, 47, 54)      # nearest  #2B2F36 (near-black)
-traj_c1 = (172, 178, 186)   # farthest #ACB2BA (light gray)
+traj_c0 = (172, 178, 186)   # nearest  #ACB2BA (light gray)
+traj_c1 = (43, 47, 54)      # farthest #2B2F36 (near-black)
 lerpc(a, b, t) = round(Int, a + (b - a) * t)
 traj_draws = String[]
 for k in 1:N-1
@@ -162,13 +170,57 @@ for k in 1:N-1
         "(axis cs:$(ff(traj_sx[k])),$(ff(traj_sy[k]))) -- (axis cs:$(ff(traj_sx[k+1])),$(ff(traj_sy[k+1])));")
 end
 
-# --- progress knots + μ labels ---------------------------------------------
-prog_plots = [
-    @pgf Plot({only_marks, mark = "*", mark_size = "1.9pt",
-               mark_options = "{fill=g$j, draw=white, line width=0.5pt}"},
-              Coordinates([sx(P[k])], [sy(P[k])]))
-    for (k, j) in progress
-]
+# --- progress knots: a little quadrotor glyph, projected through the camera —
+#     centre hub + four X-arms + four flat rotor discs (neutral gray so it
+#     stands out against every gate). ---------------------------------------
+# Q is the body→world rotation at this knot; the quad's arm/rotor plane is the
+# body x–y plane, so all body geometry is rotated by Q before projecting.
+function quad_glyph(center, Q; Larm = 0.26, rrot = 0.12, rhub = 0.05, ndisc = 24)
+    bdirs = [normalize([1.0, 1.0, 0.0]), normalize([-1.0, 1.0, 0.0]),
+             normalize([-1.0, -1.0, 0.0]), normalize([1.0, -1.0, 0.0])]
+    # rotor disc lying in the body plane, projected (tilts with attitude)
+    hdisc(cnt, r) = join(["(axis cs:$(ff(q[1])),$(ff(q[2])))" for q in
+                          (proj(cam, cnt .+ r .* (Q * [cos(t), sin(t), 0.0])) for t in range(0, 2π, length = ndisc))],
+                         " -- ") * " -- cycle"
+    # camera-facing disc (a sphere always projects to a round blob)
+    bdisc(scr, r) = join(["(axis cs:$(ff(scr[1] + r*cos(t))),$(ff(scr[2] + r*sin(t))))"
+                          for t in range(0, 2π, length = ndisc)], " -- ") * " -- cycle"
+    out  = String[]
+    cscr = proj(cam, center)
+    rcs  = [center .+ Larm .* (Q * d) for d in bdirs]
+    for rc in rcs                       # arms first, rotors land on the tips
+        a = proj(cam, rc)
+        push!(out, "\\draw[cqbody, line width=1.1pt, line cap=round] " *
+                   "(axis cs:$(ff(cscr[1])),$(ff(cscr[2]))) -- (axis cs:$(ff(a[1])),$(ff(a[2])));")
+    end
+    push!(out, "\\fill[cqbody] $(bdisc(cscr, cam.focal * rhub / sd(center)));")  # sphere hub
+    for rc in rcs                       # flat rotor discs (drawn above the hub)
+        poly = hdisc(rc, rrot)
+        push!(out, "\\fill[cqfill, fill opacity=0.92] $poly;")
+        push!(out, "\\draw[cqedge, line width=0.8pt] $poly;")
+    end
+    out
+end
+
+# orientation for the glyph: keep the bank (body-up) from the solved attitude,
+# but yaw the heading to face the knot's velocity.
+function facing_frame(Q, v)
+    zb = normalize(Q * [0.0, 0.0, 1.0])          # body-up in world (the bank)
+    vh = [v[1], v[2], 0.0]                        # horizontal velocity
+    norm(vh) < 1e-6 && (vh = copy(v))
+    fwd = vh - dot(vh, zb) * zb                   # velocity projected into rotor plane
+    norm(fwd) < 1e-9 && return Q                  # degenerate: fall back to attitude
+    fwd = normalize(fwd)
+    hcat(fwd, cross(zb, fwd), zb)                 # [forward, left, up], body→world
+end
+
+quad_draws = String[]
+for (k, _) in progress
+    Q = qtoQ(rptoq(X[k, 4:6]))
+    R = facing_frame(Q, X[k, 7:9])
+    append!(quad_draws, quad_glyph(P[k], R))
+end
+
 prog_labels = [
     "\\node[annot, text=g$j, rotate=12, anchor=south west, inner sep=1.5pt, " *
     "fill=white, fill opacity=0.85, text opacity=1, rounded corners=1pt] " *
@@ -191,18 +243,15 @@ gamma_labels = [
     for (k, lbl, anch) in gamma_knots
 ]
 
-# --- ordering legend, top right --------------------------------------------
-legend_items = ["\\textbf{\\textcolor{g$j}{$j}}" for j in 1:ngates]
-legend_str = "\\node[anchor=north east, draw=gray!40, fill=white, rounded corners=2pt, " *
-    "inner sep=4pt, line width=0.5pt, font=\\small] at (rel axis cs:0.985,0.985) {" *
-    join(legend_items, "\\,\$\\to\$\\,") * "};"
-
-# phantom point above the highest content, to pad the top of the figure -----
-all_sy = Float64[]
-append!(all_sy, [sy(P[k]) for k in 1:N])
-for cs in gate_corners, c in cs; push!(all_sy, sy(c)); end
-for gx in (gxlo, gxhi); push!(all_sy, sy([gx, gyhi, FLOORZ])); end
-top_pad = maximum(all_sy) + 0.10 * (maximum(all_sy) - minimum(all_sy))
+# --- small gate index at each gate's (screen) top-left corner ---------------
+gate_num_labels = String[]
+for j in 1:ngates
+    pts = [proj(cam, c) for c in gate_corners[j]]
+    tl  = pts[argmax([q[2] - q[1] for q in pts])]   # up-and-left corner in screen space
+    push!(gate_num_labels,
+        "\\node[text=g$j, font=\\small\\bfseries, anchor=north west, inner sep=1.5pt, xshift=3pt, yshift=-3pt] " *
+        "at (axis cs:$(ff(tl[1])),$(ff(tl[2]))) {$j};")
+end
 
 # ===========================================================================
 # assemble
@@ -211,18 +260,17 @@ ax = @pgf Axis(
     {
         "pview", width = "11cm", height = "8cm",
     },
-    @pgf(Plot({draw = "none", mark = "none"}, Coordinates([sx(P[N])], [top_pad]))),
     grid_draws...,
-    gate_draws...,
     traj_draws...,
     @pgf(Plot({only_marks, mark = "*", mark_size = "2.4pt",
                mark_options = "{fill=cknot, draw=white, line width=0.5pt}"},
               Coordinates([sx(P[k]) for k in gamma_ks], [sy(P[k]) for k in gamma_ks]))),
+    quad_draws...,
+    gate_draws...,          # gates painted last, on top of the quadrotors
     gamma_labels...,
-    prog_plots...,
     prog_labels...,
     "\\node[annot, cends, anchor=north, yshift=-2pt] at (axis cs:$(ff(sx(P[1]))),$(ff(sy(P[1])))) {start};",
-    legend_str,
+    gate_num_labels...,
 )
 
 fig = @pgf TikzPicture(ax)

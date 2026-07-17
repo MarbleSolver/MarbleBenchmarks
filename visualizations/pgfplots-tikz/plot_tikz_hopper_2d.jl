@@ -37,7 +37,7 @@ foot_x, foot_z = X[:, 1], X[:, 2]
 head_x, head_z = X[:, 3], X[:, 4] .+ (h + r)
 
 # a knot is a stance knot when the contact normal force is nonzero (up to noise)
-const F_TOL = 1e-3
+const F_TOL = 2e-5
 stance = [k for k in 1:N if F[k, 2] > F_TOL]
 stance_set = Set(stance)
 flight = [k for k in 1:N+1 if !(k in stance_set)]   # all inactive (flight) knots
@@ -136,6 +136,7 @@ ax = @pgf Axis(
         xlabel = raw"$x$ $[\mathrm{m}]$",
         ylabel = raw"$z$ $[\mathrm{m}]$",
         xmin = XL, xmax = XR, ymin = ZB, ymax = 0.8,
+        xtick = "{0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,3.2}",
     },
     terrain_fill,
     terrain_edge,
