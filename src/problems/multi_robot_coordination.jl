@@ -1,20 +1,22 @@
 using Combinatorics
 
-function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
+function multi_robot_coordination(; N=30, T=5.0, d_min=5.0, scale=10.0)
     Δt = T / (N - 1)
     m = 1.0
     n_robots = 3
 
-    x0 = [
+    # Nondimensionalize every length by the characteristic length `scale`
+    x0 = [v ./ scale for v in (
         Float64[0, -4, 0, 0],
         Float64[4, 1, 0, 0],
-        Float64[-4, 1, 0, 0]
-    ]
-    xF = [
+        Float64[-4, 1, 0, 0],
+    )]
+    xF = [v ./ scale for v in (
         Float64[0, 4, 0, 0],
         Float64[-4, 1, 0, 0],
-        Float64[4, 1, 0, 0]
-    ]
+        Float64[4, 1, 0, 0],
+    )]
+    d_min_scaled = d_min / scale
 
     n_slacks = binomial(n_robots, 2)
 
@@ -52,13 +54,13 @@ function multi_robot_coordination(; N=30, T=5.0, d_min=5.0)
     )
     @constraint(model, kkt_abs_s_minus_d[k=1:N, i=1:n_slacks, j=1:2], s[k, i, j] - d[k, i, j] >= 0)
     @constraint(model, kkt_abs_s_plus_d[k=1:N, i=1:n_slacks, j=1:2], s[k, i, j] + d[k, i, j] >= 0)
-    @constraint(model, [k=1:N, i=1:n_slacks], sum(s[k, i, j] for j=1:2) >= d_min)
+    @constraint(model, [k=1:N, i=1:n_slacks], sum(s[k, i, j] for j=1:2) >= d_min_scaled)
 
     mpcc = MPCC(model, (model[:λ_plus], model[:kkt_abs_s_minus_d]), (model[:λ_minus], model[:kkt_abs_s_plus_d]))
     inds = var_inds(model)
-    params = (; N, T, d_min, n_robots)
+    params = (; N, T, d_min, scale, n_robots, x0, xF)
 
     return (; mpcc, inds, params)
 end
 
-register(multi_robot_coordination, :robotics)
+register(multi_robot_coordination)

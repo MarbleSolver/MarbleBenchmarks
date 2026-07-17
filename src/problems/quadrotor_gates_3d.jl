@@ -21,7 +21,7 @@ function linearized_quad_dynamics(x̄, ū, Δt; m, g)
     return Ã, B̃[:, 1:nu], B̃[:, end]
 end
 
-function quadrotor_gates_3d(; N=40, T=9.0, ngates=1)
+function quadrotor_gates_3d(; N=60, T=9.0, ngates=4)
     scale = 1.0
     m, g   = 1.0, 1/scale * 9.81
     Δt     = T / (N - 1)
@@ -59,9 +59,11 @@ function quadrotor_gates_3d(; N=40, T=9.0, ngates=1)
     @variable(model, s_neg[1:N, 1:ngates, 1:3] >= 0)
 
     slack_penalty = 1.0
+    
+    Ru = Diagonal([0.1, 1e1, 1e1, 1e1])
 
     @objective(model, Min,
-        sum(Δt / 2 * (ū + u[k, :])' * (ū + u[k, :]) for k=1:N-1)
+        sum(Δt / 2 * (ū + u[k, :])' * Ru * (ū + u[k, :]) for k=1:N-1)
         + slack_penalty * Δt * sum(s_pos[k, j, d] + s_neg[k, j, d] for k=1:N, j=1:ngates, d=1:3)
     )
 

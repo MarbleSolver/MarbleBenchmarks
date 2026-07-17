@@ -1,33 +1,22 @@
-const MARBLE_OPTIONS = (
-    verbosity = 0,
-    max_iters = 2000,
-    relaxation_min = 1e-9,
-    penalty_max = 1e7,
-    convergence_eq_violation = 1e-8,
-    convergence_ineq_violation = 1e-8,
-    convergence_comp_violation = 1e-8,
-    inertia_warmstart = true,
-)
+function marble_solve(name, options=(;))
+    mpcc = get_mpcc(name)
+    data = Marble.mpcc_to_marble(mpcc)
+    solver = Marble.Solver()
+    Marble.setup!(solver, mpcc; options...)
+    result = Marble.solve!(solver)
 
-function benchmark_marble(; problems, save=false, results_dir=default_results_dir())
-    run_benchmark("marble"; problems, save, results_dir) do name
-        mpcc = get_mpcc(name)
-        data = Marble.mpcc_to_marble(mpcc)
-        solver = Marble.Solver()
-        Marble.setup!(solver, mpcc; MARBLE_OPTIONS...)
-        result = Marble.solve!(solver)
-
-        # Report only: the solver's convergence flag and the residuals of the
-        # returned iterate. The analysis decides "solved" from the residuals.
-        converged = Marble.converged(result)
-        x = Marble.z(result)
-        feas = residuals_or_failed(data, x)
-        SolverResult(;
-            converged,
-            status = string(converged ? MOI.LOCALLY_SOLVED : MOI.INFEASIBLE),
-            solve_time = Marble.solve_time_s(result),
-            x,
-            feas...,
-        )
-    end
+    converged = Marble.converged(result)
+    # `Marble.z` returns a Julia array that ALIASES the C++-owned solution buffer
+    # inside `result`/`solver`. Once those go out of scope and are GC'd the buffer
+    # is freed (and later reused by the next solve), so the escaping vector must be
+    # copied into Julia-owned memory or it decays into garbage before serialization
+    x = copy(Marble.z(result))
+    feas = residuals_or_failed(data, x)
+    BenchmarkProblemResult(;
+        converged,
+        status = string(converged ? MOI.LOCALLY_SOLVED : MOI.INFEASIBLE),
+        solve_time = Marble.solve_time_s(result),
+        x,
+        feas...,
+    )
 end

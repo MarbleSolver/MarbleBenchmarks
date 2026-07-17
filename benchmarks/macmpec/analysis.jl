@@ -6,10 +6,8 @@ const RESULTS_DIR = joinpath(@__DIR__, "results")
 const FIGURES_DIR = joinpath(@__DIR__, "figures")
 
 # A solve counts as "solved" iff its recorded feasibility residuals are all
-# within this tolerance. This is the single place that decision is made — the
-# solver CSVs only report residuals and the solver's own `converged` flag (which
-# we deliberately ignore here). Tune this without re-running the solvers
-const FEAS_TOL = 2e-7   # 1e-7 just barely excludes CRISP's ex9.2.2 (comp = 1.4e-7)
+# within this tolerance. This is the single place that decision is made
+const FEAS_TOL = 1e-7
 
 is_solved(row; tol = FEAS_TOL) =
     isfinite(row.total_time_s) &&
@@ -25,10 +23,10 @@ const SOLVER_LABEL = Dict(
     "crisp"  => "CRISP",
 )
 const SOLVER_COLOR = Dict(
-    "marble" => RGB(230/255, 0, 0),
-    "lcqpow" => RGB(0.0, 12.189765/255, 124.51650000000001/255),
-    "gurobi" => RGB(26.526375/255, 142.418775/255, 98.729625/255),
-    "crisp"  => RGB(123/255, 31/255, 162/255),
+    "marble" => RGB(0.90, 0.13, 0.13),   # bright red
+    "lcqpow" => RGB(0.15, 0.50, 0.82),   # bright blue
+    "gurobi" => RGB(0.18, 0.72, 0.45),   # bright green
+    "crisp"  => RGB(0.61, 0.35, 0.82),   # bright purple
 )
 # Draw order: these solvers first (in this order), then any others alphabetically.
 const SOLVER_ORDER = ["marble", "lcqpow", "crisp", "gurobi",]
@@ -45,12 +43,12 @@ end
 """
     load_latest_results(dir) -> Dict{String,DataFrame}
 
-Read the result CSVs in `dir`, one per solver. Filenames look like
-`marble_2026-07-02_17-45-02.csv`; the solver name is the prefix before the first
-`_`. If several files exist for a solver, keep the most recent (the timestamped
-names sort chronologically).
+Read the summary CSVs in `dir` (the `stats/` subfolder of the results dir), one
+per solver. Filenames look like `marble_2026-07-02_17-45-02.csv`; the solver name
+is the prefix before the first `_`. If several files exist for a solver, keep the
+most recent (the timestamped names sort chronologically).
 """
-function load_latest_results(dir=RESULTS_DIR)
+function load_latest_results(dir=joinpath(RESULTS_DIR, "stats"))
     files = filter(f -> endswith(f, ".csv"), readdir(dir))
     isempty(files) && error("no result CSVs found in $dir")
     latest = Dict{String,String}()
@@ -104,21 +102,32 @@ function performance_ratios(problems, times)
 end
 
 """
-    plot_performance_profile(problems, ratios; tau_max=200.0, n_tau=100) -> Plot
+    plot_performance_profile(problems, ratios; tau_max=200.0, n_tau=100, ...) -> Plot
 
 Performance profile in the paper style: % of problems solved vs performance
 ratio τ on a log10 x-axis. The profile is sampled on a log-spaced τ grid and
 drawn as smooth lines, one per solver.
+
+Sizing/typography knobs (defaults reproduce the current figure):
+- `size`: overall figure size in px; enlarge to give the plot more room.
+- `tickfontsize`, `guidefontsize`, `legendfontsize`: shrink these to make the
+  axis numbers/labels smaller so the axes area takes up more of the figure.
+- `margin`: outer whitespace around the axes; lower it to grow the plot area.
 """
-function plot_performance_profile(problems, ratios; tau_max=500.0, n_tau=100)
+function plot_performance_profile(problems, ratios; tau_max=500.0, n_tau=100,
+        size=(350, 190), tickfontsize=8, guidefontsize=11, legendfontsize=8,
+        margin=1.0Plots.mm)
     np = length(problems)
     taus = exp.(range(log(1.0), stop=log(tau_max), length=n_tau))
 
-    plt = plot(; size=(350, 190), legend=:bottomright,
-                 xscale=:log10, xlims=(1.0, tau_max), ylims=(0, 105))
+    plt = plot(; size, legend=:bottomright,
+                 xscale=:log10, xlims=(1.0, tau_max), ylims=(0, 105),
+                 framestyle=:box, grid=true, gridalpha=0.15,
+                 tickfontsize, guidefontsize, legendfontsize, margin,
+                 background_color_legend=RGBA(1, 1, 1, 0.9), foreground_color_legend=nothing)
     for s in ordered_solvers(ratios)
         pct = [count(<=(τ), ratios[s]) for τ in taus] ./ np .* 100
-        plot!(plt, taus, pct; label=solver_label(s), color=solver_color(s), lw=2)
+        plot!(plt, taus, pct; label=solver_label(s), color=solver_color(s), lw=1.4)
     end
     xlabel!(plt, raw"\(10^x\) times best")
     ylabel!(plt, "% problems solved")
@@ -143,6 +152,18 @@ function print_summary(problems, ratios; thresholds = [1, 2, 4, 8, 10, 16, 100])
             @printf("%-12.2f", count(<=(float(τ)), ratios[s]) / np)
         end
         println()
+    end
+
+    # Worst-case slowdown: the largest performance ratio over the problems each
+    # solver actually solved (failed problems have Inf ratio and are excluded).
+    println("\nWorst-case slowdown (max τ over problems the solver solved):")
+    for s in solvers
+        finite = filter(isfinite, ratios[s])
+        if isempty(finite)
+            @printf("  %-8s  %s\n", s, "— (no problems solved)")
+        else
+            @printf("  %-8s  %.2f×\n", s, maximum(finite))
+        end
     end
 end
 
@@ -183,13 +204,13 @@ function save_tex(plt, path)
     return path
 end
 
-function main(; metric = :total_time_s, tau_max = 1000.0)
+function main(; metric = :total_time_s, tau_max = 1000.0, plot_kwargs...)
     results = load_latest_results()
     problems, times = solver_metrics(results; metric)
     ratios = performance_ratios(problems, times)
 
     mkpath(FIGURES_DIR)
-    plt = plot_performance_profile(problems, ratios; tau_max)
+    plt = plot_performance_profile(problems, ratios; tau_max, plot_kwargs...)
     display(plt)
     out = joinpath(FIGURES_DIR, "performance_profile.svg")
     save_tex(plt, out)
@@ -200,5 +221,4 @@ function main(; metric = :total_time_s, tau_max = 1000.0)
     return problems, ratios
 end
 
-# Executed as a script (`julia --project analysis.jl`); harmless if included.
 main()

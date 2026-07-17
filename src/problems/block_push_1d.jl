@@ -114,18 +114,22 @@ function block_push_1d(;
         x[k+1, :] .== x[k, :] + dt .* continuous_dynamics[k]
     )
 
-    return MPCCJuMP(model,
+    mpcc = MPCC(model,
         (model[:contact_force], model[:contact_gap_nonnegative]),
         (model[:slip_speed], model[:friction_cone]),
         (model[:friction_force_pos], model[:slip_pos]),
-        (model[:friction_force_neg], model[:slip_neg]);
-        params=(; N, T, dt, m_block, m_pusher, g,
-                 μ_k, block_half_width,
-                 initial_block_position, target_block_position,
-                 initial_pusher_gap, initial_pusher_position,
-                 max_control_force, max_pusher_speed,
-                 block_position_index, block_velocity_index,
-                 pusher_position_index, pusher_velocity_index))
+        (model[:friction_force_neg], model[:slip_neg]),
+    )
+    inds = var_inds(model)
+    params = (; N, T, dt, m_block, m_pusher, g,
+                μ_k, block_half_width,
+                initial_block_position, target_block_position,
+                initial_pusher_gap, initial_pusher_position,
+                max_control_force, max_pusher_speed,
+                block_position_index, block_velocity_index,
+                pusher_position_index, pusher_velocity_index)
+
+    return (; mpcc, model, inds, params)
 end
 
-register(block_push_1d, :robotics)
+register(block_push_1d)

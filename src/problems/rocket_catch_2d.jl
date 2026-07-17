@@ -1,7 +1,7 @@
 import ForwardDiff as FD
 
 # State  x = [px, py, vx, vy, θ, ω, α]   Control  u = [T, α̇]
-function rocket_dynamics(x, u; m, g, l, J)
+function rocket_dynamics_2d(x, u; m, g, l, J)
     R(θ) = [cos(θ) -sin(θ); sin(θ) cos(θ)]
     px, py, vx, vy, θ, ω, α = x
     T, α̇ = u
@@ -9,11 +9,11 @@ function rocket_dynamics(x, u; m, g, l, J)
     [vx; vy; a[1]; a[2] - g; ω; -(l / J) * T * sin(α); α̇]
 end
 
-function linearized_rocket_dynamics(x̄, ū, Δt; m, g, l, J)
+function linearized_rocket_dynamics_2d(x̄, ū, Δt; m, g, l, J)
     nx, nu = 7, 2
-    A = FD.jacobian(x -> rocket_dynamics(x, ū; m, g, l, J), x̄)
-    B = FD.jacobian(u -> rocket_dynamics(x̄, u; m, g, l, J), ū)
-    c = rocket_dynamics(x̄, ū; m, g, l, J)
+    A = FD.jacobian(x -> rocket_dynamics_2d(x, ū; m, g, l, J), x̄)
+    B = FD.jacobian(u -> rocket_dynamics_2d(x̄, u; m, g, l, J), ū)
+    c = rocket_dynamics_2d(x̄, ū; m, g, l, J)
     sysd = c2d(ss(A, [B c], I(nx), zeros(nx, nu + 1)), Δt, :zoh)
     return sysd.A, sysd.B[:, 1:nu], sysd.B[:, end]
 end
@@ -27,7 +27,7 @@ function rocket_catch_2d(; N=40, T=5.0)
 
     x̄ = zeros(nx)
     ū = [m * g, 0.0]
-    Ad, Bd, cd = linearized_rocket_dynamics(x̄, ū, Δt; m, g, l, J)
+    Ad, Bd, cd = linearized_rocket_dynamics_2d(x̄, ū, Δt; m, g, l, J)
 
     tower_height, catch_height, catch_arm_length = 3.0, 1.5, 1.0
     θ_max, ω_max, α_max = 0.2, 0.6, 0.5
@@ -96,4 +96,4 @@ function rocket_catch_2d(; N=40, T=5.0)
     return (; mpcc, model, inds, params)
 end
 
-register(rocket_catch_2d, :robotics)
+register(rocket_catch_2d)

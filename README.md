@@ -21,3 +21,6 @@ Once the above steps have been completed, from the root of the `MarbleBenchmarks
 ```bash
 julia --project=. -e 'using Pkg; Pkg.precompile(strict=true)'
 ```
+<!-- 
+## Profiling
+awk -f scripts/stackcollapse-sample.awk profile_out/sample-hs044-i-20260711-210252.txt > out.folded -->

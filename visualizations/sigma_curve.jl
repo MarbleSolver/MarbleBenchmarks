@@ -1,28 +1,6 @@
 using Plots
 pgfplotsx()
 
-# Output is a bare tikzpicture (sigma_curve.tikz). pgfplots draws it at your column
-# width while the labels keep the absolute point sizes set below — no font shrinking
-# from \includegraphics scaling. In your document preamble:
-#
-#   \usepackage{pgfplots}
-#   \pgfplotsset{compat=1.18}
-#   \usetikzlibrary{arrows.meta,backgrounds}
-#   \usepgfplotslibrary{patchplots,fillbetween}
-#   \usepackage{tikzscale}
-#
-# then:  \includegraphics[width=\columnwidth]{figs/sigma_curve.tikz}
-#
-# NOTE: the file MUST be .tikz — graphicx/tikzscale does not recognize a .tex
-# extension, which is why \includegraphics{...tex} errors with "unknown graphics
-# extension .tex". tikzscale rescales the geometry to \columnwidth (so it always
-# fits the column) while fonts stay pinned at the pt sizes below.
-#
-# LABEL_PT = 10 matches the IEEEtran / RA-L body font (a 10 pt document class).
-const LABEL_PT = 10   # axis titles (s, t) and σ labels — IEEE two-column body font
-const TICK_PT  = 8    # tick numbers (≈ \footnotesize)
-const KAPPA_PT = LABEL_PT - 1
-
 # colours consistent with bifurcation.jl
 const GRAY = RGB(0.4, 0.4, 0.4)
 const BLUE = RGB(0.15, 0.50, 0.82)
@@ -37,9 +15,29 @@ function st_curve(κ; n = 400)
     return ss, κ ./ ss
 end
 
-function st_label!(plt, κ, label, t; rotation = nothing, fontsize = KAPPA_PT)
+# The rendered axis is not square (aspect_ratio=1 is not honoured by pgfplotsx):
+# it is AXIS_W × AXIS_H mm (read straight off sigma_curve.tikz's "width"/"height").
+# Because the two x/y data ranges are equal, the x-direction is stretched by
+# AXIS_W/AXIS_H on paper. The white box below is drawn in *data* coordinates, so it
+# inherits this stretch and lines up with the curve automatically. But a pgfplots
+# node `rotate=` acts in *on-paper* space, so a data-space tangent angle must be
+# converted before it is handed to the text — otherwise the label sits 1–2° off the
+# curve. (If `size` / margins / fonts change, re-read these two numbers.)
+const AXIS_W, AXIS_H = 102.68, 95.06
+const ASPECT = AXIS_H / AXIS_W                       # <1  ⇒  x stretched on paper
+# data-space direction angle → on-paper angle pgfplots renders (and its inverse)
+paper_angle(θ) = rad2deg(atan(ASPECT * sind(θ), cosd(θ)))
+data_angle(θ)  = rad2deg(atan(sind(θ) / ASPECT, cosd(θ)))
+
+function st_label!(plt, κ, label, t; rotation = nothing, fontsize = 9)
     s = κ == 0 ? 0.0 : κ / t
-    θ = isnothing(rotation) ? rad2deg(atan(-t / s)) : rotation
+    if isnothing(rotation)
+        θ = rad2deg(atan(-t / s))                    # data-space tangent (for the box)
+        θ_text = paper_angle(θ)                      # on-paper angle for the label
+    else
+        θ_text = rotation                            # caller gives the on-paper angle
+        θ = data_angle(rotation)                     # data-space angle for the box
+    end
     u = (cosd(θ), sind(θ))
     v = (-sind(θ), cosd(θ))
     half_len, half_height = 0.125, 0.03
@@ -56,7 +54,7 @@ function st_label!(plt, κ, label, t; rotation = nothing, fontsize = KAPPA_PT)
         t - half_len * u[2] + half_height * v[2],
     ]
     plot!(plt, Shape(xs, ys); fillcolor = :white, linecolor = :white, label = "")
-    annotate!(plt, s, t, text("\\(\\kappa = $label\\)", fontsize, GRAY, :center; rotation = θ))
+    annotate!(plt, s, t, text("\\(\\kappa = $label\\)", fontsize, GRAY, :center; rotation = θ_text))
 end
 
 # filled-triangle arrowhead, tip at (px, py) along (dx, dy)
@@ -72,25 +70,19 @@ function arrowhead!(plt, px, py, dx, dy; len = 0.06, col = :black)
 end
 
 function sigma_curve_plot()
-    # Natural size ≈ one IEEE column (~3.5in) so tikzscale barely rescales.
-    plt = plot(; size = 0.56 .* (560, 520), legend = false, aspect_ratio = 1,
+    plt = plot(; size = 0.75 .* (560, 520), legend = false, aspect_ratio = 1,
         xlims = (XLO, XHI), ylims = (YLO, YHI),
         xticks = ([0.0, 0.5, 1.0], ["0", "0.5", "1"]),
         yticks = ([0.0, 0.5, 1.0], ["0", "0.5", "1"]),
         xlabel = raw"\(s\)", ylabel = raw"\(t\)",
-        guidefontsize = LABEL_PT, tickfontsize = TICK_PT, legendfontsize = TICK_PT,
         framestyle = :box, grid = true, gridalpha = 0.15,
-        top_margin = 3Plots.mm, right_margin = 3Plots.mm,
-        # pull the s/t axis titles in toward the ticks (trims pgfplots' default gap)
-        extra_kwargs = Dict(:subplot => Dict(
-            "xlabel style" => "{yshift=5pt}",
-            "ylabel style" => "{xshift=5pt}")))
+        top_margin = 3Plots.mm, right_margin = 3Plots.mm)
 
     # context curves
     for κ in [0.0, 0.08, 0.16]
         plot!(plt, st_curve(κ)...; color = GRAY, lw = 1, label = "")
     end
-    st_label!(plt, 0.0, "0", 0.8; rotation = -84)
+    st_label!(plt, 0.0, "0", 0.8; rotation = -90)
     st_label!(plt, 0.08, "0.1", 0.62)
     st_label!(plt, 0.16, "0.15", 0.45)
     # highlighted curve κ = κ0 along σ-parametrisation:
@@ -129,12 +121,12 @@ function sigma_curve_plot()
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
     scatter!(plt, [scur(σ2)], [tcur(σ2)]; marker = :circle, ms = 7.5, color = BLUE,
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
-    annotate!(plt, scur(σ1) + 0.04, tcur(σ1) + 0.09, text(raw"\(\sigma = -0.5\)", LABEL_PT, GREEN, :left))
-    annotate!(plt, scur(σ2) + 0.04, tcur(σ2) + 0.09, text(raw"\(\sigma = 0.5\)", LABEL_PT, BLUE, :left))
+    annotate!(plt, scur(σ1) + 0.04, tcur(σ1) + 0.09, text(raw"\(\sigma = -0.5\)", 11, GREEN, :left))
+    annotate!(plt, scur(σ2) + 0.04, tcur(σ2) + 0.09, text(raw"\(\sigma = 0.5\)", 11, BLUE, :left))
 
     return plt
 end
 
 plt = sigma_curve_plot()
-savefig(plt, joinpath(@__DIR__, "sigma_curve.tikz"))   # bare tikzpicture, include with tikzscale (see header)
+savefig(plt, joinpath(@__DIR__, "sigma_curve.svg"))
 display(plt)

@@ -1,17 +1,23 @@
 src/marblejl.jl
 latex/
-testing/
+# testing/
 visualizations/multi_robot_obstacle_avoidance.jl
 
 # Editor / OS
 .vscode/
 .claude/
-.DS_Store
+**/.DS_Store
 
 # CMake build output (bindings are built by the user, not committed)
 build/
+build-profile/
 _skbuild/
 CMakeUserPresets.json
+
+# Profiler reports (scripts/profile_solver.sh)
+profile_out/
+src/problems/waiter.jl
+testing/
 
 # Compiled extension modules
 *.so
