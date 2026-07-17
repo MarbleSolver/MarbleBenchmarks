@@ -86,7 +86,7 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
 
     # Objective fn: be in the center lane at the end, min effort.  In SI units the
     # 1/max² weights make each control's contribution O(1) at its bound: a_max is
-    # O(1) m/s² so R[1,1] = 1/a_max² is O(0.1) rather than the ~1e5 it hit in km/s².
+    # O(1) m/s² so R[1,1] = 1/a_max² is O(0.1)
     a_max = 3.0         # m/s²
     R = Diagonal([1.0 / a_max^2, 1.0 / deg2rad(δ_max_deg)^2])
 
@@ -144,7 +144,7 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
     @expression(model, lp_kkt_expr[i=1:N],
         G * [lp_x[i, :]; α[i]] + h(r_cruiser(i), x[i, 1:2]))
 
-    # Tikhonov regularization of the lower-level witness point.  For two boxes the
+    # Regularization of the lower-level witness point.  For two boxes the
     # growth-distance LP has a NON-UNIQUE witness whenever contact is edge–edge
     # (the parallel long sides during a pass): any point along the contact segment
     # is optimal, so the lower-level KKT Jacobian is singular and the inner AL
@@ -157,6 +157,7 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
     x_mid(i) = (r_cruiser(i) + x[i, 1:2]) / 2
     @constraint(model, lp_stationarity[i=1:N],
         e3 + [ε_witness * (lp_x[i, :] - x_mid(i)); 0.0] - G' * lp_λ[i, :] .== 0)
+
     # Scalar-indexed so each entry is a single ConstraintRef, matching lp_λ[i, j]
     # elementwise for the complementarity block (both vec column-major over (i, j)).
     @constraint(model, lp_kkt_lhs[i=1:N, j=1:m], lp_kkt_expr[i][j] >= 0)
