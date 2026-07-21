@@ -316,7 +316,8 @@ fig = let
     fig
 end
 
-const OUTPATH = joinpath(@__DIR__, "rocket_catch_3d_glmakie.png")
+const OUTPATH = joinpath(@__DIR__, "png_renders", "rocket_catch_3d_glmakie.png")
+mkpath(dirname(OUTPATH))
 save(OUTPATH, fig; px_per_unit = 6)
 
 # --- trim the surrounding whitespace ---------------------------------------

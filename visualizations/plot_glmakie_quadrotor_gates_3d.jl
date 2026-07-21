@@ -218,7 +218,8 @@ fig = let
     fig
 end
 
-const OUTPATH = joinpath(@__DIR__, "quadrotor_gates_3d_glmakie.png")
+const OUTPATH = joinpath(@__DIR__, "png_renders", "quadrotor_gates_3d_glmakie.png")
+mkpath(dirname(OUTPATH))
 save(OUTPATH, fig, px_per_unit=6)
 
 # --- trim the surrounding whitespace ---------------------------------------

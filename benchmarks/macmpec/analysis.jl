@@ -17,19 +17,24 @@ is_solved(row; tol = FEAS_TOL) =
 
 # Display name and line color per solver (unknown solvers fall back sensibly).
 const SOLVER_LABEL = Dict(
-    "marble" => "Marble (ours)",
-    "lcqpow" => "LCQPow",
-    "gurobi" => "Gurobi",
-    "crisp"  => "CRISP",
+    "marble_softplus" => "Marble (softplus)",
+    "marble_exp"      => "Marble (exp)",
+    "lcqpow"          => "LCQPow",
+    "gurobi"          => "Gurobi",
+    "crisp"           => "CRISP",
 )
 const SOLVER_COLOR = Dict(
-    "marble" => RGB(0.90, 0.13, 0.13),   # bright red
-    "lcqpow" => RGB(0.15, 0.50, 0.82),   # bright blue
-    "gurobi" => RGB(0.18, 0.72, 0.45),   # bright green
-    "crisp"  => RGB(0.61, 0.35, 0.82),   # bright purple
+    "marble_softplus" => RGB(0.90, 0.13, 0.13),   # bright red
+    "marble_exp"      => RGB(0.95, 0.52, 0.10),   # bright orange
+    "lcqpow"          => RGB(0.15, 0.50, 0.82),   # bright blue
+    "gurobi"          => RGB(0.18, 0.72, 0.45),   # bright green
+    "crisp"           => RGB(0.61, 0.35, 0.82),   # bright purple
 )
 # Draw order: these solvers first (in this order), then any others alphabetically.
-const SOLVER_ORDER = ["marble", "lcqpow", "crisp", "gurobi",]
+const SOLVER_ORDER = ["marble_softplus", "marble_exp", "lcqpow", "crisp", "gurobi",]
+# Result CSVs for these solvers stay on disk but are left out of the analysis.
+# `marble` is the pre-split run, superseded by `marble_softplus`/`marble_exp`.
+const SKIP_SOLVERS = Set(["marble"])
 
 solver_label(s) = get(SOLVER_LABEL, s, uppercasefirst(s))
 solver_color(s) = get(SOLVER_COLOR, s, :auto)
@@ -44,16 +49,20 @@ end
     load_latest_results(dir) -> Dict{String,DataFrame}
 
 Read the summary CSVs in `dir` (the `stats/` subfolder of the results dir), one
-per solver. Filenames look like `marble_2026-07-02_17-45-02.csv`; the solver name
-is the prefix before the first `_`. If several files exist for a solver, keep the
-most recent (the timestamped names sort chronologically).
+per solver. Filenames look like `marble_softplus_2026-07-02_17-45-02.csv`; the
+solver name is everything before the trailing `_<date>_<time>` stamp, so solver
+names may themselves contain `_`. If several files exist for a solver, keep the
+most recent (the timestamped names sort chronologically). Solvers in
+`SKIP_SOLVERS` are ignored.
 """
 function load_latest_results(dir=joinpath(RESULTS_DIR, "stats"))
     files = filter(f -> endswith(f, ".csv"), readdir(dir))
     isempty(files) && error("no result CSVs found in $dir")
     latest = Dict{String,String}()
     for f in sort(files)                       # ascending → newest overwrites
-        solver = String(split(f, '_')[1])
+        parts  = split(splitext(f)[1], '_')    # …, "2026-07-02", "17-45-02"
+        solver = String(join(parts[1:end-2], '_'))
+        solver in SKIP_SOLVERS && continue
         latest[solver] = f
     end
     return Dict(solver => CSV.read(joinpath(dir, f), DataFrame)
@@ -115,7 +124,7 @@ Sizing/typography knobs (defaults reproduce the current figure):
 - `margin`: outer whitespace around the axes; lower it to grow the plot area.
 """
 function plot_performance_profile(problems, ratios; tau_max=500.0, n_tau=100,
-        size=(350, 190), tickfontsize=8, guidefontsize=11, legendfontsize=8,
+        size=(350, 190), tickfontsize=8, guidefontsize=11, legendfontsize=6,
         margin=1.0Plots.mm)
     np = length(problems)
     taus = exp.(range(log(1.0), stop=log(tau_max), length=n_tau))
@@ -141,28 +150,30 @@ Text table: fraction of problems each solver solves within τ× best.
 """
 function print_summary(problems, ratios; thresholds = [1, 2, 4, 8, 10, 16, 100])
     np = length(problems)
-    solvers = sort(collect(keys(ratios)))
+    solvers = ordered_solvers(ratios)
     println("\nFraction of $np problems solved within τ× the best (fastest) time:")
     @printf("  %-8s", "τ")
-    foreach(s -> @printf("%-12s", s), solvers)
+    foreach(s -> @printf("%-20s", solver_label(s)), solvers)
     println()
     for τ in sort(thresholds)
         @printf("  %-8g", τ)
         for s in solvers
-            @printf("%-12.2f", count(<=(float(τ)), ratios[s]) / np)
+            @printf("%-20.2f", count(<=(float(τ)), ratios[s]) / np)
         end
         println()
     end
 
     # Worst-case slowdown: the largest performance ratio over the problems each
-    # solver actually solved (failed problems have Inf ratio and are excluded).
-    println("\nWorst-case slowdown (max τ over problems the solver solved):")
+    # solver actually solved (failed problems have Inf ratio and are excluded),
+    # so the count it is taken over is printed alongside it.
+    println("\nWorst-case slowdown (max τ over the problems the solver solved):")
     for s in solvers
         finite = filter(isfinite, ratios[s])
         if isempty(finite)
-            @printf("  %-8s  %s\n", s, "— (no problems solved)")
+            @printf("  %-20s %s\n", solver_label(s), "— (no problems solved)")
         else
-            @printf("  %-8s  %.2f×\n", s, maximum(finite))
+            @printf("  %-20s %7.2f×  (over %2d / %d solved)\n",
+                    solver_label(s), maximum(finite), length(finite), np)
         end
     end
 end
@@ -187,7 +198,7 @@ function print_global_summary(results; ref="gurobi", rtol=1e-3, atol=1e-4)
     for s in ordered_solvers(results)
         s == ref && continue
         hits = count(p -> get(solved[s], p, false) && haskey(obj[s], p) && matches(obj[s][p], gref[p]), keys(gref))
-        @printf("  %-8s %2d / %d  (%.1f%%)\n", s, hits, nref, 100 * hits / nref)
+        @printf("  %-20s %2d / %d  (%.1f%%)\n", solver_label(s), hits, nref, 100 * hits / nref)
     end
 end
 

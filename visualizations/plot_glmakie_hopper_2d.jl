@@ -153,7 +153,8 @@ fig = let
     fig
 end
 
-const OUTPATH = joinpath(@__DIR__, "hopper_2d_glmakie.png")
+const OUTPATH = joinpath(@__DIR__, "png_renders", "hopper_2d_glmakie.png")
+mkpath(dirname(OUTPATH))
 save(OUTPATH, fig; px_per_unit = 6)
 
 # --- trim the surrounding whitespace ---------------------------------------
