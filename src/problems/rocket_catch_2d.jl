@@ -96,4 +96,4 @@ function rocket_catch_2d(; N=40, T=5.0)
     return (; mpcc, model, inds, params)
 end
 
-register(rocket_catch_2d, :robotics)
+register(rocket_catch_2d)

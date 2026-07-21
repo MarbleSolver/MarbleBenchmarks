@@ -1,6 +1,6 @@
 default_results_dir() = joinpath(pwd(), "results")
 
-results_df() = DataFrame(
+benchmark_result_df() = DataFrame(
     problem = String[],
     status = String[],
     converged = Bool[],           # what the solver itself reported (informational)
@@ -11,11 +11,28 @@ results_df() = DataFrame(
     total_time_s = Float64[],
 )
 
-function save_df_csv(df, results_dir, name)
-    mkpath(results_dir)
-    dt = Dates.format(Dates.now(), "yyyy-mm-dd_HH-MM-SS")
-    CSV.write(joinpath(results_dir, "$(name)_$dt.csv"), df)
+# Results live under `results_dir` split into two subfolders: `stats/` holds the
+# per-run summary CSVs, `solutions/` holds the raw solution vectors.
+stats_dir(results_dir)     = joinpath(results_dir, "stats")
+solutions_dir(results_dir) = joinpath(results_dir, "solutions")
+
+function save_df_csv(df, results_dir, name, timestamp)
+    dir = stats_dir(results_dir)
+    mkpath(dir)
+    CSV.write(joinpath(dir, "$(name)_$timestamp.csv"), df)
 end
+
+# One file per solver run, mapping problem name → returned solution vector (or
+# `nothing` when the solver produced no point). Serialization is built in and
+# round-trips Julia values directly, so `load_solutions` hands the Dict back
+# as-is with no schema to maintain.
+function save_solutions(solutions, results_dir, name, timestamp)
+    dir = solutions_dir(results_dir)
+    mkpath(dir)
+    serialize(joinpath(dir, "$(name)_$timestamp.jls"), solutions)
+end
+
+load_solutions(path) = deserialize(path)
 
 # Every problem exposes a Marble.MPCC, either directly or nested in a NamedTuple.
 function get_mpcc(name)
@@ -39,7 +56,7 @@ function feasibility_stats(data, x)
 end
 
 # Feasibility residuals of the returned point (for the CSV), or FAILED_STATS
-# when there is no usable point. This only *reports* residuals — the "solved"
+# when there is no usable point. This only *reports* residuals - the "solved"
 # decision lives in the analysis, which thresholds them.
 function residuals_or_failed(data, x)
     x === nothing && return FAILED_STATS
@@ -52,7 +69,7 @@ end
 
 # What every benchmark_* solve returns; each solve_one splats `feasibility_stats`
 # (or FAILED_STATS) into the feasibility fields.
-Base.@kwdef struct SolverResult
+Base.@kwdef struct BenchmarkProblemResult
     converged::Bool               # the solver's own convergence report
     status::String
     solve_time::Float64
@@ -63,11 +80,14 @@ Base.@kwdef struct SolverResult
     residual_comp::Float64 = Inf
 end
 
-# Shared driver: `solve_one(name) -> SolverResult` is the only per-solver logic.
-function run_benchmark(solve_one, csv_name; problems, save=false, results_dir=default_results_dir())
-    df = results_df()
+# Shared driver. `solve_one(name, options) -> BenchmarkProblemResult` is the only
+# per-solver logic; `solver_name` names the CSV and the options are forwarded to it.
+function run_benchmark(solver_name, solve_one; problems, options=(;),
+                       save=false, results_dir=default_results_dir())
+    df = benchmark_result_df()
+    solutions = Dict{String,Any}()          # problem name → returned solution vector (or nothing)
     for name in problems
-        r = solve_one(name)
+        r = solve_one(name, options)
         push!(df, (
             problem = string(name),
             status = r.status,
@@ -78,10 +98,13 @@ function run_benchmark(solve_one, csv_name; problems, save=false, results_dir=de
             residual_comp = r.residual_comp,
             total_time_s = r.solve_time,
         ))
+        solutions[string(name)] = r.x
     end
     if save
-        @info "Saving results to CSV in directory: $results_dir"
-        save_df_csv(df, results_dir, csv_name)
+        timestamp = Dates.format(Dates.now(), "yyyy-mm-dd_HH-MM-SS")
+        @info "Saving results under $results_dir (stats/ + solutions/)"
+        save_df_csv(df, results_dir, solver_name, timestamp)
+        save_solutions(solutions, results_dir, solver_name, timestamp)
     end
     return df
 end

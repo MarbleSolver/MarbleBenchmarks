@@ -45,17 +45,20 @@ function first_order_plume_clearance(ϕ, δr, δp; tower_normal)
     return tower_normal' * first_order_plume_axis_world(ϕ, δr, δp)
 end
 
-function rocket_catch_3d(; N=40, T=16.0,
+function rocket_catch_3d(; N=60, T=15.0,
     # Units: km, s, tonne, MN. Defaults are scaled Super Heavy-style
-    x0 = [0.080, 0.120, 0.550],
-    q0 = rptoq(deg2rad.([1.5, -2.0, 0.0])),
+    x0 = [0.030, 0.12, 0.600],
+    q0 = rptoq(deg2rad.([5.0, 0.0, 0.0])),
     v0 = [-0.004, -0.012, -0.085],
     w0 = zeros(3),
-    catch_altitude = 0.080,
-    trigger_altitude = 0.120,
-    terminal_y_min = 0.012,
-    terminal_y_max = 0.030,
-    terminal_y_weight = 1.0e5,
+    # Mechazilla-style geometry. OLIT is ~146 m tall (incl. lightning rod);
+    # the chopstick arms catch the booster high on the tower.
+    tower_height = 0.146,         # 146 m tower
+    catch_altitude = 0.085,       # 85 m CoM: booster hangs from pins near tower top
+    trigger_altitude = 0.17,     # 170 m: STCs arm ~24 m above the tower top, well above the catch
+    terminal_y_min = 0.015,       # 15 m off the tower centerline
+    terminal_y_max = 0.028,       # 28 m: booster center sits between the chopstick arms
+    terminal_y_weight = 1.0,
 )
     Δt = T / (N - 1)
     nx̃, nu = 14, 3
@@ -81,7 +84,7 @@ function rocket_catch_3d(; N=40, T=16.0,
     # Catch funnel and trigger geometry
     tower_normal = [0.0, 1.0, 0.0]
     tower_y = 0.0
-    arm_half_width = 0.006        # 12 m gap at the tower face
+    arm_half_width = 0.008        # 16 m gap at the tower face (booster is 9 m across)
     arm_opening_angle = deg2rad(12.0)
     arm_slope = tan(arm_opening_angle)
 
@@ -101,10 +104,10 @@ function rocket_catch_3d(; N=40, T=16.0,
     landing_engines_max = 13
     thrust_min = 0.25 * m * g
     thrust_max = landing_engines_max * raptor2_sea_level_thrust
-    gimbal_max = deg2rad(15.0)
+    gimbal_max = deg2rad(16.0)
     gimbal_rate_max = deg2rad(20.0)
     ϕ_max = deg2rad.([18.0, 18.0, 10.0])
-    ω_max = deg2rad.([12.0, 12.0, 12.0])
+    ω_max = deg2rad.([15.0, 15.0, 15.0])
 
     @assert length(x0) == 3 && length(q0) == 4 && length(v0) == 3 && length(w0) == 3 "expected x0(3), q0(4), v0(3), w0(3)"
     @assert terminal_y_min <= terminal_y_max "expected terminal_y_min <= terminal_y_max"
@@ -194,7 +197,7 @@ function rocket_catch_3d(; N=40, T=16.0,
     inds = var_inds(model)
     params = (; N, T, Δt, x̄, ū, m, g, l, J, booster_height, booster_radius,
                 raptor2_sea_level_thrust, landing_engines_max,
-                catch_altitude, trigger_altitude,
+                tower_height, catch_altitude, trigger_altitude,
                 terminal_y_min, terminal_y_max, terminal_y_weight,
                 tower_normal, tower_y, arm_half_width, arm_opening_angle,
                 catch_A, catch_b,

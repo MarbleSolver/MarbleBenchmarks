@@ -22,6 +22,7 @@ function multi_robot_obstacle_avoidance(;
     obstacle_angles = deg2rad.([10.0, -10.0]),
     u_max=4.0,
     v_max=4.0,
+    scale=10.0,
 )
     Δt = T / (N - 1)
     m = 1.0
@@ -52,6 +53,24 @@ function multi_robot_obstacle_avoidance(;
     @assert all(>=(0.0), obstacle_widths) "expected nonnegative obstacle widths"
     @assert all(>=(0.0), obstacle_heights) "expected nonnegative obstacle heights"
     obstacle_half_extents = hcat(0.5 .* obstacle_widths, 0.5 .* obstacle_heights)
+
+    # Nondimensionalize every length by the characteristic length `scale` so the
+    # position/velocity/acceleration/slack variables are all O(1). Time is kept in
+    # seconds, so velocities (length/time), accelerations (length/time²), and their
+    # bounds inherit the same 1/scale factor as positions; the linear dynamics keep
+    # their form, the dimensionless obstacle angles and KKT multipliers are left
+    # untouched, and the objective only picks up a constant 1/scale² factor. All
+    # geometry below is expressed in these scaled units.
+    x0 = x0 ./ scale
+    xF = xF ./ scale
+    obstacle_positions = obstacle_positions ./ scale
+    obstacle_half_extents = obstacle_half_extents ./ scale
+    obstacle_widths = obstacle_widths ./ scale
+    obstacle_heights = obstacle_heights ./ scale
+    robot_clearance = robot_clearance / scale
+    obstacle_clearances = obstacle_clearances ./ scale
+    u_max = u_max / scale
+    v_max = v_max / scale
 
     robot_pairs = collect(combinations(1:n_robots, 2))
     robot_obstacle_pairs = [(i, o) for i in 1:n_robots for o in 1:n_obstacles]
@@ -161,7 +180,7 @@ function multi_robot_obstacle_avoidance(;
         (model[:λ_obs_zero], model[:obs_t_nonnegative]),
     )
     inds = var_inds(model)
-    params = (; N, T, Δt, m, n_robots, n_obstacles, n_contacts,
+    params = (; N, T, Δt, m, scale, n_robots, n_obstacles, n_contacts,
                 n_robot_contacts, n_obstacle_contacts,
                 robot_clearance, obstacle_clearances, clearances,
                 obstacle_widths, obstacle_heights, obstacle_angles, obstacle_half_extents,
@@ -171,4 +190,4 @@ function multi_robot_obstacle_avoidance(;
     return (; mpcc, model, inds, params)
 end
 
-register(multi_robot_obstacle_avoidance, :robotics)
+register(multi_robot_obstacle_avoidance)
