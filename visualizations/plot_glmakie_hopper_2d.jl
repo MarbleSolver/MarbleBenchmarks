@@ -104,7 +104,7 @@ fig = let
     zmin, zmax = 0.0, z_hi + 0.1
     lims = (xmin, xmax, ymin, ymax, zmin, zmax)
 
-    fig = Figure(size = (900, 700))
+    fig = Figure(size = (900, 700), backgroundcolor = :white)
     ax  = Axis3(fig[1, 1], aspect = :data, perspectiveness = 0.8, limits = lims)
     hidedecorations!(ax); hidespines!(ax)
 
@@ -136,8 +136,9 @@ fig = let
     lines!(ax, r_traj; color = :black, joinstyle = :round, linecap = :round,
            linewidth = 1.2, alpha = 0.8)
 
+    # ground grid (uniform grid-line weight across the 3 plots: lw=1.5 @ px_per_unit=6)
     xy_grid!(ax; xlim = (xmin, xmax), ylim = (ymin, ymax), z = 0.0,
-             step = 0.25, color = (:black, 0.15), lw = 1)
+             step = 0.25, color = (:black, 0.15), lw = 1.5)
 
     # press "p" to print the current camera angles (handy for tuning the save view)
     on(events(fig).keyboardbutton) do event
@@ -147,21 +148,39 @@ fig = let
         end
     end
 
-    # good az/el for saving
-    ax.azimuth[]   = -0.9323046875000006
-    ax.elevation[] = 0.37051158169872134
+    # good az/el for saving (more negative azimuth swings the camera to the left)
+    # ax.azimuth[]   = -1.35
+    # ax.elevation[] = 0.37051158169872134
+    # ax.azimuth[] = -0.3939062500000005
+    # ax.elevation[] = 0.29281626919872095
+    # ax.azimuth[] = -1.0383593749999998
+    # ax.elevation[] = 0.0887537691987207
+
+    ax.azimuth[] = 5.428890008326985
+    ax.elevation[] = 0.3483631441987243
     fig
 end
+
+# # Show an interactive GLMakie window and block so it stays open (and keyboard
+# # events like "p" work). Running the script exits the process as soon as it
+# # finishes, so without this wait the window would flash and close immediately.
+# screen = display(fig)
+# isinteractive() || wait(screen)
 
 const OUTPATH = joinpath(@__DIR__, "png_renders", "hopper_2d_glmakie.png")
 mkpath(dirname(OUTPATH))
 save(OUTPATH, fig; px_per_unit = 6)
 
-# --- trim the surrounding whitespace ---------------------------------------
-# reload the rendered PNG and crop to the bounding box of everything that isn't
-# the (near-white) background, leaving a small uniform margin.
+#= transparency + crop re-save disabled for now
+# --- trim whitespace and make the background transparent --------------------
+# Reload the rendered PNG, crop to the bounding box of the non-white content
+# (leaving a small uniform margin), and key the near-white background out to
+# alpha 0 so the saved PNG is transparent. A narrow alpha ramp just below the
+# white cutoff softens anti-aliased edges so they don't leave a hard halo.
 let img = GLMakie.FileIO.load(OUTPATH)
-    isbg(c) = Float64(c.r) > 0.985 && Float64(c.g) > 0.985 && Float64(c.b) > 0.985
+    whiteness(c) = min(Float64(c.r), Float64(c.g), Float64(c.b))
+    bgalpha(c)   = clamp((0.985 - whiteness(c)) / (0.985 - 0.965), 0.0, 1.0)
+    isbg(c)      = bgalpha(c) <= 0.0
     H, W = size(img)
     rowhas = [any(!isbg(img[i, j]) for j in 1:W) for i in 1:H]
     colhas = [any(!isbg(img[i, j]) for i in 1:H) for j in 1:W]
@@ -170,5 +189,9 @@ let img = GLMakie.FileIO.load(OUTPATH)
     pad = round(Int, 0.02 * max(r1 - r0, c1 - c0))
     r0 = max(1, r0 - pad); r1 = min(H, r1 + pad)
     c0 = max(1, c0 - pad); c1 = min(W, c1 + pad)
-    GLMakie.FileIO.save(OUTPATH, img[r0:r1, c0:c1])
+    keyed = map(img[r0:r1, c0:c1]) do c
+        RGBAf(Float64(c.r), Float64(c.g), Float64(c.b), bgalpha(c))
+    end
+    GLMakie.FileIO.save(OUTPATH, keyed)
 end
+=#

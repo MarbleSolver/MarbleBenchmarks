@@ -127,6 +127,36 @@ function sigma_curve_plot()
     return plt
 end
 
+# Pad the saved SVG (non-distorting: transparent margin, content stays 1:1) to a
+# fixed canvas so sigma_curve.svg and solnchange.svg come out at identical size.
+# Keep CANVAS_PT in sync with solnchange.jl.
+const CANVAS_PT = (294.0, 264.0)
+function pad_svg_canvas!(path, W, H)
+    svg = read(path, String)
+    m = match(r"width=\"([0-9.]+)pt\" height=\"([0-9.]+)pt\" viewBox=\"0 0 ([0-9.]+) ([0-9.]+)\"", svg)
+    m === nothing && error("could not parse SVG size header in $path")
+    w, h = parse(Float64, m[1]), parse(Float64, m[2])
+    (w > W + 1e-6 || h > H + 1e-6) &&
+        error("$(basename(path)) is $(w)×$(h)pt > target $(W)×$(H)pt; bump CANVAS_PT in both scripts")
+    px, py = (W - w) / 2, (H - h) / 2
+    hdr = "width=\"$(W)pt\" height=\"$(H)pt\" viewBox=\"$(-px) $(-py) $(W) $(H)\""
+    write(path, replace(svg, m.match => hdr; count = 1))
+end
+
+# also emit a PDF at the same canvas size, converted from the padded SVG (so the
+# PDF and SVG — and the sigma_curve/solnchange pair — share identical dimensions).
+function svg_to_pdf(svgpath)
+    pdfpath = replace(svgpath, r"\.svg$" => ".pdf")
+    try
+        run(`inkscape $svgpath --export-type=pdf --export-filename=$pdfpath`)
+    catch err
+        @warn "PDF export via Inkscape failed (is it on PATH?); SVG still written" err
+    end
+end
+
 plt = sigma_curve_plot()
-savefig(plt, joinpath(@__DIR__, "sigma_curve.svg"))
+out = joinpath(@__DIR__, "sigma_curve.svg")
+savefig(plt, out)
+pad_svg_canvas!(out, CANVAS_PT...)
+svg_to_pdf(out)
 display(plt)

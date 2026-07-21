@@ -31,10 +31,10 @@ kph2mps(v) = v / 3.6
 
 function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
     lane_width_m=3.7,
-    cruiser_kph=80,
-    x0 = [-30.0, 0.0, 0.0, kph2mps(cruiser_kph)],  # 30 m behind, at cruiser speed [m, m, rad, m/s]
+    cruiser_kph=45,
+    x0 = [-15.0, -1e-3, 0.0, 40 / 3.6],
     θ_max_deg = 10.0, δ_max_deg = 12.0,   # linearization bounds
-    v_min_kph = 60.0, v_max_kph = 125.0,  # passer speed envelope
+    v_min_kph = 30.0, v_max_kph = 80.0,  # passer speed envelope
 )
     Δt = T / (N - 1)
     nx, nu = 4, 2
@@ -90,8 +90,30 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
     a_max = 3.0         # m/s²
     R = Diagonal([1.0 / a_max^2, 1.0 / deg2rad(δ_max_deg)^2])
 
+    # Running state cost.  Each state is normalized by its characteristic scale
+    # (1/scale²), so a *priority* of 1.0 means "sitting at that scale costs the
+    # same as saturating one control".  This keeps the weights comparable even
+    # though the states live on very different numeric scales (py ~ metres,
+    # θ ~ 0.1 rad, v ~ m/s) — with raw equal weights the heading term (θ² ~ 0.03)
+    # is negligible while the speed term (v² ~ 150) dominates.
+    py_scale = lane_width                            # one lane-width of drift [m]
+    θ_scale  = deg2rad(θ_max_deg)                    # heading at the lin. bound [rad]
+    v_scale  = kph2mps(v_max_kph) - cruiser_mps      # top of the speed envelope [m/s]
+
+    # O(1) priority knobs — tune these, not the raw magnitudes.
+    w_lat   = 0.01    # ↑ pulls the passer back toward the centre lane sooner
+    w_head  = 2.0    # ↑ keeps the heading small → gentler, wider lane changes
+    w_speed = 0.1    # ↑ keeps speed near the cruiser (slower, tighter pass)
+
+    Q = Diagonal([
+        0.0,                     # px: longitudinal position is free
+        w_lat   / py_scale^2,    # py: lateral deviation from the centre lane
+        w_head  / θ_scale^2,     # θ:  heading (gentle turn-out / turn-in)
+        w_speed / v_scale^2,     # v:  speed deviation from the cruiser
+    ])
+
     @objective(model, Min,
-        # 1/2 * 1e2 * (x[N, 2])^2 + (x[N, 3])^2 +
+        sum(1/2 * Δt * (x[i, :]' * Q * x[i, :]) for i in 1:N) +
         sum(1/2 * Δt * (u[i, :]' * R * u[i, :]) for i in 1:N-1)
     )
 
@@ -112,7 +134,7 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
 
     # Be in front of the cruiser at the end, center lane, facing forward
     @constraint(model, terminal_ahead,
-        x[N, 1] >= cruiser_mps * Δt * (N - 1) + (h_cruiser + h_passer) / 2)
+        x[N, 1] >= cruiser_mps * Δt * (N - 1) + (h_cruiser + h_passer) / 2 + 10.0)
     @constraint(model, terminal_lane, x[N, 2] == 0.0)
     @constraint(model, terminal_heading, x[N, 3] == 0.0)
 
@@ -173,4 +195,4 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
     return (; mpcc, model, inds, params)
 end
 
-register(lane_passing_2d)
+register(lane_passing_2d, :robotics)

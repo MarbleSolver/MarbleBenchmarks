@@ -166,7 +166,7 @@ const FLOORZ = -1.0
 fig = let
     lims = (xmin, xmax, ymin, ymax, zmin, zmax)
 
-    fig = Figure(size=(900, 700), figure_padding=0)
+    fig = Figure(size=(900, 700), figure_padding=0, backgroundcolor=:white)
     ax  = Axis3(fig[1, 1], aspect=:data, perspectiveness=0.8, limits=lims)
     hidedecorations!(ax); hidespines!(ax)
 
@@ -199,8 +199,9 @@ fig = let
     lines!(ax, Point3f.(r_traj); color=:black, joinstyle=:round, linecap=:round,
            linewidth=1.2, alpha=0.8)
 
+    # ground grid (uniform grid-line weight across the 3 plots: lw=1.5 @ px_per_unit=6)
     xy_grid!(ax; xlim=(xmin, xmax), ylim=(ymin, ymax), z=FLOORZ, step=1.0,
-             color=(:black, 0.1), lw=1)
+             color=(:black, 0.15), lw=1.5)
 
     # press "p" to print the current camera angles (handy for tuning the save view)
     on(events(fig).keyboardbutton) do event
@@ -222,11 +223,16 @@ const OUTPATH = joinpath(@__DIR__, "png_renders", "quadrotor_gates_3d_glmakie.pn
 mkpath(dirname(OUTPATH))
 save(OUTPATH, fig, px_per_unit=6)
 
-# --- trim the surrounding whitespace ---------------------------------------
-# reload the rendered PNG and crop to the bounding box of everything that isn't
-# the (near-white) background, leaving a small uniform margin.
+#= transparency + crop re-save disabled for now
+# --- trim whitespace and make the background transparent --------------------
+# Reload the rendered PNG, crop to the bounding box of the non-white content
+# (leaving a small uniform margin), and key the near-white background out to
+# alpha 0 so the saved PNG is transparent. A narrow alpha ramp just below the
+# white cutoff softens anti-aliased edges so they don't leave a hard halo.
 let img = load(OUTPATH)
-    isbg(c) = Float64(c.r) > 0.985 && Float64(c.g) > 0.985 && Float64(c.b) > 0.985
+    whiteness(c) = min(Float64(c.r), Float64(c.g), Float64(c.b))
+    bgalpha(c)   = clamp((0.985 - whiteness(c)) / (0.985 - 0.965), 0.0, 1.0)
+    isbg(c)      = bgalpha(c) <= 0.0
     H, W = size(img)
     rowhas = [any(!isbg(img[i, j]) for j in 1:W) for i in 1:H]
     colhas = [any(!isbg(img[i, j]) for i in 1:H) for j in 1:W]
@@ -235,5 +241,9 @@ let img = load(OUTPATH)
     pad = round(Int, 0.02 * max(r1 - r0, c1 - c0))
     r0 = max(1, r0 - pad); r1 = min(H, r1 + pad)
     c0 = max(1, c0 - pad); c1 = min(W, c1 + pad)
-    GLMakie.FileIO.save(OUTPATH, img[r0:r1, c0:c1])
+    keyed = map(img[r0:r1, c0:c1]) do c
+        RGBAf(Float64(c.r), Float64(c.g), Float64(c.b), bgalpha(c))
+    end
+    GLMakie.FileIO.save(OUTPATH, keyed)
 end
+=#

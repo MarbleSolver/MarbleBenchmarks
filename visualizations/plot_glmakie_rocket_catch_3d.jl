@@ -240,15 +240,15 @@ const C_FUNNEL = RGBf(0x2C / 255, 0x6F / 255, 0xB0 / 255)  # quadrotor GATE_COLO
 const C_TRIG   = RGBf(0xE6 / 255, 0xA8 / 255, 0x17 / 255)  # quadrotor GATE_COLORS[2] (gold)
 
 fig = let
-    fig = Figure(size = (760, 900), figure_padding = 0)
-    ax  = Axis3(fig[1, 1], aspect = :data, perspectiveness = 0.8, limits = lims)
+    fig = Figure(size = (760, 900), figure_padding = 0, backgroundcolor = :white)
+    ax  = Axis3(fig[1, 1], aspect = :data, perspectiveness = 1.0, limits = lims)
     hidedecorations!(ax); hidespines!(ax)
 
     set_ambient_light!(ax.scene, RGBf(0.65, 0.65, 0.65))
 
-    # ground grid
+    # ground grid (uniform grid-line weight across the 3 plots: lw=1.5 @ px_per_unit=6)
     xy_grid!(ax; xlim = (lims[1], lims[2]), ylim = (lims[3], lims[4]), z = FLOORZ,
-             step = 0.02, color = (:black, 0.15), lw = 1)
+             step = 0.02, color = (:black, 0.15), lw = 1.5)
 
     # tower body + two splayed chopstick arms
     mesh!(ax, box_mesh(-TXW, TXW, -TDEP, 0.0, FLOORZ, TOWER_H); color = C_TOWER, LIT...)
@@ -256,15 +256,10 @@ fig = let
         mesh!(ax, prism_mesh(arm_base(s), ARM_THK); color = C_ARM, LIT...)
     end
 
-    # keep-in corridor: translucent slanted walls (+x, −x) and far wall, drawn as
-    # the TikZ half-space shading. the near (tower-face) wall is left open.
-    for (i, j) in ((1, 4), (2, 3), (4, 3))     # +x wall, −x wall, far wall
-        mesh!(ax, quad_mesh(funnel_bot[i], funnel_bot[j], funnel_top[j], funnel_top[i]);
-              color = RGBAf(C_FUNNEL.r, C_FUNNEL.g, C_FUNNEL.b, 0.14),
-              transparency = true, shading = false)
-    end
-    # vertical corridor edges
-    for i in 1:4
+    # keep-in corridor: outline only (no shaded wall faces). the box is fully
+    # described by its vertical edges + bottom loop (blue) and top loop (drawn as
+    # the trigger cap outline below).
+    for i in 1:4                               # vertical corridor edges
         lines!(ax, [funnel_bot[i], funnel_top[i]]; color = (C_FUNNEL, 0.9),
                linewidth = 1.4, linestyle = :dash)
     end
@@ -310,19 +305,38 @@ fig = let
         end
     end
 
-    # high, front-left, looking-down view matching the TikZ "high_left_r2" camera
-    ax.azimuth[]   = 2.507
-    ax.elevation[] = 0.452
+    # # high, front-left, looking-down view matching the TikZ "high_left_r2" camera
+    # ax.azimuth[]   = 2.507
+    # ax.elevation[] = 0.452
+
+    # ax.azimuth[] = 5.686179687499998
+    # ax.elevation[] = -0.12405468749999966
+
+    ax.azimuth[] = 5.678718749999997
+    ax.elevation[] = -0.6214374999999991
+
     fig
 end
+
+# Show an interactive GLMakie window and block so it stays open (and keyboard
+# events like "p" work). Running the script exits the process as soon as it
+# finishes, so without this wait the window would flash and close immediately.
+screen = display(fig)
+isinteractive() || wait(screen)
 
 const OUTPATH = joinpath(@__DIR__, "png_renders", "rocket_catch_3d_glmakie.png")
 mkpath(dirname(OUTPATH))
 save(OUTPATH, fig; px_per_unit = 6)
 
-# --- trim the surrounding whitespace ---------------------------------------
+#= transparency + crop re-save disabled for now
+# --- trim whitespace and make the background transparent --------------------
+# Crop to the bounding box of the non-white content (small uniform margin) and
+# key the near-white background out to alpha 0 so the saved PNG is transparent.
+# A narrow alpha ramp just below the white cutoff softens anti-aliased edges.
 let img = load(OUTPATH)
-    isbg(c) = Float64(c.r) > 0.985 && Float64(c.g) > 0.985 && Float64(c.b) > 0.985
+    whiteness(c) = min(Float64(c.r), Float64(c.g), Float64(c.b))
+    bgalpha(c)   = clamp((0.985 - whiteness(c)) / (0.985 - 0.965), 0.0, 1.0)
+    isbg(c)      = bgalpha(c) <= 0.0
     H, W = size(img)
     rowhas = [any(!isbg(img[i, j]) for j in 1:W) for i in 1:H]
     colhas = [any(!isbg(img[i, j]) for i in 1:H) for j in 1:W]
@@ -331,5 +345,9 @@ let img = load(OUTPATH)
     pad = round(Int, 0.02 * max(r1 - r0, c1 - c0))
     r0 = max(1, r0 - pad); r1 = min(H, r1 + pad)
     c0 = max(1, c0 - pad); c1 = min(W, c1 + pad)
-    GLMakie.FileIO.save(OUTPATH, img[r0:r1, c0:c1])
+    keyed = map(img[r0:r1, c0:c1]) do c
+        RGBAf(Float64(c.r), Float64(c.g), Float64(c.b), bgalpha(c))
+    end
+    GLMakie.FileIO.save(OUTPATH, keyed)
 end
+=#
