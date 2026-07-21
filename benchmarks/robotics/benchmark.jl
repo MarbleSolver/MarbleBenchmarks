@@ -15,7 +15,7 @@ df_gurobi = Benchmarks.run_benchmark("gurobi", Benchmarks.gurobi_solve; problems
 CRISP_OPTIONS = (;
     # weighted_mode=1.0,
     # weighted_tol_factor=1.0,
-    constraint_tol=1e-6,
+    constraint_tol=1e-8,
 )
 df_crisp  = Benchmarks.run_benchmark("crisp", Benchmarks.crisp_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=CRISP_OPTIONS)
 
@@ -43,4 +43,4 @@ MARBLE_OPTIONS = (
     comp_init_seed = 42,
     relaxation_scaling = 0.5,
 )
-df_marble = Benchmarks.run_benchmark("marble", Benchmarks.marble_solve; problems=PROBLEMS, save=false, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)
+df_marble = Benchmarks.run_benchmark("marble", Benchmarks.marble_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)
