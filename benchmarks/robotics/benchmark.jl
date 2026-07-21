@@ -34,13 +34,13 @@ df_lcqpow = Benchmarks.run_benchmark("lcqpow", Benchmarks.lcqpow_solve; problems
 MARBLE_OPTIONS = (
     max_iters = 2000,
     relaxation_min = 1e-10,
-    penalty_max = 1e6,
-    convergence_eq_violation = 1e-6,
-    convergence_ineq_violation = 1e-6,
-    convergence_comp_violation = 1e-6,
+    penalty_max = 1e7,
+    convergence_eq_violation = 1e-8,
+    convergence_ineq_violation = 1e-8,
+    convergence_comp_violation = 1e-8,
     inertia_warmstart = false,
-    comp_init_random = true,
+    comp_init_random = false,
     comp_init_seed = 42,
     relaxation_scaling = 0.5,
 )
-df_marble = Benchmarks.run_benchmark("marble", Benchmarks.marble_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)
+df_marble = Benchmarks.run_benchmark("marble", Benchmarks.marble_solve; problems=PROBLEMS, save=false, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)

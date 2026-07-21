@@ -81,4 +81,4 @@ function transport(; N=200, T=3.98)
     return (; mpcc, model, inds, params)
 end
 
-register(transport, :robotics)
+register(transport)
