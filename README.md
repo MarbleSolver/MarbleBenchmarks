@@ -6,9 +6,9 @@ Benchmark problems and driver code for comparing Marble against MPCC solvers lik
 
 Gurobi requires an academic license to use `Gurobi.jl`. Follow instructions on Gurobi's website for acquiring and registering a license key before running this code.
 
-## Running CCOpt
+<!-- ## Running CCOpt
 
-CCOpt with HSL linear system solvers requires an academic license. Follow the instructions on [the installation page of MadNLP](https://madsuite.org/MadNLP.jl/stable/installation/) to first obtain a license and then ensure `HSL_jll.jl` is installed in the base Julia `1.x` environment. 
+CCOpt with HSL linear system solvers requires an academic license. Follow the instructions on [the installation page of MadNLP](https://madsuite.org/MadNLP.jl/stable/installation/) to first obtain a license and then ensure `HSL_jll.jl` is installed in the base Julia `1.x` environment.  -->
 
 ## Running Marble
 
