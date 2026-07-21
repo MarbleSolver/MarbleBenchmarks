@@ -27,17 +27,22 @@ using GLMakie: Point3f, Vec3f, RGBAf, RGBf
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
-solfile = "/Users/micahreich/Documents/MarbleBenchmarks/testing/gurobi_single.jls"
-# Must match the parameters used to generate `solfile` (see testing/gurobi_single.jl):
-# cruiser speed feeds cruiser_x(), so a mismatch misplaces the cruiser and breaks
-# the "alongside" detection.
+# --- load the latest Marble solution ---------------------------------------
+const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
+latest_marble() = joinpath(SOLDIR,
+    sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
+
+solfile = length(ARGS) >= 1 ? ARGS[1] : latest_marble()
+
+# The benchmark solves this same `get_problem(:lane_passing_2d)`, so the params
+# below match the saved solution. That matters beyond the geometry: cruiser speed
+# feeds cruiser_x(), so a mismatch misplaces the cruiser and breaks the
+# "alongside" detection.
 problem = get_problem(:lane_passing_2d)
 inds, p = problem.inds, problem.params
 
-z = deserialize(solfile)
-# gurobi_single.jl serializes value.(model[:x]) directly (an N×nx matrix); fall
-# back to indexing a full solution vector if that is what was saved instead.
-X = z isa AbstractMatrix ? z : z[inds[:x]]      # N × 4 state [px, py, θ, v]
+z = deserialize(solfile)["lane_passing_2d"]
+X = z[inds[:x]]      # N × 4 state [px, py, θ, v]
 
 (; N, Δt, cruiser_mps, lane_width, w_cruiser, h_cruiser, w_passer, h_passer) = p
 
