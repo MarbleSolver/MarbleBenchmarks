@@ -40,7 +40,6 @@ include("problems/rocket_catch_2d.jl")
 include("problems/block_push_1d.jl")
 include("problems/hopper_2d.jl")
 include("problems/transport.jl")
-include("problems/waiter.jl")
 include("problems/macmpec.jl")
 include("problems/lane_passing_2d.jl")
 
