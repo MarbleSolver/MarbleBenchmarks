@@ -9,19 +9,27 @@ const MARBLE_OPTIONS = (
     inertia_warmstart = true,
 )
 
-function benchmark_marble(; problems, save=false, results_dir=default_results_dir())
+function benchmark_marble(; problems, save=false, results_dir=default_results_dir(), retraction_type = 0)
     run_benchmark("marble"; problems, save, results_dir) do name
         mpcc = get_mpcc(name)
         data = Marble.mpcc_to_marble(mpcc)
         solver = Marble.Solver()
-        Marble.setup!(solver, mpcc; MARBLE_OPTIONS...)
-        result = Marble.solve!(solver)
+        Marble.setup!(solver, mpcc; MARBLE_OPTIONS..., retraction_type=retraction_type)
+        result = Marble.SolveResult()
+        try
+            result = Marble.solve!(solver)
+        catch e
+            @warn "Marble failed to solve $name" exception=(e, catch_backtrace())
+        end
 
         # Report only: the solver's convergence flag and the residuals of the
         # returned iterate. The analysis decides "solved" from the residuals.
         converged = Marble.converged(result)
-        x = Marble.z(result)
+        x = solver.workspace.z
         feas = residuals_or_failed(data, x)
+        # converged = Marble.converged(result)
+        # x = Marble.z(result)
+        # feas = residuals_or_failed(data, x)
         SolverResult(;
             converged,
             status = string(converged ? MOI.LOCALLY_SOLVED : MOI.INFEASIBLE),

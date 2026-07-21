@@ -9,3 +9,6 @@ df_gurobi = benchmark_gurobi(; problems=PROBLEMS, save=true, results_dir=RESULTS
 df_crisp  = benchmark_crisp(; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR)
 df_lcqpow = benchmark_lcqpow(; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR)
 df_marble = benchmark_marble(; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR)
+
+
+df_marble = benchmark_marble(; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, retraction_type=2)

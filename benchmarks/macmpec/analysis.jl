@@ -20,18 +20,20 @@ is_solved(row; tol = FEAS_TOL) =
 # Display name and line color per solver (unknown solvers fall back sensibly).
 const SOLVER_LABEL = Dict(
     "marble" => "Marble (ours)",
+    "marblescaledexp" => "Marble (ours, scaled exp)",
     "lcqpow" => "LCQPow",
     "gurobi" => "Gurobi",
     "crisp"  => "CRISP",
 )
 const SOLVER_COLOR = Dict(
     "marble" => RGB(230/255, 0, 0),
+    "marblescaledexp" => RGB(110/255, 0, 0),
     "lcqpow" => RGB(0.0, 12.189765/255, 124.51650000000001/255),
     "gurobi" => RGB(26.526375/255, 142.418775/255, 98.729625/255),
     "crisp"  => RGB(123/255, 31/255, 162/255),
 )
 # Draw order: these solvers first (in this order), then any others alphabetically.
-const SOLVER_ORDER = ["marble", "lcqpow", "crisp", "gurobi",]
+const SOLVER_ORDER = ["marble", "marblescaledexp", "lcqpow", "crisp", "gurobi",]
 
 solver_label(s) = get(SOLVER_LABEL, s, uppercasefirst(s))
 solver_color(s) = get(SOLVER_COLOR, s, :auto)
