@@ -122,10 +122,45 @@ function sigma_curve_plot()
     MIDCOL = σcolor(σmid)
     scatter!(plt, [scur(σmid)], [tcur(σmid)]; marker = :circle, ms = 7.5, color = MIDCOL,
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
-    σ1lbl, σ2lbl = σ1 - 0.15, σ2 + 0.15   # push arrow labels farther out along the curve
-    annotate!(plt, scur(σ1lbl) + 0.04, tcur(σ1lbl) + 0.09, text(L"\sigma \to -\infty", 11, GREEN, :left))
     annotate!(plt, scur(σmid) + 0.04, tcur(σmid) + 0.09, text(L"(p_{\kappa}(\sigma),\, p_{\kappa}(-\sigma))", 11, MIDCOL, :left))
-    annotate!(plt, scur(σ2lbl) + 0.04, tcur(σ2lbl) + 0.09, text(L"\sigma \to \infty", 11, BLUE, :left))
+
+    # curved arrows tracing the contour toward the σ → ±∞ limits.
+    # outward unit normal to the st = κ0 curve (∇(st) = (t, s), points away from origin)
+    function outnorm(σ)
+        s, t = scur(σ), tcur(σ)
+        r = sqrt(s^2 + t^2)
+        return (t / r, s / r)
+    end
+    # trace from σa to σb (arrowhead at σb), offset d outward, label at the arc midpoint.
+    # the body stops at the arrowhead's base and the tip extends beyond, so they don't overlap.
+    function contour_arrow!(σa, σb, col, lbl, σlbl; d = 0.05, n = 60, headlen = 0.03,
+                            half_len = 0.105, fontsize = 9, pad_left = 0.0)
+        opoint(σ) = (scur(σ) + d * outnorm(σ)[1], tcur(σ) + d * outnorm(σ)[2])
+        xs, ys = Float64[], Float64[]
+        for σ in range(σa, σb, length = n)
+            p = opoint(σ); push!(xs, p[1]); push!(ys, p[2])
+        end
+        dx, dy = xs[end] - xs[end-1], ys[end] - ys[end-1]     # unit tangent at the far end
+        len = sqrt(dx^2 + dy^2); ux, uy = dx / len, dy / len
+        plot!(plt, xs, ys; color = col, lw = 1, label = "")               # body ends at base
+        arrowhead!(plt, xs[end] + headlen * ux, ys[end] + headlen * uy, ux, uy;
+            len = headlen, col = col)                                     # tip past the body
+        # rotated label sitting on the arrow near its start, masking the line (like the κ labels)
+        s, t = opoint(σlbl)
+        θ = rad2deg(atan(-tcur(σlbl) / scur(σlbl)))           # data-space tangent
+        θ_text = paper_angle(θ)                               # on-paper angle for the text
+        u = (cosd(θ), sind(θ)); v = (-sind(θ), cosd(θ))
+        half_height = 0.022
+        lo = half_len + pad_left     # extra padding on the −u (σ) end of the box
+        bx = [s - lo*u[1] - half_height*v[1], s + half_len*u[1] - half_height*v[1],
+              s + half_len*u[1] + half_height*v[1], s - lo*u[1] + half_height*v[1]]
+        by = [t - lo*u[2] - half_height*v[2], t + half_len*u[2] - half_height*v[2],
+              t + half_len*u[2] + half_height*v[2], t - lo*u[2] + half_height*v[2]]
+        plot!(plt, Shape(bx, by); fillcolor = :white, linecolor = :white, label = "")
+        annotate!(plt, s, t, text(lbl, fontsize, col, :center; rotation = θ_text))
+    end
+    contour_arrow!(-0.30, -0.80, GREEN, L"\sigma < 0", -0.42)
+    contour_arrow!(0.30, 0.80, BLUE, L"\sigma > 0", 0.42)
 
     return plt
 end
