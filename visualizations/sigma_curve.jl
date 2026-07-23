@@ -133,8 +133,8 @@ function sigma_curve_plot()
     end
     # trace from σa to σb (arrowhead at σb), offset d outward, label at the arc midpoint.
     # the body stops at the arrowhead's base and the tip extends beyond, so they don't overlap.
-    function contour_arrow!(σa, σb, col, lbl, σlbl; d = 0.05, n = 60, headlen = 0.03,
-                            half_len = 0.105, fontsize = 9, pad_left = 0.0)
+    function contour_arrow!(σa, σb, col, lbl, σlbl; d = 0.075, n = 60, headlen = 0.03,
+                            half_len = 0.072, fontsize = 11, pad_left = 0.0)
         opoint(σ) = (scur(σ) + d * outnorm(σ)[1], tcur(σ) + d * outnorm(σ)[2])
         xs, ys = Float64[], Float64[]
         for σ in range(σa, σb, length = n)
@@ -159,8 +159,8 @@ function sigma_curve_plot()
         plot!(plt, Shape(bx, by); fillcolor = :white, linecolor = :white, label = "")
         annotate!(plt, s, t, text(lbl, fontsize, col, :center; rotation = θ_text))
     end
-    contour_arrow!(-0.30, -0.80, GREEN, L"\sigma < 0", -0.42)
-    contour_arrow!(0.30, 0.80, BLUE, L"\sigma > 0", 0.42)
+    contour_arrow!(-0.30, -0.80, GREEN, L"-\sigma", -0.36)
+    contour_arrow!(0.30, 0.80, BLUE, L"+\sigma", 0.36)
 
     return plt
 end
