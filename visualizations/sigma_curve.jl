@@ -1,4 +1,5 @@
 using Plots
+using LaTeXStrings
 pgfplotsx()
 
 # colours consistent with bifurcation.jl
@@ -117,12 +118,14 @@ function sigma_curve_plot()
     end
 
     # marked σ points
-    scatter!(plt, [scur(σ1)], [tcur(σ1)]; marker = :circle, ms = 7.5, color = GREEN,
+    σmid = (σ1 + σ2) / 2
+    MIDCOL = σcolor(σmid)
+    scatter!(plt, [scur(σmid)], [tcur(σmid)]; marker = :circle, ms = 7.5, color = MIDCOL,
         markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
-    scatter!(plt, [scur(σ2)], [tcur(σ2)]; marker = :circle, ms = 7.5, color = BLUE,
-        markerstrokecolor = :white, markerstrokewidth = 1.5, label = "")
-    annotate!(plt, scur(σ1) + 0.04, tcur(σ1) + 0.09, text(raw"\(\sigma = -0.5\)", 11, GREEN, :left))
-    annotate!(plt, scur(σ2) + 0.04, tcur(σ2) + 0.09, text(raw"\(\sigma = 0.5\)", 11, BLUE, :left))
+    σ1lbl, σ2lbl = σ1 - 0.15, σ2 + 0.15   # push arrow labels farther out along the curve
+    annotate!(plt, scur(σ1lbl) + 0.04, tcur(σ1lbl) + 0.09, text(L"\sigma \to -\infty", 11, GREEN, :left))
+    annotate!(plt, scur(σmid) + 0.04, tcur(σmid) + 0.09, text(L"(p_{\kappa}(\sigma),\, p_{\kappa}(-\sigma))", 11, MIDCOL, :left))
+    annotate!(plt, scur(σ2lbl) + 0.04, tcur(σ2lbl) + 0.09, text(L"\sigma \to \infty", 11, BLUE, :left))
 
     return plt
 end
