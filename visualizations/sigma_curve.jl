@@ -159,8 +159,8 @@ function sigma_curve_plot()
         plot!(plt, Shape(bx, by); fillcolor = :white, linecolor = :white, label = "")
         annotate!(plt, s, t, text(lbl, fontsize, col, :center; rotation = θ_text))
     end
-    contour_arrow!(-0.30, -0.80, GREEN, L"-\sigma", -0.36)
-    contour_arrow!(0.30, 0.80, BLUE, L"+\sigma", 0.36)
+    contour_arrow!(-0.50, -0.82, GREEN, L"-\sigma", -0.56)
+    contour_arrow!(0.50, 0.82, BLUE, L"+\sigma", 0.56)
 
     return plt
 end
