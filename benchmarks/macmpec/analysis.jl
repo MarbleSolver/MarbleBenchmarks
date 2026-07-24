@@ -125,15 +125,16 @@ Sizing/typography knobs (defaults reproduce the current figure):
 """
 function plot_performance_profile(problems, ratios; tau_max=500.0, n_tau=100,
         size=(350, 190), tickfontsize=8, guidefontsize=11, legendfontsize=6,
-        margin=1.0Plots.mm)
+        legend=:bottomright, margin=1.0Plots.mm, kwargs...)
     np = length(problems)
     taus = exp.(range(log(1.0), stop=log(tau_max), length=n_tau))
 
-    plt = plot(; size, legend=:bottomright,
+    plt = plot(; size, legend,
                  xscale=:log10, xlims=(1.0, tau_max), ylims=(0, 105),
                  framestyle=:box, grid=true, gridalpha=0.15,
                  tickfontsize, guidefontsize, legendfontsize, margin,
-                 background_color_legend=RGBA(1, 1, 1, 0.9), foreground_color_legend=nothing)
+                 background_color_legend=RGBA(1, 1, 1, 0.9), foreground_color_legend=nothing,
+                 kwargs...)
     for s in ordered_solvers(ratios)
         pct = [count(<=(τ), ratios[s]) for τ in taus] ./ np .* 100
         plot!(plt, taus, pct; label=solver_label(s), color=solver_color(s), lw=1.4)
@@ -202,6 +203,107 @@ function print_global_summary(results; ref="gurobi", rtol=1e-3, atol=1e-4)
     end
 end
 
+"""
+    plot_solved_and_global(results; ref="gurobi", rtol=1e-3, atol=1e-4, ...) -> Plot
+
+Grouped bar chart, one group per solver: the % of all problems it solves and the
+% of `ref`'s (Gurobi's) globally-solved problems on which it also reaches the
+global optimum (`|Δobj| ≤ atol + rtol·|obj_ref|`). The global bars are annotated
+with the raw count, so the chart shows both "how well" and "how many global".
+"""
+function plot_solved_and_global(results; ref="gurobi", rtol=1e-3, atol=1e-4,
+        highlight="marble_softplus", size=(480, 250), tickfontsize=7, guidefontsize=10,
+        legendfontsize=7, annfontsize=6, legend=:bottomright, margin=1.0Plots.mm, kwargs...)
+    solvers = ordered_solvers(results)
+
+    problems = sort(unique(reduce(vcat, [String.(df.problem) for df in values(results)])))
+    np = length(problems)
+    solved = Dict(s => Dict(String(r.problem) => is_solved(r) for r in eachrow(df)) for (s, df) in results)
+    pct_solved = Dict(s => 100 * count(values(solved[s])) / np for s in solvers)
+
+    # global-optimum hits vs the reference solver (Gurobi solves MacMPEC globally)
+    have_ref = haskey(results, ref)
+    have_ref || @warn "no `$ref` results; global-solution bars omitted"
+    obj = Dict(s => Dict(String(r.problem) => Float64(r.obj) for r in eachrow(df)) for (s, df) in results)
+    global_hits = Dict{String,Int}()
+    nref = 0
+    if have_ref
+        gref = Dict(p => obj[ref][p] for p in keys(obj[ref]) if solved[ref][p])
+        nref = length(gref)
+        matches(a, b) = abs(a - b) <= atol + rtol * abs(b)
+        for s in solvers
+            global_hits[s] = count(p -> get(solved[s], p, false) && haskey(obj[s], p) && matches(obj[s][p], gref[p]), keys(gref))
+        end
+    end
+    pct_global = Dict(s => (have_ref && nref > 0) ? 100 * global_hits[s] / nref : 0.0 for s in solvers)
+
+    n = length(solvers)
+    xs = collect(1:n)
+    w = 0.38
+    SOLVED_COL = RGB(0.20, 0.45, 0.70)
+    GLOBAL_COL = RGB(0.95, 0.60, 0.15)
+    FADE = 0.5   # the reference solver (Gurobi) is drawn semi-transparent so it recedes
+
+    plt = plot(; size, legend, legend_columns=-1,
+        framestyle=:box, grid=true, gridalpha=0.15,
+        ylims=(0, 112), xlims=(0.4, n + 0.6),
+        xticks=(xs, [s == highlight ? "\\textbf{$(solver_label(s))}" : solver_label(s) for s in solvers]), xrotation=25,
+        tickfontsize, guidefontsize, legendfontsize, margin,
+        # legend inside the box, bottom-right; wider gap between the two entries
+        extra_kwargs=Dict(:subplot => Dict("legend style" =>
+            raw"{at={(0.985,0.03)}, anchor=south east, draw=black, fill=white, fill opacity=0.9, text opacity=1, /tikz/every even column/.append style={column sep=0.6cm}}")),
+        kwargs...)
+
+    solved_vals = [pct_solved[s] for s in solvers]
+    global_vals = [pct_global[s] for s in solvers]
+
+    # full-opacity bars for every solver except the reference (masked to NaN),
+    # then draw the reference (Gurobi) faded so the other solvers stand out
+    solved_base = [s == ref ? NaN : v for (s, v) in zip(solvers, solved_vals)]
+    global_base = [s == ref ? NaN : v for (s, v) in zip(solvers, global_vals)]
+    bar!(plt, xs .- w / 2, solved_base; bar_width=w,
+        color=SOLVED_COL, linewidth=0, label="\\% problems solved")
+    bar!(plt, xs .+ w / 2, global_base; bar_width=w,
+        color=GLOBAL_COL, linewidth=0, label="\\% global")
+    if have_ref
+        ri = findfirst(==(ref), solvers)
+        bar!(plt, [ri - w / 2], [solved_vals[ri]]; bar_width=w,
+            color=RGBA(SOLVED_COL, FADE), linewidth=0, label="")
+        bar!(plt, [ri + w / 2], [global_vals[ri]]; bar_width=w,
+            color=RGBA(GLOBAL_COL, FADE), linewidth=0, label="")
+    end
+
+    # value labels: percentage above each bar
+    for (i, s) in enumerate(solvers)
+        annotate!(plt, i - w / 2, pct_solved[s] + 4,
+            text(@sprintf("%.0f", pct_solved[s]), annfontsize, SOLVED_COL, :center))
+        have_ref && annotate!(plt, i + w / 2, pct_global[s] + 4,
+            text(@sprintf("%.0f", pct_global[s]), annfontsize, GLOBAL_COL, :center))
+    end
+    ylabel!(plt, "\\%")
+    return plt
+end
+
+"""
+    plot_combined(problems, ratios, results; ...) -> Plot
+
+The performance profile and the solved/global bar chart side by side in a single
+figure. Rendering both in one pgfplots (1×2) layout is what makes their black
+axis boxes exactly the same height: with equal `top`/`bottom` margins on the two
+subplots, Plots gives them equal-height plot areas and each subplot's own
+legend / axis-label furniture is drawn outside that area. (Two separate files
+can't guarantee this, because each box's height then depends on its own
+furniture.) Keep the two margins equal across subplots and the boxes stay
+matched. Include this one file in the paper if equal box heights matter.
+"""
+function plot_combined(problems, ratios, results; tau_max=1000.0, size=(900, 300),
+        top=2.0Plots.mm, bottom=1.0Plots.mm)
+    # SAME top/bottom margins on both subplots ⇒ identical black-box heights
+    p1 = plot_performance_profile(problems, ratios; tau_max, top_margin=top, bottom_margin=bottom)
+    p2 = plot_solved_and_global(results; top_margin=top, bottom_margin=bottom)
+    return plot(p1, p2; layout=(1, 2), size)
+end
+
 # Save `plt` as a TikZ `.tex`. Plots' pgfplotsx backend hard-codes an absolute
 # mm size, which overflows a narrow paper column. Wrapping the picture in
 # \resizebox{\linewidth}{!}{…} makes it scale to the enclosing column width, so
@@ -226,6 +328,18 @@ function main(; metric = :total_time_s, tau_max = 1000.0, plot_kwargs...)
     out = joinpath(FIGURES_DIR, "performance_profile.svg")
     save_tex(plt, out)
     @info "wrote $out"
+
+    barplt = plot_solved_and_global(results)
+    display(barplt)
+    barout = joinpath(FIGURES_DIR, "solved_global.svg")
+    save_tex(barplt, barout)
+    @info "wrote $barout"
+
+    comb = plot_combined(problems, ratios, results; tau_max)
+    display(comb)
+    combout = joinpath(FIGURES_DIR, "combined.svg")
+    save_tex(comb, combout)
+    @info "wrote $combout"
 
     print_summary(problems, ratios)
     print_global_summary(results)

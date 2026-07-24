@@ -31,6 +31,8 @@ LCQPOW_OPTIONS = (
 df_lcqpow = Benchmarks.run_benchmark("lcqpow", Benchmarks.lcqpow_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=LCQPOW_OPTIONS)
 
 ## Benchmark Marble (softplus)
+using Marble
+
 MARBLE_OPTIONS = (
     relaxation_min = 1e-10,
     penalty_max = 1e7,
@@ -38,14 +40,17 @@ MARBLE_OPTIONS = (
     convergence_ineq_violation = 1e-8,
     convergence_comp_violation = 1e-8,
     inertia_warmstart = false,
-    comp_init_random = true,
+    comp_init_random = false,
     comp_init_seed = 42,
     relaxation_scaling = 0.1,
-    retraction_type = 0,
+    retraction_type = Marble.Softplus,
+    clamp_hessian=true,
 )
 df_marble = Benchmarks.run_benchmark("marble_softplus", Benchmarks.marble_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)
 
 ## Benchmark Marble (exp)
+using Marble
+
 MARBLE_OPTIONS = (
     relaxation_min = 1e-10,
     penalty_max = 1e7,
@@ -53,9 +58,10 @@ MARBLE_OPTIONS = (
     convergence_ineq_violation = 1e-8,
     convergence_comp_violation = 1e-8,
     inertia_warmstart = false,
-    comp_init_random = true,
+    comp_init_random = false,
     comp_init_seed = 42,
     relaxation_scaling = 0.1,
-    retraction_type = 1,
+    retraction_type = Marble.Exp,
+    clamp_hessian=true,
 )
 df_marble = Benchmarks.run_benchmark("marble_exp", Benchmarks.marble_solve; problems=PROBLEMS, save=true, results_dir=RESULTS_DIR, options=MARBLE_OPTIONS)
