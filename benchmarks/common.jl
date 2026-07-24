@@ -35,8 +35,8 @@ end
 load_solutions(path) = deserialize(path)
 
 # Every problem exposes a Marble.MPCC, either directly or nested in a NamedTuple.
-function get_mpcc(name)
-    p = get_problem(name)
+function get_mpcc(name; kwargs...)
+    p = get_problem(name; kwargs...)
     p isa Marble.MPCC && return p
     @assert p isa NamedTuple "get_problem($name) must return a NamedTuple or a Marble.MPCC"
     idx = findfirst(v -> v isa Marble.MPCC, values(p))
