@@ -4,12 +4,6 @@ import ForwardDiff as FD
 #   State  x = [px, py, θ, v]   position, heading, forward speed
 #   Control u = [a, δ]          longitudinal acceleration, steering angle
 #   L is the wheelbase.
-#
-# Everything in this problem is in SI units (meters, seconds, radians). Working in
-# meters keeps the solution vector O(1)–O(100) and the control weight R O(1), which
-# is what the penalty/relaxation schedule needs to stay well conditioned. (An earlier
-# km/km-per-second formulation made positions ~1e-3 and R = 1/a_max² ~ 1e5, which
-# blew up the constraint multipliers and stalled convergence.)
 function bicycle_kinematics_2d(x, u; L)
     θ, v = x[3], x[4]
     a, δ = u
@@ -51,7 +45,7 @@ function lane_passing_2d(; N=40, T=5.0, L=2.5,     # L: wheelbase [m]
 
     # Set up the polytopes.  At θ = 0 the bicycle travels along coordinate 1, so
     # coordinate 1 is longitudinal (car length) and coordinate 2 is lateral (width).
-    w_cruiser = 2.1     # m, width
+    w_cruiser = lane_width_m # m, width
     h_cruiser = 9.0     # m, length
     A_cruiser = [1.0 0.0; -1.0 0.0; 0.0 1.0; 0.0 -1.0]
     b_cruiser = [h_cruiser; h_cruiser; w_cruiser; w_cruiser] ./ 2
