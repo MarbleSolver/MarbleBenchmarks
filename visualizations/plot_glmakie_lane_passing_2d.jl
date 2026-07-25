@@ -5,29 +5,9 @@ using LinearAlgebra
 using GLMakie.FileIO: load
 using GLMakie: Point3f, Vec3f, RGBAf, RGBf
 
-# ===========================================================================
-# Lane-passing trajectory — GLMakie 3-D render using the car .obj meshes in
-# visualizations/assets/.
-#
-# A three-lane highway (white road, solid grey side barriers, dashed lane dividers)
-# is drawn from a chase-camera perspective. The cruiser holds the centre lane at
-# constant speed; the passer overtakes it. The passer's rear-axle path is drawn
-# as a rainbow (time-gradient) line, and BOTH cars are rendered as shaded meshes
-# at three key knots of the manoeuvre:
-#
-#   1. the passer begins to leave the centre lane (crosses the lane divider),
-#   2. the passer is alongside the cruiser (longitudinally side-by-side),
-#   3. the passer re-joins the centre lane (crosses the divider back).
-#
-# World frame: x = longitudinal (travel), y = lateral, z = up. Everything is in
-# metres. The car meshes are authored Y-up / Z-forward, so a fixed base rotation
-# re-orients local (width x, up y, forward z) → world (y, z, x).
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
@@ -53,7 +33,6 @@ y_edge = 3 / 2 * lw                              # outer road boundary [m]
 
 cruiser_x(i) = cruiser_mps * Δt * (i - 1)        # cruiser longitudinal position
 
-# --- three key knots of the manoeuvre --------------------------------------
 # Use |py| so detection is side-agnostic (the passer may overtake on either side).
 apy         = abs.(py)
 knot_leave  = findfirst(>=(lw / 2), apy)          # passer crosses out of centre lane
@@ -63,7 +42,6 @@ knot_rejoin = ipk - 1 + findfirst(<(lw / 2), apy[ipk:end])  # crosses back into 
 # first knot (start, behind cruiser) → leave lane → alongside → rejoin → last knot (ahead)
 event_knots = (1, knot_leave, knot_along, knot_rejoin, Nk)
 
-# --- quaternion helpers (scalar-first) -------------------------------------
 function Q_to_quat(R)
     tr = R[1,1] + R[2,2] + R[3,3]
     if tr > 0
@@ -87,7 +65,6 @@ Rz(a) = [cos(a) -sin(a) 0; sin(a) cos(a) 0; 0 0 1]
 # shaded material with a restrained specular (matches the other GLMakie scripts).
 const LIT = (; shading = true, specular = 0.15f0, shininess = 20.0f0)
 
-# --- car meshes ------------------------------------------------------------
 # both assets are authored Y-up / Z-forward; R_BASE maps local→world so the car's
 # forward axis (local z) points down the road (world x) and its up axis (local y)
 # points to world z.
@@ -156,7 +133,6 @@ fig = let
     hidedecorations!(ax); hidespines!(ax)
     set_ambient_light!(ax.scene, RGBf(0.62, 0.62, 0.64))
 
-    # --- road surface --------------------------------------------------------
     # pure white and flat (unshaded). Note the trim below keys white → transparent,
     # so in the saved PNG the road becomes transparent and reads as totally white on
     # any white/light background; the grey barriers still fix the crop bounding box.
@@ -173,12 +149,10 @@ fig = let
                linewidth = 2.5, linestyle = :dash)
     end
 
-    # --- passer rainbow path -------------------------------------------------
     lines!(ax, px, py, fill(0.05, Nk); color = 1:Nk,
            colormap = :diverging_rainbow_bgymr_45_85_c67_n256,
            linewidth = 4, joinstyle = :round)
 
-    # --- cars at the three key knots -----------------------------------------
     for k in event_knots
         ci = tcolors[k]
         # cruiser (grey) at this instant, holding the centre lane (skip the final

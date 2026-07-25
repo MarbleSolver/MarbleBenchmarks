@@ -7,24 +7,6 @@ using GLMakie.GeometryBasics
 using GLMakie.GeometryBasics: Point3f, GLTriangleFace, normal_mesh, Cylinder
 using GLMakie: Vec3f, RGBAf, RGBf
 
-# ===========================================================================
-# Rocket-catch (Mechazilla) trajectory — 3-D GLMakie render, in the same style
-# as plot_glmakie_quadrotor_gates_3d.jl / plot_glmakie_hopper_2d.jl and using
-# the same Marble solution the TikZ perspective plot draws
-# (plot_tikz_rocket_catch_3d_persp.jl, whose "high_left_r2" camera this view
-# matches).
-#
-# Scene elements
-#   • depth/time-shaded CoM descent trajectory
-#   • scaled starshipbooster.stl mesh dropped at knots along the descent, each
-#     at its solved attitude, with a short red engine-gimbal stub out of the base
-#   • Mechazilla tower (rectangular prism) + two splayed chopstick catch arms
-#     (extruded trapezoidal prisms) built from GeometryBasics primitives, placed
-#     from the rocket_catch_3d params
-#   • the translucent keep-in corridor {y >= 0, |x| <= aw + slope·y} extruded up
-#     to the trigger altitude, whose translucent orange top face marks z_trigger
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
@@ -37,7 +19,6 @@ const rocket_thrust_axis_body = MarbleBenchmarks.rocket_thrust_axis_body
 # scalar-first quaternion → GLMakie.Quaternion (scalar-last / (x,y,z,w))
 makie_quat(q) = GLMakie.Quaternion(q[2], q[3], q[4], q[1])
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
@@ -60,12 +41,10 @@ qs = [rptoq(X[k, 4:6]) for k in 1:N]           # scalar-first attitude quaternio
 # scene brightness is handled by a strong ambient light set on the axis scene.
 const LIT = (; shading = true, specular = 0.1f0, shininess = 12.0f0)
 
-# ---------------------------------------------------------------------------
 # booster mesh: load the STL and pre-transform it into a canonical body frame so
 # its long axis is the body +z (nose), its CoM sits at the origin, and it is
 # scaled to the problem's booster dimensions. The STL long axis is +y (base near
 # y = 0, nose at y ≈ 1) with a ~0.135 cross-section radius.
-# ---------------------------------------------------------------------------
 const RSCALE  = 1.15  # widen the very slender true radius a touch for visibility
 const VIS_LEN = 0.70  # cosmetic: shorten the visible booster body (< 1 = stockier)
 
@@ -132,9 +111,7 @@ function plot_rocket!(ax, center, q; color, δr = 0.0, δp = 0.0, engine = true)
     return m
 end
 
-# ---------------------------------------------------------------------------
 # GeometryBasics prism helpers
-# ---------------------------------------------------------------------------
 # an axis-aligned rectangular prism from (xlo..xhi, ylo..yhi, zlo..zhi)
 function box_mesh(xlo, xhi, ylo, yhi, zlo, zhi)
     r = Rect3f(Vec3f(xlo, ylo, zlo), Vec3f(xhi - xlo, yhi - ylo, zhi - zlo))
@@ -164,9 +141,7 @@ function quad_mesh(a, b, c, d)
     return normal_mesh(GeometryBasics.Mesh(verts, fcs))
 end
 
-# ---------------------------------------------------------------------------
 # tower + chopstick arms (from the rocket_catch_3d params, mirroring the TikZ)
-# ---------------------------------------------------------------------------
 const FLOORZ  = 0.0
 const TOWER_H = p.tower_height
 const CATCH_Z = p.catch_altitude
@@ -198,11 +173,9 @@ function arm_base(s)
      [xin(yb) + s * wof(yb), yb, zof(yb)], [xin(yb), yb, zof(yb)]]
 end
 
-# ---------------------------------------------------------------------------
 # keep-in corridor {y >= 0, |x| <= aw + slope·y}, extruded z ∈ [0, z_trigger].
 # translucent side walls + far wall (blue) and a translucent top cap marking the
 # trigger altitude (orange), matching the TikZ half-space shading.
-# ---------------------------------------------------------------------------
 const YMAX  = 0.120
 const ZTRIG = p.trigger_altitude
 hwid(y)     = aw + slope * y
@@ -211,7 +184,6 @@ funnel_bot = [Point3f( hwid(0.0),  0.0,  FLOORZ), Point3f(-hwid(0.0),  0.0,  FLO
               Point3f(-hwid(YMAX), YMAX, FLOORZ), Point3f( hwid(YMAX), YMAX, FLOORZ)]
 funnel_top = [Point3f(c[1], c[2], ZTRIG) for c in funnel_bot]
 
-# --- scene bounds ----------------------------------------------------------
 # leave headroom above the top CoM for the (tilted) booster nose so it isn't clipped
 z_hi = maximum(pt[3] for pt in P) + VIS_LEN * p.booster_height / 2 + 0.03
 lims = (-0.05, 0.05, -0.02, 0.13, 0.0, z_hi)

@@ -5,23 +5,9 @@ using LinearAlgebra
 using GLMakie.GeometryBasics: Rect3f, Sphere, Cylinder
 using GLMakie: Vec3f, Point3f, RGBAf
 
-# ===========================================================================
-# 2-D hopper trajectory — GLMakie render.
-#
-# Loads the latest Marble solution of hopper_2d from
-# benchmarks/robotics/results/solutions/ (the same data the TikZ side-view uses)
-# and draws the staircase terrain as shaded boxes, then drops a two-mass hopper
-# (foot sphere + head sphere joined by a prismatic-leg cylinder) at knots along
-# the motion, coloured by a time gradient, with the foot path overlaid.
-#
-# The scene is a side view: the GLMakie axes are (depth x ≈ 0, horizontal y,
-# height z), so the model's (foot_x, foot_z) maps to (y, z).
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])

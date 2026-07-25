@@ -5,29 +5,9 @@ using LinearAlgebra
 using GLMakie.GeometryBasics: Rect3f, Sphere, Cylinder
 using GLMakie: Vec3f, Point3f, RGBf, RGBAf
 
-# ===========================================================================
-# 2-D hopper trajectory with contact forces — GLMakie render.
-#
-# Same scene as plot_glmakie_hopper_2d.jl (staircase terrain + two-mass hopper
-# strobe + foot path) but viewed *directly side-on* (orthographic, azimuth 0,
-# elevation 0) so the (horizontal, height) plane maps 1:1 to the image plane.
-#
-# Colour coding:
-#   * every flight (no contact) knot is drawn as an opaque slate hopper, the same
-#     colour as the staircase, so the strobe reads as background.
-#   * stance knots (nonzero contact normal force) are highlighted in deep red and get
-#     a 3-D contact-force arrow at the foot, scaled to a fixed maximum length.
-#
-# GLMakie axes are (depth x, horizontal y, height z), so the model's
-# (foot_x, foot_z) maps to (y, z). Because the projection is orthographic along x,
-# the depth of the hopper/arrows is free: everything is pushed in front of the
-# terrain boxes so nothing is clipped by them.
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
@@ -62,7 +42,6 @@ fmag_max = maximum(norm(f) for f in Fk)
 
 footx(k) = x_traj[k][1]
 
-# --- knot selection -------------------------------------------------------------
 # The hopper barely advances during a stance phase, so drawing every stance knot
 # piles a dozen hoppers on top of each other. Group each stance phase into clusters
 # of knots that share (roughly) a foot position and keep the one carrying the
@@ -90,7 +69,6 @@ flight_shown = findall(!, is_contact)
 
 @info "contact knots" stance stance_shown fmag_max nflight = length(flight_shown)
 
-# --- geometry / style constants --------------------------------------------
 const HOP_H  = 0.25     # leg length offset used to draw the head above the foot
 const HOP_R  = 0.03     # foot sphere radius
 const BODY_R = 0.01     # leg cylinder radius

@@ -5,13 +5,6 @@ using LinearAlgebra
 using GLMakie.FileIO: load
 using GLMakie.GeometryBasics: Cylinder
 
-# ===========================================================================
-# Quadrotor-gates trajectory — GLMakie render using the .obj meshes in
-# visualizations/assets/. Loads the latest Marble solution from
-# benchmarks/robotics/results/solutions/ (same data the TikZ perspective plot
-# uses) and drops a shaded quadrotor mesh at knots along the flight path.
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
@@ -20,7 +13,6 @@ GLMakie.closeall() # close any open screen
 const rptoq = MarbleBenchmarks.rptoq
 const qtoQ  = MarbleBenchmarks.qtoQ
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
@@ -35,7 +27,6 @@ z = deserialize(solfile)["quadrotor_gates_3d"]
 X = z[inds[:x]]        # N × 9  (Δ-state; x̄[1:3] = 0 so cols 1:3 are world x,y,z)
 μ = z[inds[:μ]]        # N × ngates  (progress multipliers; spikes as a gate is cleared)
 
-# Reconstruct the world-frame trajectory ------------------------------------
 r_traj = [p.x̄[1:3] .+ X[k, 1:3] for k in 1:N]   # position
 q_traj = [rptoq(X[k, 4:6]) for k in 1:N]         # body attitude quaternion (scalar-first)
 v_traj = [X[k, 7:9] for k in 1:N]                # velocity
@@ -47,7 +38,6 @@ gate_knot = [(k, argmax(μ[k, :])) for k in 1:N if maximum(μ[k, :]) > MU_TOL]
 # distinct per-gate palette (shared with plot_tikz_quadrotor_gates_3d_persp.jl)
 const GATE_COLORS = ["#2C6FB0", "#E6A817", "#2E9E52", "#CB4154"]
 
-# --- quaternion helpers (scalar-first, matching L/qtoQ) --------------------
 # scalar-first quaternion multiply: q = a ⊗ b
 function qmul(a, b)
     w1, x1, y1, z1 = a; w2, x2, y2, z2 = b
@@ -91,7 +81,6 @@ end
 # scalar-first quaternion → GLMakie.Quaternion (scalar-last / (x,y,z,w))
 makie_quat(q) = GLMakie.Quaternion(q[2], q[3], q[4], q[1])
 
-# --- meshes ----------------------------------------------------------------
 quad = load(joinpath(@__DIR__, "assets", "quadrotor.obj"))
 gate = load(joinpath(@__DIR__, "assets", "dronegate.obj"))
 
@@ -157,7 +146,6 @@ function xy_grid!(ax; xlim, ylim, z, step=1.0, color=(:black, 0.1), lw=1)
     linesegments!(ax, segs; color=color, linewidth=lw)
 end
 
-# --- scene bounds ----------------------------------------------------------
 const xmin, xmax = -6.0, 3.0
 const ymin, ymax = -1.0, 11.0
 const zmin, zmax = -1.0, 3.0

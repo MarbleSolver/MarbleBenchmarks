@@ -6,23 +6,6 @@ using GLMakie.FileIO: load
 using GLMakie.GeometryBasics: Cylinder
 using GLMakie.Makie.LaTeXStrings: latexstring   # annotations are typeset as LaTeX
 
-# ===========================================================================
-# Quadrotor-gates trajectory — *progress* variant of
-# plot_glmakie_quadrotor_gates_3d.jl.
-#
-# Same scene and meshes, but the emphasis is on the complementarity progress
-# variables instead of on the gates themselves:
-#   * the gates (frame, legs and index label) are drawn in a flat, opaque
-#     light blue-gray so they read as scenery and recede behind the flight path.
-#   * quadrotors are highlighted in red at every knot where a gate's progress
-#     multiplier is nonzero (μ[k, j] > 0) — i.e. the knots at which the vehicle is
-#     actually passing through a gate. Each is annotated with the μ^(j) that fired.
-#   * only three neutral gray quadrotors are drawn, one per labelled phase of the
-#     flight: the start, the coast between the last two gates and the end. Each
-#     carries the cumulative progress vector γ_k = (λ[k, 1], …), which steps from
-#     (0,…,0) at the start to (1,…,1) once every gate is cleared.
-# ===========================================================================
-
 GLMakie.activate!()
 GLMakie.closeall() # close any open screen
 
@@ -31,7 +14,6 @@ GLMakie.closeall() # close any open screen
 const rptoq = MarbleBenchmarks.rptoq
 const qtoQ  = MarbleBenchmarks.qtoQ
 
-# --- load the latest Marble solution ---------------------------------------
 const SOLDIR = joinpath(@__DIR__, "..", "benchmarks", "robotics", "results", "solutions")
 latest_marble() = joinpath(SOLDIR,
     sort(filter(f -> startswith(f, "marble") && endswith(f, ".jls"), readdir(SOLDIR)))[end])
@@ -46,12 +28,10 @@ z = deserialize(solfile)["quadrotor_gates_3d"]
 X = z[inds[:x]]        # N × 9  (Δ-state; x̄[1:3] = 0 so cols 1:3 are world x,y,z)
 μ = z[inds[:μ]]        # N × ngates  (progress multipliers; spikes as a gate is cleared)
 
-# Reconstruct the world-frame trajectory ------------------------------------
 r_traj = [p.x̄[1:3] .+ X[k, 1:3] for k in 1:N]   # position
 q_traj = [rptoq(X[k, 4:6]) for k in 1:N]         # body attitude quaternion (scalar-first)
 v_traj = [X[k, 7:9] for k in 1:N]                # velocity
 
-# --- progress bookkeeping ---------------------------------------------------
 # μ[k, j] is the progress the trajectory makes on gate j at knot k; it is zero
 # everywhere except where the vehicle flies through the gate. λ (= γ in the
 # figure) is its running sum, and is constrained to reach 1 for every gate.
@@ -93,7 +73,6 @@ shown_ks = [k for k in unique([1
                                N])
             if !(k in pass_ks)]
 
-# --- palette ----------------------------------------------------------------
 const GATE_ALPHA = 0.45                                    # gates are see-through scenery
 const GATE_COLOR = RGBAf(0.780, 0.816, 0.859, GATE_ALPHA)  # flat light blue-gray
 const GATE_TEXTC = RGBAf(0.612, 0.663, 0.729, GATE_ALPHA)  # index numbers, a shade darker
@@ -106,7 +85,6 @@ const PASS_COLOR = RGBf(0.890, 0.604, 0.627)       # passing a gate: light crims
 const LABEL_RED  = RGBf(0.898, 0.106, 0.145)       # μ annotations
 const LABEL_DARK = RGBf(0.15, 0.15, 0.15)      # γ annotations
 
-# --- quaternion helpers (scalar-first, matching L/qtoQ) --------------------
 # scalar-first quaternion multiply: q = a ⊗ b
 function qmul(a, b)
     w1, x1, y1, z1 = a; w2, x2, y2, z2 = b
@@ -150,7 +128,6 @@ end
 # scalar-first quaternion → GLMakie.Quaternion (scalar-last / (x,y,z,w))
 makie_quat(q) = GLMakie.Quaternion(q[2], q[3], q[4], q[1])
 
-# --- meshes ----------------------------------------------------------------
 quad = load(joinpath(@__DIR__, "assets", "quadrotor.obj"))
 gate = load(joinpath(@__DIR__, "assets", "dronegate.obj"))
 
@@ -242,7 +219,6 @@ function xy_grid!(ax; xlim, ylim, z, step=1.0, color=(:black, 0.1), lw=1)
     linesegments!(ax, segs; color=color, linewidth=lw)
 end
 
-# --- scene bounds ----------------------------------------------------------
 const xmin, xmax = -6.0, 3.0
 const ymin, ymax = -1.0, 11.0
 const zmin, zmax = -1.0, 3.0
